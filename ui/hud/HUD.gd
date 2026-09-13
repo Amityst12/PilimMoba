@@ -203,7 +203,12 @@ func _open_settings() -> void:
 func _build_bottom_bar(parent: Control) -> void:
 	var bottom_panel := UI.panel(UITheme.panel_style(Color(0.04, 0.05, 0.08, 0.94), UITheme.BORDER, 8))
 	bottom_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	bottom_panel.offset_bottom = -10
+	bottom_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	bottom_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	bottom_panel.offset_left = -370.0
+	bottom_panel.offset_right = 370.0
+	bottom_panel.offset_top = -130.0
+	bottom_panel.offset_bottom = -10.0
 	bottom_panel.custom_minimum_size = Vector2(740, 120)
 	parent.add_child(bottom_panel)
 
@@ -237,26 +242,33 @@ func _build_bottom_bar(parent: Control) -> void:
 	_xp_bar.add_theme_stylebox_override("fill", xp_fill)
 	avatar_box.add_child(_xp_bar)
 
-	# Stats grid
+	# Stats grid with vector badges
 	var stats_grid := GridContainer.new()
 	stats_grid.columns = 2
-	stats_grid.add_theme_constant_override("h_separation", 6)
-	stats_grid.add_theme_constant_override("v_separation", 2)
+	stats_grid.add_theme_constant_override("h_separation", 8)
+	stats_grid.add_theme_constant_override("v_separation", 3)
 	main_row.add_child(stats_grid)
 
-	_ad_label = UI.label("AD: 0", 11, Color(1.0, 0.6, 0.5))
-	_ap_label = UI.label("AP: 0", 11, Color(0.6, 0.6, 1.0))
-	_armor_label = UI.label("AR: 0", 11, Color(1.0, 0.8, 0.4))
-	_mr_label = UI.label("MR: 0", 11, Color(0.4, 0.9, 0.8))
-	_as_label = UI.label("AS: 0.6", 11, UITheme.TEXT_DIM)
-	_ms_label = UI.label("MS: 340", 11, UITheme.TEXT_DIM)
+	var b_ad := _make_stat_badge("res://assets/icons/stats/ad.svg", Color(1.0, 0.5, 0.4), "Attack Damage")
+	var b_ap := _make_stat_badge("res://assets/icons/stats/ap.svg", Color(0.5, 0.65, 1.0), "Ability Power")
+	var b_ar := _make_stat_badge("res://assets/icons/stats/armor.svg", Color(1.0, 0.8, 0.35), "Armor")
+	var b_mr := _make_stat_badge("res://assets/icons/stats/mr.svg", Color(0.35, 0.9, 0.85), "Magic Resist")
+	var b_as := _make_stat_badge("res://assets/icons/stats/as.svg", Color(0.95, 0.9, 0.4), "Attack Speed")
+	var b_ms := _make_stat_badge("res://assets/icons/stats/ms.svg", Color(0.5, 0.9, 0.5), "Movement Speed")
 
-	stats_grid.add_child(_ad_label)
-	stats_grid.add_child(_ap_label)
-	stats_grid.add_child(_armor_label)
-	stats_grid.add_child(_mr_label)
-	stats_grid.add_child(_as_label)
-	stats_grid.add_child(_ms_label)
+	_ad_label = b_ad["label"]
+	_ap_label = b_ap["label"]
+	_armor_label = b_ar["label"]
+	_mr_label = b_mr["label"]
+	_as_label = b_as["label"]
+	_ms_label = b_ms["label"]
+
+	stats_grid.add_child(b_ad["box"])
+	stats_grid.add_child(b_ap["box"])
+	stats_grid.add_child(b_ar["box"])
+	stats_grid.add_child(b_mr["box"])
+	stats_grid.add_child(b_as["box"])
+	stats_grid.add_child(b_ms["box"])
 
 	main_row.add_child(VSeparator.new())
 
@@ -269,29 +281,49 @@ func _build_bottom_bar(parent: Control) -> void:
 	_hp_bar = ProgressBar.new()
 	_hp_bar.custom_minimum_size = Vector2(0, 18)
 	_hp_bar.show_percentage = false
+	var hp_bg := StyleBoxFlat.new()
+	hp_bg.bg_color = Color(0.06, 0.08, 0.07, 0.9)
+	hp_bg.border_width_left = 1
+	hp_bg.border_width_top = 1
+	hp_bg.border_width_right = 1
+	hp_bg.border_width_bottom = 1
+	hp_bg.border_color = Color(0.12, 0.22, 0.14)
+	hp_bg.set_corner_radius_all(3)
+	_hp_bar.add_theme_stylebox_override("background", hp_bg)
 	var hp_fill := StyleBoxFlat.new()
-	hp_fill.bg_color = Color(0.2, 0.75, 0.3)
+	hp_fill.bg_color = Color(0.16, 0.8, 0.32)
 	hp_fill.set_corner_radius_all(3)
 	_hp_bar.add_theme_stylebox_override("fill", hp_fill)
 	center_box.add_child(_hp_bar)
 
-	_hp_label = UI.label("0 / 0", 11, Color.WHITE, true)
+	_hp_label = UI.outlined(UI.label("0 / 0", 11, Color(1.0, 1.0, 1.0), true), 2)
 	_hp_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_hp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_hp_bar.add_child(_hp_label)
 
 	_mana_bar = ProgressBar.new()
 	_mana_bar.custom_minimum_size = Vector2(0, 14)
 	_mana_bar.show_percentage = false
+	var mana_bg := StyleBoxFlat.new()
+	mana_bg.bg_color = Color(0.05, 0.07, 0.1, 0.9)
+	mana_bg.border_width_left = 1
+	mana_bg.border_width_top = 1
+	mana_bg.border_width_right = 1
+	mana_bg.border_width_bottom = 1
+	mana_bg.border_color = Color(0.1, 0.18, 0.28)
+	mana_bg.set_corner_radius_all(3)
+	_mana_bar.add_theme_stylebox_override("background", mana_bg)
 	var mana_fill := StyleBoxFlat.new()
-	mana_fill.bg_color = Color(0.15, 0.55, 0.9)
+	mana_fill.bg_color = Color(0.15, 0.56, 0.94)
 	mana_fill.set_corner_radius_all(3)
 	_mana_bar.add_theme_stylebox_override("fill", mana_fill)
 	center_box.add_child(_mana_bar)
 
-	_mana_label = UI.label("0 / 0", 10, Color.WHITE, true)
+	_mana_label = UI.outlined(UI.label("0 / 0", 10, Color(0.9, 0.95, 1.0), true), 2)
 	_mana_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_mana_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_mana_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_mana_bar.add_child(_mana_label)
 
 	# Ability Cards Row
@@ -343,13 +375,32 @@ func _build_bottom_bar(parent: Control) -> void:
 	_shop_button.add_theme_font_size_override("font_size", 11)
 	bottom_util_row.add_child(_shop_button)
 
-	_recall_button = UI.button("B", func() -> void:
+	_recall_button = UI.button("", func() -> void:
 		if _game:
 			_game.cmd_recall.rpc_id(1)
 	, 28)
-	_recall_button.add_theme_font_size_override("font_size", 11)
+	_recall_button.icon = load("res://assets/icons/abilities/recall.svg")
+	_recall_button.expand_icon = true
 	_recall_button.tooltip_text = "Recall to Fountain (B)"
 	bottom_util_row.add_child(_recall_button)
+
+
+func _make_stat_badge(icon_path: String, color: Color, tooltip: String) -> Dictionary:
+	var box := HBoxContainer.new()
+	box.add_theme_constant_override("separation", 3)
+	box.tooltip_text = tooltip
+
+	var tex := TextureRect.new()
+	tex.custom_minimum_size = Vector2(14, 14)
+	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tex.texture = load(icon_path)
+	box.add_child(tex)
+
+	var val_lbl := UI.label("0", 11, color, true)
+	box.add_child(val_lbl)
+
+	return {"box": box, "label": val_lbl}
 
 
 func _build_passive_slot() -> Control:
@@ -400,16 +451,16 @@ func _build_ability_slot(slot_idx: int, key_str: String) -> Dictionary:
 	icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	card_panel.add_child(icon_tex)
 
-	# Key bind label in top-left
-	var key_lbl := UI.label(key_str, 11, UITheme.TEXT, true)
-	key_lbl.offset_left = 3
+	# Key bind label in top-left with outline
+	var key_lbl := UI.outlined(UI.label(key_str, 11, UITheme.ACCENT, true), 3)
+	key_lbl.offset_left = 4
 	key_lbl.offset_top = 2
 	card_panel.add_child(key_lbl)
 
-	# Mana cost label in top-right
-	var cost_lbl := UI.label("", 10, Color(0.4, 0.7, 1.0))
+	# Mana cost label in top-right with outline
+	var cost_lbl := UI.outlined(UI.label("", 10, Color(0.45, 0.75, 1.0), true), 3)
 	cost_lbl.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	cost_lbl.offset_right = -3
+	cost_lbl.offset_right = -4
 	cost_lbl.offset_top = 2
 	card_panel.add_child(cost_lbl)
 
@@ -478,9 +529,8 @@ func _draw_minimap() -> void:
 	var w: float = rect.size.x
 	var h: float = rect.size.y
 
-	# Draw arena boundary and lane line
-	_minimap_view.draw_rect(Rect2(Vector2.ZERO, rect.size), Color(0.04, 0.06, 0.08, 0.95), true)
-	_minimap_view.draw_line(Vector2(w * 0.1, h * 0.5), Vector2(w * 0.9, h * 0.5), Color(0.2, 0.25, 0.3), 1.5)
+	# 1. Base terrain background
+	_minimap_view.draw_rect(Rect2(Vector2.ZERO, rect.size), Color(0.04, 0.06, 0.09, 0.96), true)
 
 	# World to map helper
 	var w2m := func(pos: Vector3) -> Vector2:
@@ -488,36 +538,52 @@ func _draw_minimap() -> void:
 		var nz: float = clampf((pos.z + Arena.HALF_Z) / (Arena.HALF_Z * 2.0), 0.0, 1.0)
 		return Vector2(nx * w, nz * h)
 
-	# Fountains
-	_minimap_view.draw_circle(w2m.call(Arena.fountain_position(GameConst.TEAM_BLUE)), 4.0, Color(0.2, 0.5, 1.0, 0.6))
-	_minimap_view.draw_circle(w2m.call(Arena.fountain_position(GameConst.TEAM_RED)), 4.0, Color(1.0, 0.3, 0.3, 0.6))
+	# 2. River channel (vertical cyan water strip in the center)
+	var river_tl: Vector2 = w2m.call(Vector3(-Arena.RIVER_HALF_WIDTH, 0.0, -Arena.HALF_Z))
+	var river_br: Vector2 = w2m.call(Vector3(Arena.RIVER_HALF_WIDTH, 0.0, Arena.HALF_Z))
+	_minimap_view.draw_rect(Rect2(river_tl.x, 0.0, river_br.x - river_tl.x, h), Color(0.12, 0.38, 0.55, 0.45), true)
 
-	# Jungle camps & Boss
+	# 3. Main Lane path line
+	_minimap_view.draw_line(Vector2(w * 0.08, h * 0.5), Vector2(w * 0.92, h * 0.5), Color(0.24, 0.28, 0.35, 0.65), 3.0)
+
+	# 4. Brush patches (tall grass zones)
+	for b: Vector2 in [
+		Vector2(-9.0, 8.8), Vector2(28.0, 8.8), Vector2(-24.0, 19.0), Vector2(14.0, 26.0),
+		Vector2(9.0, -8.8), Vector2(-28.0, -8.8), Vector2(24.0, -19.0), Vector2(-14.0, -26.0)
+	]:
+		var bp: Vector2 = w2m.call(Vector3(b.x, 0.0, b.y))
+		_minimap_view.draw_rect(Rect2(bp - Vector2(4.0, 2.5), Vector2(8.0, 5.0)), Color(0.18, 0.48, 0.24, 0.65), true)
+
+	# 5. Fountains
+	_minimap_view.draw_circle(w2m.call(Arena.fountain_position(GameConst.TEAM_BLUE)), 4.5, Color(0.2, 0.5, 1.0, 0.7))
+	_minimap_view.draw_circle(w2m.call(Arena.fountain_position(GameConst.TEAM_RED)), 4.5, Color(1.0, 0.3, 0.3, 0.7))
+
+	# 6. Jungle camps & Boss
 	if _game.has_node("World/Monsters"):
 		for mon: Node in _game.get_node("World/Monsters").get_children():
 			if mon is JungleMonster and not mon.dead:
 				var mp: Vector2 = w2m.call(mon.global_position)
 				if mon.monster_type == JungleMonster.MonsterType.RIFT_BEHEMOTH:
-					_minimap_view.draw_rect(Rect2(mp - Vector2(3.5, 3.5), Vector2(7, 7)), Color(0.9, 0.35, 1.0), true)
+					_minimap_view.draw_rect(Rect2(mp - Vector2(4, 4), Vector2(8, 8)), Color(0.9, 0.35, 1.0), true)
 				elif mon.monster_type == JungleMonster.MonsterType.BLUE_GOLEM:
-					_minimap_view.draw_circle(mp, 2.8, Color(0.2, 0.75, 1.0))
+					_minimap_view.draw_circle(mp, 3.0, Color(0.2, 0.75, 1.0))
 				elif mon.monster_type == JungleMonster.MonsterType.RED_BRAMBLE:
-					_minimap_view.draw_circle(mp, 2.8, Color(1.0, 0.4, 0.2))
+					_minimap_view.draw_circle(mp, 3.0, Color(1.0, 0.4, 0.2))
 
-	# Structures
+	# 7. Structures
 	for s: Entity in _game.structures:
 		var p: Vector2 = w2m.call(s.global_position)
 		var c: Color = Color(0.3, 0.3, 0.3) if s.dead else GameConst.team_color(s.team)
-		_minimap_view.draw_rect(Rect2(p - Vector2(2, 2), Vector2(4, 4)), c, true)
+		_minimap_view.draw_rect(Rect2(p - Vector2(2.5, 2.5), Vector2(5, 5)), c, true)
 
-	# Minions
+	# 8. Minions
 	for m: Minion in _game.minions:
 		if m.dead:
 			continue
 		var p: Vector2 = w2m.call(m.global_position)
 		_minimap_view.draw_circle(p, 1.5, GameConst.team_color(m.team))
 
-	# Champions
+	# 9. Champions
 	for c: Champion in _game.champions:
 		if c.dead:
 			continue
@@ -531,9 +597,19 @@ func _draw_minimap() -> void:
 		var col: Color = GameConst.team_color(c.team)
 		_minimap_view.draw_circle(p, 3.5, col)
 		if c.is_local():
-			_minimap_view.draw_arc(p, 4.5, 0, TAU, 12, Color(1.0, 0.9, 0.3), 1.5)
+			_minimap_view.draw_arc(p, 5.0, 0, TAU, 12, Color(1.0, 0.9, 0.3), 1.5)
 
-	# Active Smart Pings
+	# 10. Camera Frustum / Viewport Box
+	if _game.camera_rig:
+		var cam_focus: Vector3 = _game.camera_rig.focus
+		var cam_dist: float = _game.camera_rig.distance
+		var cam_half_w: float = cam_dist * 0.55
+		var cam_half_h: float = cam_dist * 0.34
+		var c_tl: Vector2 = w2m.call(Vector3(cam_focus.x - cam_half_w, 0.0, cam_focus.z - cam_half_h))
+		var c_br: Vector2 = w2m.call(Vector3(cam_focus.x + cam_half_w, 0.0, cam_focus.z + cam_half_h))
+		_minimap_view.draw_rect(Rect2(c_tl, c_br - c_tl), Color(1.0, 0.9, 0.45, 0.7), false, 1.2)
+
+	# 11. Active Smart Pings
 	for ping: Dictionary in _active_pings:
 		var p: Vector2 = w2m.call(ping["pos"])
 		var col: Color = ping["color"]
@@ -543,6 +619,9 @@ func _draw_minimap() -> void:
 		var ring_r: float = 3.0 + pulse * 10.0
 		_minimap_view.draw_arc(p, ring_r, 0.0, TAU, 16, Color(col, (1.0 - pulse) * alpha), 2.0)
 		_minimap_view.draw_circle(p, 3.5, Color(col, alpha))
+
+	# 12. Outer border frame
+	_minimap_view.draw_rect(Rect2(Vector2.ZERO, rect.size), Color(0.4, 0.45, 0.55, 0.8), false, 1.0)
 
 
 func _on_minimap_input(event: InputEvent) -> void:
@@ -800,12 +879,12 @@ func _update_bars() -> void:
 
 	# Stats block
 	if _champion.stat_block.size() >= 8:
-		_ad_label.text = "AD: %d" % int(_champion.stat_block[0])
-		_ap_label.text = "AP: %d" % int(_champion.stat_block[1])
-		_armor_label.text = "AR: %d" % int(_champion.stat_block[2])
-		_mr_label.text = "MR: %d" % int(_champion.stat_block[3])
-		_as_label.text = "AS: %.2f" % _champion.stat_block[4]
-		_ms_label.text = "MS: %d" % int(_champion.stat_block[5] * 10.0)
+		_ad_label.text = "%d" % int(_champion.stat_block[0])
+		_ap_label.text = "%d" % int(_champion.stat_block[1])
+		_armor_label.text = "%d" % int(_champion.stat_block[2])
+		_mr_label.text = "%d" % int(_champion.stat_block[3])
+		_as_label.text = "%.2f" % _champion.stat_block[4]
+		_ms_label.text = "%d" % int(_champion.stat_block[5] * 10.0)
 
 
 func _update_abilities() -> void:

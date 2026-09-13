@@ -47,16 +47,30 @@ func _build_ui() -> void:
 	column.custom_minimum_size = Vector2(380, 0)
 	root.add_child(column)
 
-	var title_box := UI.vbox(2)
+	var title_box := UI.vbox(4)
 	column.add_child(title_box)
-	var title_row := UI.hbox(10)
-	title_box.add_child(title_row)
-	var title := UI.outlined(UI.label("PILIM", 48, UITheme.ACCENT, true), 6)
+
+	var header_row := UI.hbox(12)
+	title_box.add_child(header_row)
+
+	var logo_rect := TextureRect.new()
+	logo_rect.custom_minimum_size = Vector2(56, 56)
+	logo_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	logo_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	logo_rect.texture = load("res://assets/icons/ui/logo.svg")
+	header_row.add_child(logo_rect)
+
+	var title_texts := UI.vbox(2)
+	header_row.add_child(title_texts)
+
+	var title_row := UI.hbox(8)
+	title_texts.add_child(title_row)
+	var title := UI.outlined(UI.label("PILIM", 42, UITheme.ACCENT, true), 6)
 	title_row.add_child(title)
-	var subtitle := UI.outlined(UI.label("MOBA", 26, Color(0.85, 0.9, 1.0), true), 4)
+	var subtitle := UI.outlined(UI.label("MOBA", 22, Color(0.85, 0.9, 1.0), true), 4)
 	subtitle.size_flags_vertical = Control.SIZE_SHRINK_END
 	title_row.add_child(subtitle)
-	title_box.add_child(UI.outlined(UI.label("Top-down 5v5 arena battles  -  v%s" % GameConst.GAME_VERSION, 13, UITheme.TEXT_DIM)))
+	title_texts.add_child(UI.outlined(UI.label("Top-down 5v5 arena battles  -  v%s" % GameConst.GAME_VERSION, 12, UITheme.TEXT_DIM)))
 
 	var panel := UI.panel(UITheme.panel_style(UITheme.BG, UITheme.BORDER, 8))
 	column.add_child(panel)
@@ -192,6 +206,12 @@ func _handle_launch_options() -> void:
 	var port: int = int(options.get("port", GameConst.DEFAULT_PORT))
 	if options.has("champion"):
 		Settings.last_champion = String(options["champion"])
+	if options.has("gen-data"):
+		NetworkManager.launch_consumed = true
+		var script = load("res://tools/gen_data.gd")
+		var _inst = script.new()
+		get_tree().quit()
+		return
 	if options.has("practice"):
 		NetworkManager.launch_consumed = true
 		NetworkManager.start_practice(player_name)

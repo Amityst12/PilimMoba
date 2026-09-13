@@ -1,4 +1,4 @@
-extends SceneTree
+extends RefCounted
 
 const GameConst = preload("res://core/GameConst.gd")
 const StatusEffectData = preload("res://core/combat/StatusEffectData.gd")
@@ -27,7 +27,6 @@ func _init() -> void:
 	_build_luminary()
 
 	print("All champion data resources generated successfully!")
-	quit()
 
 func _build_arcanist() -> void:
 	var champ := ChampionData.new()
@@ -65,6 +64,7 @@ func _build_arcanist() -> void:
 	passive.display_name = "Arcane Surge"
 	passive.description = "Every 3rd ability cast grants +35% movement speed for 2.5s."
 	passive.color = Color(0.3, 0.7, 1.0)
+	passive.icon = load("res://assets/icons/abilities/arcanist_p.svg")
 	passive.casts_required = 3
 	passive.effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.35, 2.5)]
 	champ.passive = passive
@@ -75,6 +75,7 @@ func _build_arcanist() -> void:
 	q.display_name = "Mystic Bolt"
 	q.description = "Fires a swift bolt of pure arcane energy in the target direction."
 	q.color = Color(0.25, 0.65, 1.0)
+	q.icon = load("res://assets/icons/abilities/arcanist_q.svg")
 	q.fx_style = &"arcane"
 	q.cast_range = 9.5
 	q.indicator_size = 1.2
@@ -92,6 +93,7 @@ func _build_arcanist() -> void:
 	w.display_name = "Phase Shift"
 	w.description = "Instantly blinks a short distance, becoming briefly untargetable."
 	w.color = Color(0.4, 0.8, 0.9)
+	w.icon = load("res://assets/icons/abilities/arcanist_w.svg")
 	w.fx_style = &"arcane"
 	w.mode = DashAbility.Mode.BLINK
 	w.targeting = AbilityData.Targeting.POINT
@@ -107,6 +109,7 @@ func _build_arcanist() -> void:
 	e.display_name = "Gravity Well"
 	e.description = "Creates a field of heavy gravity that detonates after 0.6s, dealing damage and slowing enemies."
 	e.color = Color(0.6, 0.3, 0.9)
+	e.icon = load("res://assets/icons/abilities/arcanist_e.svg")
 	e.fx_style = &"void"
 	e.targeting = AbilityData.Targeting.POINT
 	e.cast_range = 8.5
@@ -126,6 +129,7 @@ func _build_arcanist() -> void:
 	r.display_name = "Obliteration Beam"
 	r.description = "Channels for 0.6s then unleashes a colossal beam across the arena that pierces all enemies."
 	r.color = Color(1.0, 0.25, 0.4)
+	r.icon = load("res://assets/icons/abilities/arcanist_r.svg")
 	r.fx_style = &"solar"
 	r.is_ultimate = true
 	r.max_rank = 3
@@ -183,6 +187,7 @@ func _build_warden() -> void:
 	passive.display_name = "Ironhide"
 	passive.description = "Attacking grants stacking attack speed and move speed."
 	passive.color = Color(0.9, 0.7, 0.3)
+	passive.icon = load("res://assets/icons/abilities/warden_p.svg")
 	passive.attack_speed_per_stack = 0.08
 	passive.stack_duration = 4.0
 	passive.full_stack_haste = 0.15
@@ -195,6 +200,7 @@ func _build_warden() -> void:
 	q.display_name = "Shield Charge"
 	q.description = "Charges forward, slamming into enemies and stunning them."
 	q.color = Color(0.9, 0.6, 0.2)
+	q.icon = load("res://assets/icons/abilities/warden_q.svg")
 	q.fx_style = &"impact"
 	q.mode = DashAbility.Mode.DASH
 	q.targeting = AbilityData.Targeting.DIRECTION
@@ -215,6 +221,7 @@ func _build_warden() -> void:
 	w.display_name = "Fortress"
 	w.description = "Hardens armor with an impenetrable kinetic barrier, absorbing incoming damage."
 	w.color = Color(1.0, 0.75, 0.3)
+	w.icon = load("res://assets/icons/abilities/warden_w.svg")
 	w.fx_style = &"buff"
 	w.targeting = AbilityData.Targeting.NONE
 	w.cooldown = PackedFloat32Array([12.0, 11.0, 10.0, 9.0, 8.0])
@@ -229,6 +236,7 @@ func _build_warden() -> void:
 	e.display_name = "Ground Slam"
 	e.description = "Slams the ground with massive force, dealing damage and heavily slowing nearby enemies."
 	e.color = Color(0.8, 0.5, 0.2)
+	e.icon = load("res://assets/icons/abilities/warden_e.svg")
 	e.fx_style = &"earth"
 	e.targeting = AbilityData.Targeting.NONE
 	e.center = AreaAbility.Center.SELF
@@ -248,6 +256,7 @@ func _build_warden() -> void:
 	r.display_name = "Colossus Roar"
 	r.description = "Unleashes an earth-shattering roar, dealing massive damage and stunning all surrounding enemies."
 	r.color = Color(1.0, 0.4, 0.1)
+	r.icon = load("res://assets/icons/abilities/warden_r.svg")
 	r.fx_style = &"explosion"
 	r.is_ultimate = true
 	r.max_rank = 3
@@ -306,6 +315,7 @@ func _build_ranger() -> void:
 	passive.display_name = "Sharpshooter"
 	passive.description = "Every 3rd basic attack deals bonus damage and heals the champion."
 	passive.color = Color(0.4, 0.9, 0.5)
+	passive.icon = load("res://assets/icons/abilities/ranger_p.svg")
 	passive.attacks_required = 3
 	passive.bonus_damage = 25.0
 	passive.bonus_damage_per_level = 6.0
@@ -317,6 +327,7 @@ func _build_ranger() -> void:
 	q.display_name = "Piercing Arrow"
 	q.description = "Charges a powerful arrow that pierces through all enemies in a line."
 	q.color = Color(0.3, 0.8, 0.4)
+	q.icon = load("res://assets/icons/abilities/ranger_q.svg")
 	q.fx_style = &"arrow"
 	q.cast_range = 11.5
 	q.projectile_speed = 28.0
@@ -336,6 +347,7 @@ func _build_ranger() -> void:
 	w.display_name = "Quick Tumble"
 	w.description = "Rolls quickly in the aimed direction, gaining a burst of movement speed."
 	w.color = Color(0.4, 0.9, 0.6)
+	w.icon = load("res://assets/icons/abilities/ranger_w.svg")
 	w.fx_style = &"wind"
 	w.mode = DashAbility.Mode.DASH
 	w.targeting = AbilityData.Targeting.DIRECTION
@@ -353,6 +365,7 @@ func _build_ranger() -> void:
 	e.display_name = "Caltrop Trap"
 	e.description = "Scatters sharp caltrops that detonate when enemies step on them, heavily slowing them."
 	e.color = Color(0.6, 0.8, 0.2)
+	e.icon = load("res://assets/icons/abilities/ranger_e.svg")
 	e.fx_style = &"trap"
 	e.targeting = AbilityData.Targeting.POINT
 	e.cast_range = 7.5
@@ -372,6 +385,7 @@ func _build_ranger() -> void:
 	r.display_name = "Volley Barrage"
 	r.description = "Fires a wide volley of 7 piercing arrows in a cone, decimating the enemy team."
 	r.color = Color(0.2, 1.0, 0.5)
+	r.icon = load("res://assets/icons/abilities/ranger_r.svg")
 	r.fx_style = &"barrage"
 	r.is_ultimate = true
 	r.max_rank = 3
@@ -430,6 +444,7 @@ func _build_wraith() -> void:
 	passive.display_name = "Shadow Stalker"
 	passive.description = "Every 3rd ability cast grants +40% movement speed for 2.5s."
 	passive.color = Color(0.7, 0.25, 0.95)
+	passive.icon = load("res://assets/icons/abilities/wraith_p.svg")
 	passive.casts_required = 3
 	passive.effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.4, 2.5)]
 	champ.passive = passive
@@ -440,6 +455,7 @@ func _build_wraith() -> void:
 	q.display_name = "Shadow Dash"
 	q.description = "Dashes swiftly through shadows in the targeted direction, striking enemies."
 	q.color = Color(0.65, 0.2, 0.85)
+	q.icon = load("res://assets/icons/abilities/wraith_q.svg")
 	q.fx_style = &"shadow"
 	q.mode = DashAbility.Mode.DASH
 	q.targeting = AbilityData.Targeting.DIRECTION
@@ -459,6 +475,7 @@ func _build_wraith() -> void:
 	w.display_name = "Smoke Shroud"
 	w.description = "Deploys an obscuring smoke cloud around self, gaining haste and brief untargetability."
 	w.color = Color(0.4, 0.15, 0.6)
+	w.icon = load("res://assets/icons/abilities/wraith_w.svg")
 	w.fx_style = &"smoke"
 	w.center = AreaAbility.Center.SELF
 	w.targeting = AbilityData.Targeting.NONE
@@ -479,6 +496,7 @@ func _build_wraith() -> void:
 	e.display_name = "Crippling Dagger"
 	e.description = "Hurls a poisoned dagger that damages and severely slows the first enemy struck."
 	e.color = Color(0.8, 0.3, 0.9)
+	e.icon = load("res://assets/icons/abilities/wraith_e.svg")
 	e.fx_style = &"dagger"
 	e.cast_range = 8.5
 	e.projectile_speed = 24.0
@@ -497,6 +515,7 @@ func _build_wraith() -> void:
 	r.display_name = "Death Mark"
 	r.description = "Leaps behind the target enemy with terrifying force, silencing and heavily damaging them."
 	r.color = Color(0.9, 0.1, 0.3)
+	r.icon = load("res://assets/icons/abilities/wraith_r.svg")
 	r.fx_style = &"assassinate"
 	r.is_ultimate = true
 	r.max_rank = 3
@@ -558,6 +577,7 @@ func _build_luminary() -> void:
 	passive.display_name = "Solar Grace"
 	passive.description = "Every 3rd ability cast grants +25% haste to caster for 3.0s."
 	passive.color = Color(1.0, 0.9, 0.3)
+	passive.icon = load("res://assets/icons/abilities/luminary_p.svg")
 	passive.casts_required = 3
 	passive.effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.25, 3.0)]
 	champ.passive = passive
@@ -568,6 +588,7 @@ func _build_luminary() -> void:
 	q.display_name = "Sunburst"
 	q.description = "Channels a beam of concentrated dawn light that pierces through all enemies."
 	q.color = Color(1.0, 0.85, 0.2)
+	q.icon = load("res://assets/icons/abilities/luminary_q.svg")
 	q.fx_style = &"solar_beam"
 	q.beam_length = 14.0
 	q.beam_width = 2.8
@@ -585,6 +606,7 @@ func _build_luminary() -> void:
 	w.display_name = "Solar Aegis"
 	w.description = "Surrounds the caster in radiant light, gaining a shield, a heal, and bonus speed."
 	w.color = Color(1.0, 0.92, 0.4)
+	w.icon = load("res://assets/icons/abilities/luminary_w.svg")
 	w.fx_style = &"sun_shield"
 	w.shield_amount = PackedFloat32Array([80.0, 130.0, 180.0, 230.0, 280.0])
 	w.shield_duration = 3.5
@@ -601,6 +623,7 @@ func _build_luminary() -> void:
 	e.display_name = "Starlight Snare"
 	e.description = "Calls down a constellation trap that damages, roots, and slows enemies in the area."
 	e.color = Color(0.9, 0.75, 1.0)
+	e.icon = load("res://assets/icons/abilities/luminary_e.svg")
 	e.fx_style = &"star_trap"
 	e.center = AreaAbility.Center.POINT
 	e.targeting = AbilityData.Targeting.POINT
@@ -624,6 +647,7 @@ func _build_luminary() -> void:
 	r.display_name = "Dawn's Radiance"
 	r.description = "Unleashes the full fury of the dawn, dealing massive damage, silencing enemies, and shielding self."
 	r.color = Color(1.0, 0.95, 0.5)
+	r.icon = load("res://assets/icons/abilities/luminary_r.svg")
 	r.fx_style = &"dawn_radiance"
 	r.is_ultimate = true
 	r.max_rank = 3
@@ -645,7 +669,7 @@ func _build_luminary() -> void:
 
 	champ.abilities = [q, w, e, r]
 	champ.bot_skill_priority = PackedInt32Array([0, 1, 2])
-	champ.bot_item_build = PackedStringArray(["mana_crystal", "boots", "sorcerers_staff", "rabbits_paw", "guardian_plate"])
+	champ.bot_item_build = PackedStringArray(["sapphire_crystal", "boots", "archmage_staff", "amp_tome", "crystal_heart"])
 	champ.bot_preferred_range = 5.4
 
 	ResourceSaver.save(champ, "res://data/champions/luminary.tres")

@@ -1,22 +1,28 @@
 [gd_resource type="Resource" script_class="ChampionData" format=3]
 
-[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_yknu5"]
-[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="2_wvvh7"]
-[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="3_kduc0"]
-[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="4_2uod3"]
-[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="5_yea5a"]
-[ext_resource type="PackedScene" path="res://entities/champion/models/WraithModel.tscn" id="6_i0imx"]
-[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="7_qlrfg"]
-[ext_resource type="Texture2D" path="res://assets/icons/champions/wraith.svg" id="8_kvqdd"]
-[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="9_k7r5f"]
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_i0imx"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/wraith_q.svg" id="2_qlrfg"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_kvqdd"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_k7r5f"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/wraith_w.svg" id="5_73fno"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="6_ud2dl"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/wraith_e.svg" id="7_l6mfx"]
+[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="8_ykspn"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/wraith_r.svg" id="9_vkgyq"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/WraithModel.tscn" id="10_dh62k"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/wraith_p.svg" id="11_hwsp5"]
+[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_4ju5a"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/wraith.svg" id="13_wmiju"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_qvcva"]
 
-[sub_resource type="Resource" id="Resource_73fno"]
-script = ExtResource("2_wvvh7")
+[sub_resource type="Resource" id="Resource_ml3ci"]
+script = ExtResource("3_kvqdd")
 dash_distance = 6.5
 travel_speed = 26.0
 id = &"shadow_dash"
 display_name = "Shadow Dash"
 description = "Dashes swiftly through shadows in the targeted direction, striking enemies."
+icon = ExtResource("2_qlrfg")
 color = Color(0.65, 0.2, 0.85, 1)
 cast_range = 6.5
 cooldown = PackedFloat32Array(8, 7, 6, 5, 4)
@@ -28,55 +34,57 @@ ad_ratio = 0.8
 damage_type = 0
 fx_style = &"shadow"
 
-[sub_resource type="Resource" id="Resource_ud2dl"]
-script = ExtResource("3_kduc0")
+[sub_resource type="Resource" id="Resource_iuhtu"]
+script = ExtResource("4_k7r5f")
 kind = 1
 value = 0.35
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_l6mfx"]
-script = ExtResource("3_kduc0")
+[sub_resource type="Resource" id="Resource_mvsni"]
+script = ExtResource("4_k7r5f")
 kind = 7
 value = 0.0
 value_per_rank = PackedFloat32Array()
 duration = 0.75
 
-[sub_resource type="Resource" id="Resource_ykspn"]
-script = ExtResource("3_kduc0")
+[sub_resource type="Resource" id="Resource_270vd"]
+script = ExtResource("4_k7r5f")
 value = 0.4
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_vkgyq"]
-script = ExtResource("4_2uod3")
+[sub_resource type="Resource" id="Resource_ic2bt"]
+script = ExtResource("6_ud2dl")
 center = 1
 radius = 4.5
 delay = 0.05
 id = &"smoke_shroud"
 display_name = "Smoke Shroud"
 description = "Deploys an obscuring smoke cloud around self, gaining haste and brief untargetability."
+icon = ExtResource("5_73fno")
 color = Color(0.4, 0.15, 0.6, 1)
 targeting = 0
 cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
 mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
 base_damage = PackedFloat32Array()
-target_effects = Array[ExtResource("3_kduc0")]([SubResource("Resource_ykspn")])
-self_effects = Array[ExtResource("3_kduc0")]([SubResource("Resource_ud2dl"), SubResource("Resource_l6mfx")])
+target_effects = Array[ExtResource("4_k7r5f")]([SubResource("Resource_270vd")])
+self_effects = Array[ExtResource("4_k7r5f")]([SubResource("Resource_iuhtu"), SubResource("Resource_mvsni")])
 fx_style = &"smoke"
 
-[sub_resource type="Resource" id="Resource_dh62k"]
-script = ExtResource("3_kduc0")
+[sub_resource type="Resource" id="Resource_7veqi"]
+script = ExtResource("4_k7r5f")
 value = 0.45
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_hwsp5"]
-script = ExtResource("5_yea5a")
+[sub_resource type="Resource" id="Resource_gsu3g"]
+script = ExtResource("8_ykspn")
 projectile_speed = 24.0
 id = &"crippling_dagger"
 display_name = "Crippling Dagger"
 description = "Hurls a poisoned dagger that damages and severely slows the first enemy struck."
+icon = ExtResource("7_l6mfx")
 color = Color(0.8, 0.3, 0.9, 1)
 cast_range = 8.5
 cooldown = PackedFloat32Array(7, 6.5, 6, 5.5, 5)
@@ -84,29 +92,30 @@ mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
 base_damage = PackedFloat32Array(65, 95, 125, 155, 185)
 ad_ratio = 0.75
 damage_type = 0
-target_effects = Array[ExtResource("3_kduc0")]([SubResource("Resource_dh62k")])
+target_effects = Array[ExtResource("4_k7r5f")]([SubResource("Resource_7veqi")])
 fx_style = &"dagger"
 
-[sub_resource type="Resource" id="Resource_4ju5a"]
-script = ExtResource("3_kduc0")
+[sub_resource type="Resource" id="Resource_fc2de"]
+script = ExtResource("4_k7r5f")
 value = 0.6
 value_per_rank = PackedFloat32Array()
 duration = 2.5
 
-[sub_resource type="Resource" id="Resource_wmiju"]
-script = ExtResource("3_kduc0")
+[sub_resource type="Resource" id="Resource_5cyxy"]
+script = ExtResource("4_k7r5f")
 kind = 8
 value = 0.0
 value_per_rank = PackedFloat32Array()
 duration = 1.2
 
-[sub_resource type="Resource" id="Resource_qvcva"]
-script = ExtResource("2_wvvh7")
+[sub_resource type="Resource" id="Resource_e5nhp"]
+script = ExtResource("3_kvqdd")
 mode = 3
 travel_speed = 32.0
 id = &"death_mark"
 display_name = "Death Mark"
 description = "Leaps behind the target enemy with terrifying force, silencing and heavily damaging them."
+icon = ExtResource("9_vkgyq")
 color = Color(0.9, 0.1, 0.3, 1)
 targeting = 3
 cast_range = 8.0
@@ -118,34 +127,35 @@ blocked_by_root = true
 base_damage = PackedFloat32Array(220, 340, 460)
 ad_ratio = 1.1
 damage_type = 0
-target_effects = Array[ExtResource("3_kduc0")]([SubResource("Resource_4ju5a"), SubResource("Resource_wmiju")])
+target_effects = Array[ExtResource("4_k7r5f")]([SubResource("Resource_fc2de"), SubResource("Resource_5cyxy")])
 fx_style = &"assassinate"
 
-[sub_resource type="Resource" id="Resource_ml3ci"]
-script = ExtResource("3_kduc0")
+[sub_resource type="Resource" id="Resource_u6kxc"]
+script = ExtResource("4_k7r5f")
 kind = 1
 value = 0.4
 value_per_rank = PackedFloat32Array()
 duration = 2.5
 
-[sub_resource type="Resource" id="Resource_iuhtu"]
-script = ExtResource("7_qlrfg")
-effects = Array[ExtResource("3_kduc0")]([SubResource("Resource_ml3ci")])
+[sub_resource type="Resource" id="Resource_mwmp7"]
+script = ExtResource("12_4ju5a")
+effects = Array[ExtResource("4_k7r5f")]([SubResource("Resource_u6kxc")])
 id = &"shadow_stalker"
 display_name = "Shadow Stalker"
 description = "Every 3rd ability cast grants +40% movement speed for 2.5s."
+icon = ExtResource("11_hwsp5")
 color = Color(0.7, 0.25, 0.95, 1)
 
 [resource]
-script = ExtResource("9_k7r5f")
+script = ExtResource("14_qvcva")
 id = &"wraith"
 display_name = "Wraith"
 title = "The Shadow Blade"
 role = "Assassin"
 lore = "A lethal shadow-dancer from the void who strikes from concealment with blinding speed."
 color = Color(0.68, 0.22, 0.9, 1)
-model_scene = ExtResource("6_i0imx")
-portrait = ExtResource("8_kvqdd")
+model_scene = ExtResource("10_dh62k")
+portrait = ExtResource("13_wmiju")
 difficulty = 3
 max_health = 540.0
 health_per_level = 85.0
@@ -160,8 +170,8 @@ armor = 26.0
 magic_resist = 32.0
 move_speed = 6.0
 attack_windup = 0.18
-passive = SubResource("Resource_iuhtu")
-abilities = Array[ExtResource("1_yknu5")]([SubResource("Resource_73fno"), SubResource("Resource_vkgyq"), SubResource("Resource_hwsp5"), SubResource("Resource_qvcva")])
+passive = SubResource("Resource_mwmp7")
+abilities = Array[ExtResource("1_i0imx")]([SubResource("Resource_ml3ci"), SubResource("Resource_ic2bt"), SubResource("Resource_gsu3g"), SubResource("Resource_e5nhp")])
 bot_skill_priority = PackedInt32Array(0, 2, 1)
 bot_item_build = PackedStringArray("long_sword", "boots", "dagger", "blade_of_ruin", "storm_bow")
 bot_preferred_range = 1.8

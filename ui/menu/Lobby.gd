@@ -30,6 +30,11 @@ func _ready() -> void:
 	NetworkManager.chat_received.connect(_on_chat)
 	NetworkManager.status_changed.connect(_on_status)
 	_refresh()
+	if NetworkManager.launch_options.has("autostart"):
+		get_tree().create_timer(0.4).timeout.connect(func() -> void:
+			if NetworkManager.is_host():
+				NetworkManager.start_match()
+		)
 
 
 func _process(delta: float) -> void:
