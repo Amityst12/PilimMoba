@@ -1,27 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <radialGradient id="bg_glow_f59e0b" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.4" />
-      <stop offset="85%" stop-color="#1a1f2c" stop-opacity="0.95" />
+    <radialGradient id="bg_glow_d97706" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d97706" stop-opacity="0.45" />
+      <stop offset="85%" stop-color="#422006" stop-opacity="0.95" />
       <stop offset="100%" stop-color="#040608" stop-opacity="1.0" />
     </radialGradient>
-    <linearGradient id="border_grad_f59e0b" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ef4444" />
-      <stop offset="60%" stop-color="#f59e0b" />
+    <linearGradient id="border_grad_d97706" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="60%" stop-color="#d97706" />
       <stop offset="100%" stop-color="#111822" />
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="8" fill="url(#bg_glow_f59e0b)" />
-  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_f59e0b)" stroke-width="2" />
-  <path d="M 4,10 L 4,4 L 10,4" stroke="#ef4444" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,10 L 60,4 L 54,4" stroke="#ef4444" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 4,54 L 4,60 L 10,60" stroke="#ef4444" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,54 L 60,60 L 54,60" stroke="#ef4444" stroke-width="1.5" fill="none" opacity="0.8" />
+  <rect width="64" height="64" rx="8" fill="url(#bg_glow_d97706)" />
+  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_d97706)" stroke-width="2" />
+  <path d="M 4,10 L 4,4 L 10,4" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,10 L 60,4 L 54,4" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 4,54 L 4,60 L 10,60" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,54 L 60,60 L 54,60" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
   <g transform="translate(32,32)">
     
-      <circle cx="0" cy="0" r="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
-      <line x1="-12" y1="-12" x2="12" y2="12" stroke="#ef4444" stroke-width="2.5" />
-      <line x1="12" y1="-12" x2="-12" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <!-- Mizrahit Oud & Melody Wave -->
+      <ellipse cx="-4" cy="4" rx="10" ry="8" fill="#b45309" stroke="#fbbf24" stroke-width="1.5" />
+      <line x1="2" y1="-2" x2="16" y2="-14" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" />
+      <path d="M-14,-8 Q-4,-16 6,-8 T16,-4" stroke="#fde68a" stroke-width="2" fill="none" />
     
   </g>
 </svg>

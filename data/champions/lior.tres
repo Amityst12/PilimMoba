@@ -1,0 +1,151 @@
+[gd_resource type="Resource" script_class="ChampionData" format=3]
+
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_kanlf"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/lior_q.svg" id="2_p3e2g"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_p2q3a"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_w60au"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/lior_w.svg" id="5_s4gkw"]
+[ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="6_u3olx"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/lior_e.svg" id="7_eqj8g"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_36dpd"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/lior_r.svg" id="9_8lehx"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/LiorModel.tscn" id="10_l7ccn"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/lior_p.svg" id="11_ule5a"]
+[ext_resource type="Script" path="res://core/abilities/AttackCounterPassive.gd" id="12_rhvbb"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/lior.svg" id="13_lrx5u"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_en18c"]
+
+[sub_resource type="Resource" id="Resource_jx7pn"]
+script = ExtResource("4_w60au")
+value = 0.35
+value_per_rank = PackedFloat32Array()
+duration = 1.8
+
+[sub_resource type="Resource" id="Resource_eokfk"]
+script = ExtResource("3_p2q3a")
+dash_distance = 5.2
+travel_speed = 20.0
+id = &"graceful_lunge"
+display_name = "Graceful Lunge"
+description = "Lunges forward with mirror shield, striking the first enemy and slowing them."
+icon = ExtResource("2_p3e2g")
+color = Color(0.95, 0.4, 0.6, 1)
+cast_range = 5.2
+cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
+blocked_by_root = true
+base_damage = PackedFloat32Array(75, 115, 155, 195, 235)
+damage_type = 0
+target_effects = Array[ExtResource("4_w60au")]([SubResource("Resource_jx7pn")])
+
+[sub_resource type="Resource" id="Resource_fmjaj"]
+script = ExtResource("4_w60au")
+kind = 1
+value = 0.2
+value_per_rank = PackedFloat32Array()
+duration = 3.5
+
+[sub_resource type="Resource" id="Resource_jy45v"]
+script = ExtResource("6_u3olx")
+shield_amount = PackedFloat32Array(95, 150, 205, 260, 315)
+shield_duration = 3.5
+heal_amount = PackedFloat32Array()
+id = &"mirror_sheen"
+display_name = "Mirror Sheen"
+description = "Polishes mirror shield, granting a durable absorption shield and speed."
+icon = ExtResource("5_s4gkw")
+color = Color(0.98, 0.6, 0.8, 1)
+targeting = 0
+cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
+mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_w60au")]([SubResource("Resource_fmjaj")])
+
+[sub_resource type="Resource" id="Resource_uf6su"]
+script = ExtResource("4_w60au")
+kind = 2
+value = 1.0
+value_per_rank = PackedFloat32Array()
+duration = 1.0
+
+[sub_resource type="Resource" id="Resource_88sht"]
+script = ExtResource("8_36dpd")
+radius = 3.2
+delay = 0.3
+id = &"charming_step"
+display_name = "Charming Step"
+description = "Performs a graceful twirl, dispersing crystal fragments that stun enemies around him."
+icon = ExtResource("7_eqj8g")
+color = Color(0.85, 0.35, 0.8, 1)
+targeting = 2
+cast_range = 4.5
+cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
+mana_cost = PackedFloat32Array(55, 60, 65, 70, 75)
+base_damage = PackedFloat32Array(65, 105, 145, 185, 225)
+target_effects = Array[ExtResource("4_w60au")]([SubResource("Resource_uf6su")])
+
+[sub_resource type="Resource" id="Resource_dpe2u"]
+script = ExtResource("4_w60au")
+kind = 1
+value_per_rank = PackedFloat32Array()
+duration = 6.0
+
+[sub_resource type="Resource" id="Resource_yjinw"]
+script = ExtResource("6_u3olx")
+shield_amount = PackedFloat32Array(300, 480, 660)
+shield_duration = 6.0
+heal_amount = PackedFloat32Array()
+id = &"dazzling_pavilion"
+display_name = "Dazzling Pavilion"
+description = "Erects a prismatic mirror pavilion, gaining enormous shielding and speed."
+icon = ExtResource("9_8lehx")
+color = Color(1, 0.7, 0.85, 1)
+targeting = 0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(90, 80, 70)
+mana_cost = PackedFloat32Array(100, 100, 100)
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_w60au")]([SubResource("Resource_dpe2u")])
+
+[sub_resource type="Resource" id="Resource_223yp"]
+script = ExtResource("12_rhvbb")
+bonus_damage = 25.0
+bonus_damage_per_level = 7.0
+bonus_max_health_ratio = 0.04
+heal_max_health_ratio = 0.03
+id = &"prismatic_glamour"
+display_name = "Prismatic Glamour"
+description = "Every 3rd attack releases a dazzling flash, dealing bonus damage and restoring health."
+icon = ExtResource("11_ule5a")
+color = Color(0.95, 0.5, 0.7, 1)
+
+[resource]
+script = ExtResource("14_en18c")
+id = &"lior"
+display_name = "Lior"
+title = "The Graceful Vanguard"
+role = "Tank"
+lore = "An exceptionally elegant, effeminate warrior whose poise is rivaled only by his impenetrable mirror barrier."
+color = Color(0.95, 0.45, 0.65, 1)
+model_scene = ExtResource("10_l7ccn")
+portrait = ExtResource("13_lrx5u")
+max_health = 640.0
+health_per_level = 100.0
+health_regen = 2.2
+max_mana = 320.0
+mana_per_level = 36.0
+mana_regen = 1.6
+attack_damage = 56.0
+attack_speed = 0.64
+attack_range = 1.9
+armor = 38.0
+armor_per_level = 4.2
+magic_resist = 34.0
+magic_resist_per_level = 1.8
+move_speed = 5.6
+passive = SubResource("Resource_223yp")
+abilities = Array[ExtResource("1_kanlf")]([SubResource("Resource_eokfk"), SubResource("Resource_jy45v"), SubResource("Resource_88sht"), SubResource("Resource_yjinw")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("cloth_armor", "ruby_crystal", "boots", "sunfire_aegis", "thornmail", "warmog_armor")
+bot_preferred_range = 1.8

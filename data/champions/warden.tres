@@ -1,168 +1,121 @@
 [gd_resource type="Resource" script_class="ChampionData" format=3]
 
-[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_4h48n"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/warden_q.svg" id="2_t0mtg"]
-[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_0380b"]
-[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_gtf7b"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/warden_w.svg" id="5_vwti4"]
-[ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="6_f7ggu"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/warden_e.svg" id="7_hnetk"]
-[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_de08v"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/warden_r.svg" id="9_hxykn"]
-[ext_resource type="PackedScene" path="res://entities/champion/models/WardenModel.tscn" id="10_mvwui"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/warden_p.svg" id="11_idmlb"]
-[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_3ffuk"]
-[ext_resource type="Texture2D" path="res://assets/icons/champions/warden.svg" id="13_4tg0b"]
-[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_4wrvb"]
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_x51ix"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="2_xgl1i"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="3_p715i"]
+[ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="4_p3b7w"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="5_e16gp"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/RogoModel.tscn" id="6_4h48n"]
+[ext_resource type="Script" path="res://core/abilities/AttackCounterPassive.gd" id="7_t0mtg"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/rogo.svg" id="8_0380b"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="9_gtf7b"]
 
-[sub_resource type="Resource" id="Resource_en7qn"]
-script = ExtResource("4_gtf7b")
+[sub_resource type="Resource" id="Resource_vwti4"]
+script = ExtResource("3_p715i")
 kind = 2
-value = 1.0
+value = 0.8
 value_per_rank = PackedFloat32Array()
-duration = 1.0
+duration = 0.8
 
-[sub_resource type="Resource" id="Resource_wlsa8"]
-script = ExtResource("3_0380b")
-dash_distance = 5.5
-travel_speed = 18.0
+[sub_resource type="Resource" id="Resource_f7ggu"]
+script = ExtResource("2_xgl1i")
+travel_speed = 20.0
 id = &"shield_charge"
 display_name = "Shield Charge"
-description = "Charges forward, slamming into the first enemy hit and stunning them."
-icon = ExtResource("2_t0mtg")
-color = Color(0.9, 0.65, 0.2, 1)
-cast_range = 5.5
-cooldown = PackedFloat32Array(9, 8.5, 8, 7.5, 7)
+description = "Charges forward, slamming into enemies and stunning them."
+color = Color(0.2, 0.8, 0.4, 1)
+cast_range = 5.0
+cooldown = PackedFloat32Array(10, 9.5, 9, 8.5, 8)
 mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
 blocked_by_root = true
-indicator_size = 1.5
-base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
-ad_ratio = 0.5
+base_damage = PackedFloat32Array(60, 100, 140, 180, 220)
 damage_type = 0
-target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_en7qn")])
+target_effects = Array[ExtResource("3_p715i")]([SubResource("Resource_vwti4")])
 
-[sub_resource type="Resource" id="Resource_kp2mx"]
-script = ExtResource("4_gtf7b")
-kind = 4
-value = 160.0
-value_per_rank = PackedFloat32Array()
-duration = 3.5
-
-[sub_resource type="Resource" id="Resource_rg6sa"]
-script = ExtResource("6_f7ggu")
-shield_amount = PackedFloat32Array()
+[sub_resource type="Resource" id="Resource_hnetk"]
+script = ExtResource("4_p3b7w")
+shield_amount = PackedFloat32Array(80, 130, 180, 230, 280)
+shield_duration = 3.5
 heal_amount = PackedFloat32Array()
-id = &"fortress"
-display_name = "Fortress"
-description = "Fortifies his defenses, gaining a large shield and bonus armor for 3.5s."
-icon = ExtResource("5_vwti4")
-color = Color(0.95, 0.8, 0.3, 1)
+id = &"bulwark"
+display_name = "Bulwark"
+description = "Raises a formidable shield, absorbing incoming damage."
+color = Color(0.3, 0.9, 0.5, 1)
 targeting = 0
-cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
-mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
+cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
+mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
 base_damage = PackedFloat32Array()
-self_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_kp2mx")])
 
-[sub_resource type="Resource" id="Resource_k77ox"]
-script = ExtResource("4_gtf7b")
-value = 0.45
+[sub_resource type="Resource" id="Resource_de08v"]
+script = ExtResource("3_p715i")
+value = 0.5
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_5tkm5"]
-script = ExtResource("8_de08v")
+[sub_resource type="Resource" id="Resource_hxykn"]
+script = ExtResource("5_e16gp")
 center = 1
-radius = 4.0
+delay = 0.3
 id = &"ground_slam"
 display_name = "Ground Slam"
-description = "Slams the ground, dealing damage and slowing all nearby enemies."
-icon = ExtResource("7_hnetk")
-color = Color(0.85, 0.55, 0.15, 1)
-targeting = 0
+description = "Slams the ground with massive force, dealing damage and heavily slowing nearby enemies."
+color = Color(0.1, 0.7, 0.3, 1)
+targeting = 2
+cast_range = 3.5
 cooldown = PackedFloat32Array(9, 8.5, 8, 7.5, 7)
 mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
-indicator_size = 4.0
 base_damage = PackedFloat32Array(65, 100, 135, 170, 205)
-ad_ratio = 0.5
 damage_type = 0
-target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_k77ox")])
+target_effects = Array[ExtResource("3_p715i")]([SubResource("Resource_de08v")])
 
-[sub_resource type="Resource" id="Resource_4hxpk"]
-script = ExtResource("4_gtf7b")
-kind = 4
-value = 300.0
-value_per_rank = PackedFloat32Array()
-duration = 4.0
-
-[sub_resource type="Resource" id="Resource_7xro4"]
-script = ExtResource("4_gtf7b")
-kind = 2
-value = 1.25
-value_per_rank = PackedFloat32Array()
-duration = 1.25
-
-[sub_resource type="Resource" id="Resource_2d2oj"]
-script = ExtResource("8_de08v")
-center = 1
-radius = 5.5
+[sub_resource type="Resource" id="Resource_mvwui"]
+script = ExtResource("4_p3b7w")
+shield_amount = PackedFloat32Array(250, 400, 550)
+shield_duration = 5.0
+heal_amount = PackedFloat32Array()
 id = &"colossus_roar"
 display_name = "Colossus Roar"
-description = "Roars with titan power, gaining a massive shield and stunning nearby enemies."
-icon = ExtResource("9_hxykn")
-color = Color(1, 0.85, 0.2, 1)
+description = "Unleashes a titan roar, granting a giant shield for 5s."
+color = Color(0.4, 1, 0.6, 1)
 targeting = 0
 max_rank = 3
 is_ultimate = true
 cooldown = PackedFloat32Array(80, 70, 60)
 mana_cost = PackedFloat32Array(100, 100, 100)
-indicator_size = 5.5
-base_damage = PackedFloat32Array(150, 250, 350)
-ad_ratio = 0.6
-damage_type = 0
-target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_7xro4")])
-self_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_4hxpk")])
+base_damage = PackedFloat32Array()
 
-[sub_resource type="Resource" id="Resource_acsbf"]
-script = ExtResource("4_gtf7b")
-kind = 4
-value = 120.0
-value_per_rank = PackedFloat32Array()
-duration = 3.0
-
-[sub_resource type="Resource" id="Resource_brls6"]
-script = ExtResource("12_3ffuk")
-casts_required = 2
-effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_acsbf")])
-id = &"ironhide"
-display_name = "Ironhide"
-description = "Casting abilities grants a temporary shield absorbing up to 120 damage for 3s."
-icon = ExtResource("11_idmlb")
-color = Color(0.9, 0.7, 0.2, 1)
+[sub_resource type="Resource" id="Resource_idmlb"]
+script = ExtResource("7_t0mtg")
+id = &"iron_resolve"
+display_name = "Iron Resolve"
+description = "Every 3rd basic attack deals bonus damage and heals for 2% max HP."
+color = Color(0.2, 0.8, 0.4, 1)
 
 [resource]
-script = ExtResource("14_4wrvb")
+script = ExtResource("9_gtf7b")
 id = &"warden"
 display_name = "Warden"
 title = "The Bulwark"
 role = "Tank"
-lore = "A stalwart defender sworn to protect the ancient monoliths."
-color = Color(0.9, 0.7, 0.2, 1)
-model_scene = ExtResource("10_mvwui")
-portrait = ExtResource("13_4tg0b")
+lore = "An immovable bastion whose armor absorbs punishment and protects allies."
+color = Color(0.2, 0.8, 0.4, 1)
+model_scene = ExtResource("6_4h48n")
+portrait = ExtResource("8_0380b")
 max_health = 680.0
-health_per_level = 95.0
-health_regen = 2.2
-max_mana = 320.0
-mana_per_level = 35.0
-mana_regen = 1.6
+health_per_level = 100.0
+health_regen = 2.5
+max_mana = 300.0
+mana_per_level = 30.0
+mana_regen = 1.5
 attack_damage = 58.0
-attack_speed = 0.6
+attack_damage_per_level = 3.5
+attack_speed = 0.62
 armor = 38.0
 magic_resist = 34.0
-move_speed = 5.6
-attack_windup = 0.22
-passive = SubResource("Resource_brls6")
-abilities = Array[ExtResource("1_4h48n")]([SubResource("Resource_wlsa8"), SubResource("Resource_rg6sa"), SubResource("Resource_5tkm5"), SubResource("Resource_2d2oj")])
+magic_resist_per_level = 1.8
+move_speed = 5.5
+passive = SubResource("Resource_idmlb")
+abilities = Array[ExtResource("1_x51ix")]([SubResource("Resource_f7ggu"), SubResource("Resource_hnetk"), SubResource("Resource_hxykn"), SubResource("Resource_mvwui")])
 bot_skill_priority = PackedInt32Array(0, 1, 2)
-bot_item_build = PackedStringArray("cloth_armor", "ruby_crystal", "boots", "titan_plate", "crystal_heart")
+bot_item_build = PackedStringArray("cloth_armor", "ruby_crystal", "boots", "sunfire_aegis", "thornmail", "warmog_armor")
 bot_preferred_range = 1.8

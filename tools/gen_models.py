@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Generates 3D procedural model scenes for the 7 champions:
-Erez, Stephen, Amit, Nissim, Rogo, Yakir, Edgy.
+Erez (Beastmaster Melee), Stephen (Petite Filipino Support), Amit (3-Stance Musician),
+Nissim (Dad Strategist Mage), Rogo (Heavy Smasher Tank), Yakir (Snack & Energy Support),
+Lior (Graceful Effeminate Tank), plus Edgy (fallback).
 """
 
 import os
@@ -11,10 +13,12 @@ os.makedirs(MODELS_DIR, exist_ok=True)
 def write_tscn(name: str, content: str) -> None:
     path = os.path.join(MODELS_DIR, f"{name}.tscn")
     with open(path, "w", encoding="utf-8") as f:
-        f.write(content.strip())
+        f.write(content.strip() + "\n")
     print(f"Wrote {path}")
 
-# 1. ErezModel (Commander / Royal Knight)
+# =========================================================================
+# 1. EREZ - The Beast Vanguard (Melee Fighter with Animal Companions)
+# =========================================================================
 erez_tscn = """[gd_scene format=3]
 
 [ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
@@ -41,6 +45,15 @@ emission_enabled = true
 emission = Color(0.3, 0.5, 0.9, 1)
 emission_energy_multiplier = 2.0
 
+[sub_resource type="StandardMaterial3D" id="fur"]
+albedo_color = Color(0.6, 0.4, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="pet_eye"]
+albedo_color = Color(0.95, 0.85, 0.2, 1)
+emission_enabled = true
+emission = Color(0.95, 0.85, 0.2, 1)
+
 [sub_resource type="CylinderMesh" id="mesh_body"]
 material = SubResource("royal_blue")
 top_radius = 0.22
@@ -65,380 +78,587 @@ height = 0.4
 material = SubResource("blade")
 size = Vector3(0.08, 1.3, 0.2)
 
+[sub_resource type="SphereMesh" id="mesh_pet_body"]
+material = SubResource("fur")
+radius = 0.18
+height = 0.32
+
+[sub_resource type="SphereMesh" id="mesh_pet_head"]
+material = SubResource("fur")
+radius = 0.12
+height = 0.22
+
+[sub_resource type="BoxMesh" id="mesh_pet_ear"]
+material = SubResource("fur")
+size = Vector3(0.04, 0.1, 0.04)
+
 [node name="ErezModel" type="Node3D"]
 script = ExtResource("1_model")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
 mesh = SubResource("mesh_body")
 
-[node name="Chest" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+[node name="ArmorChest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 mesh = SubResource("mesh_chest")
 
-[node name="Trim" type="MeshInstance3D" parent="Chest"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="Belt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 mesh = SubResource("mesh_trim")
 
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
 mesh = SubResource("mesh_head")
 
-[node name="Sword" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.95, -0.31, 0, 0.31, 0.95, 0, 0, 0, 1, 0.5, 0.9, 0.1)
+[node name="Broadsword" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866, -0.5, 0, 0.5, 0.866, 0, 0, 0, 1, 0.55, 0.9, 0.1)
 mesh = SubResource("mesh_sword")
+
+[node name="PetCompanionLeft" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0.2, 0.2)
+
+[node name="PetBody" type="MeshInstance3D" parent="PetCompanionLeft"]
+mesh = SubResource("mesh_pet_body")
+
+[node name="PetHead" type="MeshInstance3D" parent="PetCompanionLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0.12)
+mesh = SubResource("mesh_pet_head")
+
+[node name="EarL" type="MeshInstance3D" parent="PetCompanionLeft/PetHead"]
+transform = Transform3D(0.866, 0.5, 0, -0.5, 0.866, 0, 0, 0, 1, -0.07, 0.12, 0)
+mesh = SubResource("mesh_pet_ear")
+
+[node name="EarR" type="MeshInstance3D" parent="PetCompanionLeft/PetHead"]
+transform = Transform3D(0.866, -0.5, 0, 0.5, 0.866, 0, 0, 0, 1, 0.07, 0.12, 0)
+mesh = SubResource("mesh_pet_ear")
+
+[node name="PetCompanionRight" type="Node3D" parent="."]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.6, 0.18, -0.3)
+
+[node name="PetBody" type="MeshInstance3D" parent="PetCompanionRight"]
+mesh = SubResource("mesh_pet_body")
+
+[node name="PetHead" type="MeshInstance3D" parent="PetCompanionRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0.12)
+mesh = SubResource("mesh_pet_head")
 """
 
-# 2. StephenModel (Psionic Mystic / Mage)
+# =========================================================================
+# 2. STEPHEN - The Radiant Spirit (Petite Filipino Support)
+# =========================================================================
 stephen_tscn = """[gd_scene format=3]
 
 [ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
 
-[sub_resource type="StandardMaterial3D" id="robe"]
-albedo_color = Color(0.22, 0.1, 0.38, 1)
-roughness = 0.85
-
-[sub_resource type="StandardMaterial3D" id="indigo"]
-albedo_color = Color(0.12, 0.05, 0.24, 1)
-roughness = 0.9
-
-[sub_resource type="StandardMaterial3D" id="psionic"]
-albedo_color = Color(0.65, 0.3, 1, 1)
-roughness = 0.15
+[sub_resource type="StandardMaterial3D" id="sun_gold"]
+albedo_color = Color(0.95, 0.78, 0.15, 1)
+metallic = 0.3
+roughness = 0.4
 emission_enabled = true
-emission = Color(0.7, 0.25, 1, 1)
-emission_energy_multiplier = 4.5
+emission = Color(0.95, 0.78, 0.15, 1)
+emission_energy_multiplier = 1.2
 
-[sub_resource type="CylinderMesh" id="mesh_robe"]
-material = SubResource("robe")
+[sub_resource type="StandardMaterial3D" id="ocean_blue"]
+albedo_color = Color(0.08, 0.35, 0.75, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="barong_white"]
+albedo_color = Color(0.92, 0.94, 0.96, 1)
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="staff_wood"]
+albedo_color = Color(0.45, 0.3, 0.18, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="mesh_body"]
+material = SubResource("barong_white")
 top_radius = 0.18
-bottom_radius = 0.5
-height = 1.3
+bottom_radius = 0.32
+height = 0.85
 radial_segments = 16
 
-[sub_resource type="SphereMesh" id="mesh_cowl"]
-material = SubResource("indigo")
-radius = 0.26
-height = 0.5
+[sub_resource type="BoxMesh" id="mesh_sash"]
+material = SubResource("ocean_blue")
+size = Vector3(0.38, 0.12, 0.28)
 
-[sub_resource type="SphereMesh" id="mesh_orb"]
-material = SubResource("psionic")
+[sub_resource type="SphereMesh" id="mesh_head"]
+material = SubResource("barong_white")
+radius = 0.17
+height = 0.34
+
+[sub_resource type="CylinderMesh" id="mesh_staff"]
+material = SubResource("staff_wood")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 1.2
+
+[sub_resource type="SphereMesh" id="mesh_sun_crystal"]
+material = SubResource("sun_gold")
 radius = 0.15
 height = 0.3
 
 [node name="StephenModel" type="Node3D"]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 0, 0, 0)
 script = ExtResource("1_model")
 
-[node name="Robe" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
-mesh = SubResource("mesh_robe")
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("mesh_body")
+
+[node name="Sash" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("mesh_sash")
 
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
-mesh = SubResource("mesh_cowl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("mesh_head")
 
-[node name="Orbit" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+[node name="Staff" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, 0.6, 0.1)
+mesh = SubResource("mesh_staff")
 
-[node name="Orb1" type="MeshInstance3D" parent="Orbit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0, 0)
-mesh = SubResource("mesh_orb")
-
-[node name="Orb2" type="MeshInstance3D" parent="Orbit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0, 0)
-mesh = SubResource("mesh_orb")
+[node name="SunCrystal" type="MeshInstance3D" parent="Staff"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68, 0)
+mesh = SubResource("mesh_sun_crystal")
 """
 
-# 3. AmitModel (Grand Architect / Tech Marksman)
+# =========================================================================
+# 3. AMIT - The Maestro of Stances (Rock / White Girl / Mizrahit Fighter)
+# =========================================================================
 amit_tscn = """[gd_scene format=3]
 
 [ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
 
-[sub_resource type="StandardMaterial3D" id="tunic"]
-albedo_color = Color(0.12, 0.16, 0.22, 1)
-roughness = 0.8
+[sub_resource type="StandardMaterial3D" id="leather_black"]
+albedo_color = Color(0.12, 0.12, 0.16, 1)
+roughness = 0.4
 
-[sub_resource type="StandardMaterial3D" id="gold"]
-albedo_color = Color(0.95, 0.72, 0.2, 1)
-metallic = 0.75
+[sub_resource type="StandardMaterial3D" id="electric_red"]
+albedo_color = Color(0.9, 0.15, 0.25, 1)
+metallic = 0.5
 roughness = 0.3
-
-[sub_resource type="StandardMaterial3D" id="bow_mat"]
-albedo_color = Color(0.2, 0.75, 1, 1)
-metallic = 0.8
-roughness = 0.2
 emission_enabled = true
-emission = Color(0.1, 0.6, 0.9, 1)
-emission_energy_multiplier = 2.5
+emission = Color(0.9, 0.15, 0.25, 1)
+emission_energy_multiplier = 1.0
 
-[sub_resource type="CapsuleMesh" id="mesh_body"]
-material = SubResource("tunic")
-radius = 0.24
-height = 1.2
+[sub_resource type="StandardMaterial3D" id="gold_fret"]
+albedo_color = Color(0.95, 0.8, 0.2, 1)
+metallic = 0.9
+
+[sub_resource type="StandardMaterial3D" id="pop_pink"]
+albedo_color = Color(0.95, 0.3, 0.6, 1)
+roughness = 0.5
+
+[sub_resource type="CylinderMesh" id="mesh_body"]
+material = SubResource("leather_black")
+top_radius = 0.2
+bottom_radius = 0.4
+height = 1.1
+radial_segments = 16
 
 [sub_resource type="SphereMesh" id="mesh_head"]
-material = SubResource("gold")
-radius = 0.18
-height = 0.36
+material = SubResource("leather_black")
+radius = 0.19
+height = 0.38
 
-[sub_resource type="TorusMesh" id="mesh_bow"]
-material = SubResource("bow_mat")
-inner_radius = 0.45
-outer_radius = 0.52
+[sub_resource type="BoxMesh" id="mesh_jacket_trim"]
+material = SubResource("pop_pink")
+size = Vector3(0.5, 0.6, 0.36)
+
+[sub_resource type="BoxMesh" id="mesh_guitar_body"]
+material = SubResource("electric_red")
+size = Vector3(0.42, 0.55, 0.1)
+
+[sub_resource type="BoxMesh" id="mesh_guitar_neck"]
+material = SubResource("gold_fret")
+size = Vector3(0.08, 0.7, 0.05)
 
 [node name="AmitModel" type="Node3D"]
 script = ExtResource("1_model")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 mesh = SubResource("mesh_body")
 
+[node name="Jacket" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 0)
+mesh = SubResource("mesh_jacket_trim")
+
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 mesh = SubResource("mesh_head")
 
-[node name="Bow" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.2, 0, 0.98, 0, 1, 0, -0.98, 0, 0.2, 0.4, 0.9, 0.2)
-mesh = SubResource("mesh_bow")
+[node name="GuitarOnBack" type="Node3D" parent="."]
+transform = Transform3D(0.94, -0.34, 0, 0.34, 0.94, 0, 0, 0, 1, -0.05, 0.8, -0.26)
+
+[node name="GuitarBody" type="MeshInstance3D" parent="GuitarOnBack"]
+mesh = SubResource("mesh_guitar_body")
+
+[node name="GuitarNeck" type="MeshInstance3D" parent="GuitarOnBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("mesh_guitar_neck")
 """
 
-# 4. NissimModel (Miracle Worker / Support)
+# =========================================================================
+# 4. NISSIM - "אבא של כולם" (The Grandfather Strategist)
+# =========================================================================
 nissim_tscn = """[gd_scene format=3]
 
 [ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
 
-[sub_resource type="StandardMaterial3D" id="robe"]
-albedo_color = Color(0.08, 0.35, 0.3, 1)
+[sub_resource type="StandardMaterial3D" id="sweater_green"]
+albedo_color = Color(0.12, 0.42, 0.28, 1)
 roughness = 0.85
 
-[sub_resource type="StandardMaterial3D" id="gold"]
-albedo_color = Color(0.95, 0.82, 0.3, 1)
-metallic = 0.8
-roughness = 0.25
+[sub_resource type="StandardMaterial3D" id="slacks_khaki"]
+albedo_color = Color(0.68, 0.62, 0.5, 1)
+roughness = 0.8
 
-[sub_resource type="StandardMaterial3D" id="radiance"]
-albedo_color = Color(0.3, 1, 0.75, 1)
+[sub_resource type="StandardMaterial3D" id="glasses_gold"]
+albedo_color = Color(0.95, 0.8, 0.2, 1)
+metallic = 0.9
 roughness = 0.2
-emission_enabled = true
-emission = Color(0.25, 0.95, 0.7, 1)
-emission_energy_multiplier = 4.5
 
-[sub_resource type="CylinderMesh" id="mesh_robe"]
-material = SubResource("robe")
-top_radius = 0.18
-bottom_radius = 0.48
-height = 1.25
-radial_segments = 16
+[sub_resource type="StandardMaterial3D" id="coffee_mug"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+roughness = 0.3
 
-[sub_resource type="SphereMesh" id="mesh_head"]
-material = SubResource("gold")
-radius = 0.18
-height = 0.36
-
-[sub_resource type="TorusMesh" id="mesh_halo"]
-material = SubResource("radiance")
-inner_radius = 0.26
-outer_radius = 0.32
-
-[node name="NissimModel" type="Node3D"]
-script = ExtResource("1_model")
-
-[node name="Robe" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
-mesh = SubResource("mesh_robe")
-
-[node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
-mesh = SubResource("mesh_head")
-
-[node name="Halo" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.86, 0.5, 0, -0.5, 0.86, 0, 1.75, -0.1)
-mesh = SubResource("mesh_halo")
-"""
-
-# 5. RogoModel (Berserker / Juggernaut)
-rogo_tscn = """[gd_scene format=3]
-
-[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
-
-[sub_resource type="StandardMaterial3D" id="iron"]
-albedo_color = Color(0.3, 0.1, 0.1, 1)
-roughness = 0.7
-
-[sub_resource type="StandardMaterial3D" id="blood"]
-albedo_color = Color(0.85, 0.15, 0.15, 1)
-roughness = 0.6
-
-[sub_resource type="StandardMaterial3D" id="axe_edge"]
-albedo_color = Color(1, 0.4, 0.1, 1)
-metallic = 0.8
-roughness = 0.2
-emission_enabled = true
-emission = Color(1, 0.3, 0, 1)
-emission_energy_multiplier = 3.0
-
-[sub_resource type="BoxMesh" id="mesh_chest"]
-material = SubResource("iron")
-size = Vector3(0.8, 0.75, 0.5)
+[sub_resource type="StandardMaterial3D" id="coffee_dark"]
+albedo_color = Color(0.2, 0.12, 0.06, 1)
+roughness = 0.3
 
 [sub_resource type="CylinderMesh" id="mesh_legs"]
-material = SubResource("iron")
-top_radius = 0.3
-bottom_radius = 0.45
+material = SubResource("slacks_khaki")
+top_radius = 0.25
+bottom_radius = 0.36
 height = 0.7
-radial_segments = 12
+radial_segments = 16
 
-[sub_resource type="BoxMesh" id="mesh_pauldron"]
-material = SubResource("blood")
-size = Vector3(0.35, 0.35, 0.45)
+[sub_resource type="BoxMesh" id="mesh_sweater"]
+material = SubResource("sweater_green")
+size = Vector3(0.55, 0.65, 0.38)
 
 [sub_resource type="SphereMesh" id="mesh_head"]
-material = SubResource("blood")
-radius = 0.22
-height = 0.44
+material = SubResource("slacks_khaki")
+radius = 0.19
+height = 0.38
 
-[sub_resource type="BoxMesh" id="mesh_axe"]
-material = SubResource("axe_edge")
-size = Vector3(0.1, 0.9, 0.4)
+[sub_resource type="BoxMesh" id="mesh_glasses"]
+material = SubResource("glasses_gold")
+size = Vector3(0.3, 0.05, 0.05)
 
-[node name="RogoModel" type="Node3D"]
+[sub_resource type="CylinderMesh" id="mesh_mug"]
+material = SubResource("coffee_mug")
+top_radius = 0.08
+bottom_radius = 0.08
+height = 0.16
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="mesh_coffee"]
+material = SubResource("coffee_dark")
+top_radius = 0.075
+bottom_radius = 0.075
+height = 0.02
+radial_segments = 12
+
+[node name="NissimModel" type="Node3D"]
 script = ExtResource("1_model")
 
 [node name="Legs" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
 mesh = SubResource("mesh_legs")
 
-[node name="Chest" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
-mesh = SubResource("mesh_chest")
+[node name="Sweater" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("mesh_sweater")
 
-[node name="PauldronL" type="MeshInstance3D" parent="Chest"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.25, 0)
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32, 0)
+mesh = SubResource("mesh_head")
+
+[node name="Glasses" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.18)
+mesh = SubResource("mesh_glasses")
+
+[node name="CoffeeMug" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42, 0.85, 0.2)
+mesh = SubResource("mesh_mug")
+
+[node name="CoffeeLiquid" type="MeshInstance3D" parent="CoffeeMug"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
+mesh = SubResource("mesh_coffee")
+"""
+
+# =========================================================================
+# 5. ROGO - The Heavy Smasher (Colossal Heavyweight Tank)
+# =========================================================================
+rogo_tscn = """[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="iron_red"]
+albedo_color = Color(0.65, 0.12, 0.12, 1)
+roughness = 0.5
+metallic = 0.4
+
+[sub_resource type="StandardMaterial3D" id="dark_metal"]
+albedo_color = Color(0.2, 0.2, 0.22, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="spikes"]
+albedo_color = Color(0.85, 0.75, 0.25, 1)
+metallic = 0.9
+
+[sub_resource type="CylinderMesh" id="mesh_heavy_body"]
+material = SubResource("iron_red")
+top_radius = 0.42
+bottom_radius = 0.65
+height = 1.2
+radial_segments = 16
+
+[sub_resource type="BoxMesh" id="mesh_massive_chest"]
+material = SubResource("dark_metal")
+size = Vector3(0.95, 0.75, 0.6)
+
+[sub_resource type="SphereMesh" id="mesh_pauldron"]
+material = SubResource("iron_red")
+radius = 0.3
+height = 0.45
+
+[sub_resource type="SphereMesh" id="mesh_heavy_head"]
+material = SubResource("dark_metal")
+radius = 0.24
+height = 0.42
+
+[sub_resource type="BoxMesh" id="mesh_fist_slammer"]
+material = SubResource("dark_metal")
+size = Vector3(0.3, 0.35, 0.3)
+
+[node name="RogoModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="HeavyBody" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("mesh_heavy_body")
+
+[node name="MassiveChest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("mesh_massive_chest")
+
+[node name="PauldronL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62, 1.05, 0)
 mesh = SubResource("mesh_pauldron")
 
-[node name="PauldronR" type="MeshInstance3D" parent="Chest"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.25, 0)
+[node name="PauldronR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, 1.05, 0)
 mesh = SubResource("mesh_pauldron")
 
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-mesh = SubResource("mesh_head")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("mesh_heavy_head")
 
-[node name="Axe" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.9, 0.4, 0, -0.4, 0.9, 0, 0, 0, 1, 0.65, 0.9, 0.1)
-mesh = SubResource("mesh_axe")
+[node name="FistL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.58, 0.5, 0.25)
+mesh = SubResource("mesh_fist_slammer")
+
+[node name="FistR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58, 0.5, 0.25)
+mesh = SubResource("mesh_fist_slammer")
 """
 
-# 6. YakirModel (Bulwark / Colossus Tank)
+# =========================================================================
+# 6. YAKIR - The Refreshment Specialist (Energy Drinks & Food Support)
+# =========================================================================
 yakir_tscn = """[gd_scene format=3]
 
 [ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
 
-[sub_resource type="StandardMaterial3D" id="slate"]
-albedo_color = Color(0.35, 0.4, 0.48, 1)
-metallic = 0.8
-roughness = 0.4
+[sub_resource type="StandardMaterial3D" id="apron_green"]
+albedo_color = Color(0.1, 0.5, 0.35, 1)
+roughness = 0.6
 
-[sub_resource type="StandardMaterial3D" id="cyan_glow"]
-albedo_color = Color(0.2, 0.75, 1, 1)
+[sub_resource type="StandardMaterial3D" id="energy_can_mat"]
+albedo_color = Color(0.08, 0.08, 0.1, 1)
+metallic = 0.8
 roughness = 0.2
 emission_enabled = true
-emission = Color(0.15, 0.7, 1, 1)
-emission_energy_multiplier = 4.0
+emission = Color(0.15, 0.85, 0.35, 1)
+emission_energy_multiplier = 2.0
 
-[sub_resource type="BoxMesh" id="mesh_body"]
-material = SubResource("slate")
-size = Vector3(0.85, 1.0, 0.6)
+[sub_resource type="StandardMaterial3D" id="cooler_box_mat"]
+albedo_color = Color(0.15, 0.35, 0.7, 1)
+roughness = 0.4
 
-[sub_resource type="BoxMesh" id="mesh_head"]
-material = SubResource("slate")
-size = Vector3(0.35, 0.35, 0.4)
+[sub_resource type="StandardMaterial3D" id="snack_gold"]
+albedo_color = Color(0.95, 0.68, 0.2, 1)
+roughness = 0.7
 
-[sub_resource type="BoxMesh" id="mesh_visor"]
-material = SubResource("cyan_glow")
-size = Vector3(0.36, 0.08, 0.1)
+[sub_resource type="CylinderMesh" id="mesh_body"]
+material = SubResource("apron_green")
+top_radius = 0.24
+bottom_radius = 0.42
+height = 1.15
+radial_segments = 16
 
-[sub_resource type="BoxMesh" id="mesh_shield"]
-material = SubResource("slate")
-size = Vector3(0.15, 1.2, 0.8)
+[sub_resource type="SphereMesh" id="mesh_head"]
+material = SubResource("apron_green")
+radius = 0.2
+height = 0.4
 
-[sub_resource type="BoxMesh" id="mesh_shield_core"]
-material = SubResource("cyan_glow")
-size = Vector3(0.18, 0.3, 0.3)
+[sub_resource type="BoxMesh" id="mesh_cooler_box"]
+material = SubResource("cooler_box_mat")
+size = Vector3(0.55, 0.45, 0.3)
+
+[sub_resource type="CylinderMesh" id="mesh_energy_can"]
+material = SubResource("energy_can_mat")
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.24
+radial_segments = 12
 
 [node name="YakirModel" type="Node3D"]
 script = ExtResource("1_model")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
 mesh = SubResource("mesh_body")
 
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
 mesh = SubResource("mesh_head")
 
-[node name="Visor" type="MeshInstance3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.18)
-mesh = SubResource("mesh_visor")
+[node name="CoolerBackpack" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, -0.28)
+mesh = SubResource("mesh_cooler_box")
 
-[node name="Shield" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.96, 0, 0.26, 0, 1, 0, -0.26, 0, 0.96, 0.45, 0.75, 0.3)
-mesh = SubResource("mesh_shield")
-
-[node name="Core" type="MeshInstance3D" parent="Shield"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0, 0)
-mesh = SubResource("mesh_shield_core")
+[node name="EnergyCanInHand" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0.436, 0, 1, 0, -0.436, 0, 0.9, 0.45, 0.75, 0.2)
+mesh = SubResource("mesh_energy_can")
 """
 
-# 7. EdgyModel (Shadowblade / Assassin)
+# =========================================================================
+# 7. LIOR - The Graceful Vanguard (Feminine / Effeminate Male Tank)
+# =========================================================================
+lior_tscn = """[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="rose_gold"]
+albedo_color = Color(0.92, 0.65, 0.68, 1)
+metallic = 0.8
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="pastel_silk"]
+albedo_color = Color(0.98, 0.9, 0.94, 1)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="crystal_mirror"]
+albedo_color = Color(0.9, 0.96, 1, 1)
+metallic = 0.95
+roughness = 0.1
+emission_enabled = true
+emission = Color(0.95, 0.8, 0.9, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="CylinderMesh" id="mesh_slender_body"]
+material = SubResource("pastel_silk")
+top_radius = 0.2
+bottom_radius = 0.38
+height = 1.2
+radial_segments = 16
+
+[sub_resource type="BoxMesh" id="mesh_corset_trim"]
+material = SubResource("rose_gold")
+size = Vector3(0.48, 0.55, 0.34)
+
+[sub_resource type="SphereMesh" id="mesh_head"]
+material = SubResource("pastel_silk")
+radius = 0.18
+height = 0.36
+
+[sub_resource type="BoxMesh" id="mesh_mirror_shield"]
+material = SubResource("crystal_mirror")
+size = Vector3(0.08, 1.2, 0.65)
+
+[sub_resource type="BoxMesh" id="mesh_shield_border"]
+material = SubResource("rose_gold")
+size = Vector3(0.1, 1.25, 0.7)
+
+[node name="LiorModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("mesh_slender_body")
+
+[node name="CorsetPlate" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("mesh_corset_trim")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36, 0)
+mesh = SubResource("mesh_head")
+
+[node name="MirrorShieldBorder" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.966, 0, 0.259, 0, 1, 0, -0.259, 0, 0.966, 0.45, 0.75, 0.15)
+mesh = SubResource("mesh_shield_border")
+
+[node name="MirrorShieldFace" type="MeshInstance3D" parent="MirrorShieldBorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0, 0)
+mesh = SubResource("mesh_mirror_shield")
+"""
+
+# =========================================================================
+# 8. EDGY - Fallback Assassin
+# =========================================================================
 edgy_tscn = """[gd_scene format=3]
 
 [ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
 
-[sub_resource type="StandardMaterial3D" id="cowl"]
-albedo_color = Color(0.08, 0.04, 0.09, 1)
-roughness = 0.9
+[sub_resource type="StandardMaterial3D" id="shadow_black"]
+albedo_color = Color(0.08, 0.08, 0.1, 1)
+roughness = 0.8
 
 [sub_resource type="StandardMaterial3D" id="neon_red"]
-albedo_color = Color(1, 0.05, 0.25, 1)
-roughness = 0.15
+albedo_color = Color(1, 0.1, 0.2, 1)
 emission_enabled = true
-emission = Color(1, 0, 0.3, 1)
-emission_energy_multiplier = 5.0
+emission = Color(1, 0.1, 0.2, 1)
+emission_energy_multiplier = 3.0
 
-[sub_resource type="CylinderMesh" id="mesh_cloak"]
-material = SubResource("cowl")
-top_radius = 0.16
-bottom_radius = 0.42
-height = 1.2
-radial_segments = 14
+[sub_resource type="CylinderMesh" id="mesh_body"]
+material = SubResource("shadow_black")
+top_radius = 0.18
+bottom_radius = 0.38
+height = 1.15
 
 [sub_resource type="SphereMesh" id="mesh_head"]
-material = SubResource("cowl")
-radius = 0.2
-height = 0.4
+material = SubResource("shadow_black")
+radius = 0.18
+height = 0.36
 
 [sub_resource type="BoxMesh" id="mesh_dagger"]
 material = SubResource("neon_red")
-size = Vector3(0.05, 0.65, 0.12)
+size = Vector3(0.04, 0.7, 0.08)
 
 [node name="EdgyModel" type="Node3D"]
 script = ExtResource("1_model")
 
-[node name="Cloak" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-mesh = SubResource("mesh_cloak")
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
+mesh = SubResource("mesh_body")
 
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
 mesh = SubResource("mesh_head")
 
 [node name="DaggerL" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.85, 0.52, 0, -0.52, 0.85, 0, 0, 0, 1, -0.4, 0.6, 0.15)
+transform = Transform3D(0.866, 0.5, 0, -0.5, 0.866, 0, 0, 0, 1, -0.4, 0.6, 0.1)
 mesh = SubResource("mesh_dagger")
 
 [node name="DaggerR" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.85, -0.52, 0, 0.52, 0.85, 0, 0, 0, 1, 0.4, 0.6, 0.15)
+transform = Transform3D(0.866, -0.5, 0, 0.5, 0.866, 0, 0, 0, 1, 0.4, 0.6, 0.1)
 mesh = SubResource("mesh_dagger")
 """
 
@@ -449,7 +669,9 @@ def gen_all():
     write_tscn("NissimModel", nissim_tscn)
     write_tscn("RogoModel", rogo_tscn)
     write_tscn("YakirModel", yakir_tscn)
+    write_tscn("LiorModel", lior_tscn)
     write_tscn("EdgyModel", edgy_tscn)
+    print("All 3D procedural models generated successfully!")
 
 if __name__ == "__main__":
     gen_all()

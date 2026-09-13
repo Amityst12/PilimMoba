@@ -1,146 +1,124 @@
 [gd_resource type="Resource" script_class="ChampionData" format=3]
 
-[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_t1vq2"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/arcanist_q.svg" id="2_2k24q"]
-[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="3_y48gd"]
-[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_4c873"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/arcanist_w.svg" id="5_3es4u"]
-[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="6_spbet"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/arcanist_e.svg" id="7_i2qtn"]
-[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_oxdb3"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/arcanist_r.svg" id="9_otajr"]
-[ext_resource type="Script" path="res://core/abilities/BeamAbility.gd" id="10_j0kxl"]
-[ext_resource type="PackedScene" path="res://entities/champion/models/ArcanistModel.tscn" id="11_okwla"]
-[ext_resource type="Texture2D" path="res://assets/icons/abilities/arcanist_p.svg" id="12_wmags"]
-[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="13_rhi4y"]
-[ext_resource type="Texture2D" path="res://assets/icons/champions/arcanist.svg" id="14_wcs5r"]
-[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="15_cnncq"]
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_04mct"]
+[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="2_8v4yl"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="3_0ma5e"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="4_7nq3y"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="5_3dgvn"]
+[ext_resource type="Script" path="res://core/abilities/BeamAbility.gd" id="6_t1vq2"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/StephenModel.tscn" id="7_2k24q"]
+[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="8_y48gd"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/stephen.svg" id="9_4c873"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="10_3es4u"]
 
-[sub_resource type="Resource" id="Resource_jlapo"]
-script = ExtResource("3_y48gd")
-projectile_width = 1.2
+[sub_resource type="Resource" id="Resource_spbet"]
+script = ExtResource("2_8v4yl")
+projectile_speed = 16.0
 id = &"mystic_bolt"
 display_name = "Mystic Bolt"
 description = "Fires a swift bolt of pure arcane energy in the target direction."
-icon = ExtResource("2_2k24q")
-color = Color(0.25, 0.65, 1, 1)
-cast_range = 9.5
-cooldown = PackedFloat32Array(5, 4.5, 4, 3.5, 3)
+cast_range = 7.5
+cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
 mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
-indicator_size = 1.2
-base_damage = PackedFloat32Array(75, 110, 145, 180, 215)
+base_damage = PackedFloat32Array(70, 110, 150, 190, 230)
 ap_ratio = 0.65
-fx_style = &"arcane"
 
-[sub_resource type="Resource" id="Resource_x06q7"]
-script = ExtResource("4_4c873")
+[sub_resource type="Resource" id="Resource_i2qtn"]
+script = ExtResource("3_0ma5e")
 kind = 7
-value = 0.0
+value = 1.0
 value_per_rank = PackedFloat32Array()
-duration = 0.25
+duration = 0.5
 
-[sub_resource type="Resource" id="Resource_qgmgu"]
-script = ExtResource("6_spbet")
+[sub_resource type="Resource" id="Resource_oxdb3"]
+script = ExtResource("4_7nq3y")
 mode = 1
 id = &"phase_shift"
 display_name = "Phase Shift"
 description = "Instantly blinks a short distance, becoming briefly untargetable."
-icon = ExtResource("5_3es4u")
-color = Color(0.4, 0.8, 0.9, 1)
+color = Color(0.6, 0.4, 1, 1)
 targeting = 2
-cast_range = 6.0
+cast_range = 5.0
 cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
 mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
 blocked_by_root = true
 base_damage = PackedFloat32Array()
-self_effects = Array[ExtResource("4_4c873")]([SubResource("Resource_x06q7")])
-fx_style = &"arcane"
+self_effects = Array[ExtResource("3_0ma5e")]([SubResource("Resource_i2qtn")])
 
-[sub_resource type="Resource" id="Resource_8rypp"]
-script = ExtResource("4_4c873")
-value = 0.45
+[sub_resource type="Resource" id="Resource_otajr"]
+script = ExtResource("3_0ma5e")
+value = 0.4
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_8pff0"]
-script = ExtResource("8_oxdb3")
-radius = 3.2
+[sub_resource type="Resource" id="Resource_j0kxl"]
+script = ExtResource("5_3dgvn")
 id = &"gravity_well"
 display_name = "Gravity Well"
 description = "Creates a field of heavy gravity that detonates after 0.6s, dealing damage and slowing enemies."
-icon = ExtResource("7_i2qtn")
-color = Color(0.6, 0.3, 0.9, 1)
+color = Color(0.3, 0.5, 0.9, 1)
 targeting = 2
-cast_range = 8.5
-cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
-mana_cost = PackedFloat32Array(65, 70, 75, 80, 85)
-indicator_size = 3.2
-base_damage = PackedFloat32Array(80, 120, 160, 200, 240)
-ap_ratio = 0.7
-target_effects = Array[ExtResource("4_4c873")]([SubResource("Resource_8rypp")])
-fx_style = &"void"
+cast_range = 6.0
+cooldown = PackedFloat32Array(10, 9.5, 9, 8.5, 8)
+mana_cost = PackedFloat32Array(55, 60, 65, 70, 75)
+base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
+ap_ratio = 0.5
+target_effects = Array[ExtResource("3_0ma5e")]([SubResource("Resource_otajr")])
 
-[sub_resource type="Resource" id="Resource_dbyjd"]
-script = ExtResource("10_j0kxl")
-beam_length = 24.0
+[sub_resource type="Resource" id="Resource_okwla"]
+script = ExtResource("6_t1vq2")
+beam_length = 14.0
+beam_width = 2.0
 id = &"obliteration_beam"
 display_name = "Obliteration Beam"
 description = "Channels for 0.6s then unleashes a colossal beam across the arena that pierces all enemies."
-icon = ExtResource("9_otajr")
-color = Color(1, 0.25, 0.4, 1)
-cast_range = 24.0
+color = Color(0.5, 0.8, 1, 1)
 max_rank = 3
 is_ultimate = true
-cooldown = PackedFloat32Array(75, 65, 55)
+cooldown = PackedFloat32Array(80, 65, 50)
 mana_cost = PackedFloat32Array(100, 100, 100)
-indicator_size = 3.0
-base_damage = PackedFloat32Array(260, 390, 520)
+base_damage = PackedFloat32Array(250, 375, 500)
 ap_ratio = 0.9
-fx_style = &"solar"
 
-[sub_resource type="Resource" id="Resource_wg5il"]
-script = ExtResource("4_4c873")
+[sub_resource type="Resource" id="Resource_wmags"]
+script = ExtResource("3_0ma5e")
 kind = 1
 value = 0.35
 value_per_rank = PackedFloat32Array()
 duration = 2.5
 
-[sub_resource type="Resource" id="Resource_i4ulc"]
-script = ExtResource("13_rhi4y")
-effects = Array[ExtResource("4_4c873")]([SubResource("Resource_wg5il")])
-id = &"arcane_flow"
+[sub_resource type="Resource" id="Resource_rhi4y"]
+script = ExtResource("8_y48gd")
+effects = Array[ExtResource("3_0ma5e")]([SubResource("Resource_wmags")])
+id = &"arcane_surge"
 display_name = "Arcane Surge"
 description = "Every 3rd ability cast grants +35% movement speed for 2.5s."
-icon = ExtResource("12_wmags")
-color = Color(0.3, 0.7, 1, 1)
+color = Color(0.4, 0.7, 1, 1)
 
 [resource]
-script = ExtResource("15_cnncq")
+script = ExtResource("10_3es4u")
 id = &"arcanist"
 display_name = "Arcanist"
 title = "The Rift Sorcerer"
 role = "Mage"
 lore = "A master of spatial manipulation who bends arcane energy across dimensions."
-color = Color(0.3, 0.6, 1, 1)
-model_scene = ExtResource("11_okwla")
-portrait = ExtResource("14_wcs5r")
+color = Color(0.4, 0.7, 1, 1)
+model_scene = ExtResource("7_2k24q")
+portrait = ExtResource("9_4c873")
 max_health = 560.0
-health_per_level = 82.0
-health_regen = 1.4
+health_per_level = 80.0
 max_mana = 400.0
-mana_per_level = 45.0
-mana_regen = 2.4
+mana_per_level = 40.0
+mana_regen = 2.0
 attack_damage = 46.0
-attack_damage_per_level = 2.8
-attack_speed = 0.62
-attack_range = 5.6
+attack_damage_per_level = 2.5
+attack_range = 5.5
 armor = 22.0
+armor_per_level = 3.0
+magic_resist_per_level = 1.0
 move_speed = 5.6
-attack_projectile_style = &"arcane"
-attack_projectile_speed = 22.0
-attack_windup = 0.25
-passive = SubResource("Resource_i4ulc")
-abilities = Array[ExtResource("1_t1vq2")]([SubResource("Resource_jlapo"), SubResource("Resource_qgmgu"), SubResource("Resource_8pff0"), SubResource("Resource_dbyjd")])
-bot_skill_priority = PackedInt32Array(0, 2, 1)
-bot_item_build = PackedStringArray("amp_tome", "boots", "crystal_heart", "archmage_staff")
+passive = SubResource("Resource_rhi4y")
+abilities = Array[ExtResource("1_04mct")]([SubResource("Resource_spbet"), SubResource("Resource_oxdb3"), SubResource("Resource_j0kxl"), SubResource("Resource_okwla")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("amplifying_tome", "boots", "fiendish_codex", "ludens_echo", "rabadon_deathcrown", "void_staff")
 bot_preferred_range = 5.5

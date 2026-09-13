@@ -16,129 +16,127 @@
 [ext_resource type="Texture2D" path="res://assets/icons/champions/stephen.svg" id="14_lvmxa"]
 [ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="15_jjn7d"]
 
-[sub_resource type="Resource" id="Resource_w50d6"]
-script = ExtResource("3_68m28")
-projectile_width = 1.2
-id = &"psionic_blast"
-display_name = "Psionic Blast"
-description = "Fires a concentrated bolt of telepathic energy piercing the target."
-icon = ExtResource("2_uq2d5")
-color = Color(0.7, 0.35, 1, 1)
-cast_range = 9.5
-cooldown = PackedFloat32Array(5, 4.5, 4, 3.5, 3)
-mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
-indicator_size = 1.2
-base_damage = PackedFloat32Array(75, 110, 145, 180, 215)
-ap_ratio = 0.65
-fx_style = &"void"
-
-[sub_resource type="Resource" id="Resource_8r4w5"]
+[sub_resource type="Resource" id="Resource_n82jr"]
 script = ExtResource("4_285t7")
-kind = 7
-value = 0.0
+value = 0.25
 value_per_rank = PackedFloat32Array()
-duration = 0.25
 
-[sub_resource type="Resource" id="Resource_do357"]
+[sub_resource type="Resource" id="Resource_uq2d5"]
+script = ExtResource("3_68m28")
+projectile_speed = 15.0
+id = &"solar_orb"
+display_name = "Solar Orb"
+description = "Fires a concentrated ball of tropical sunlight that bursts upon impact."
+icon = ExtResource("2_uq2d5")
+color = Color(0.95, 0.85, 0.3, 1)
+cast_range = 7.5
+cooldown = PackedFloat32Array(7, 6.5, 6, 5.5, 5)
+mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
+base_damage = PackedFloat32Array(65, 100, 135, 170, 205)
+ap_ratio = 0.6
+target_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_n82jr")])
+
+[sub_resource type="Resource" id="Resource_68m28"]
+script = ExtResource("4_285t7")
+kind = 1
+value_per_rank = PackedFloat32Array()
+duration = 2.0
+
+[sub_resource type="Resource" id="Resource_285t7"]
 script = ExtResource("6_ttu06")
 mode = 1
-id = &"phase_dimension"
-display_name = "Phase Dimension"
-description = "Instantly blinks through the astral plane, briefly dodging all incoming harm."
+id = &"bayanihan_shield"
+display_name = "Bayanihan Shield"
+description = "Blinks swiftly to reposition and gains a burst of movement speed."
 icon = ExtResource("5_pn1aw")
-color = Color(0.5, 0.2, 0.8, 1)
+color = Color(0.3, 0.75, 0.95, 1)
 targeting = 2
-cast_range = 6.0
+cast_range = 4.5
 cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
 mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
 blocked_by_root = true
 base_damage = PackedFloat32Array()
-self_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_8r4w5")])
+self_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_68m28")])
 
-[sub_resource type="Resource" id="Resource_isdih"]
+[sub_resource type="Resource" id="Resource_pn1aw"]
 script = ExtResource("4_285t7")
-value = 0.45
+value = 0.35
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_4m75p"]
+[sub_resource type="Resource" id="Resource_ttu06"]
 script = ExtResource("8_hh72b")
-radius = 3.2
-id = &"mind_warp"
-display_name = "Mind Warp"
-description = "Creates a rift of distorted time that detonates after 0.6s, dealing magic damage and slowing enemies."
+delay = 0.4
+id = &"spirit_ward"
+display_name = "Spirit Ward"
+description = "Conjures a sanctuary of soothing island warmth, damaging and slowing enemies."
 icon = ExtResource("7_rfxdj")
-color = Color(0.6, 0.15, 0.85, 1)
+color = Color(0.2, 0.85, 0.55, 1)
 targeting = 2
-cast_range = 8.5
-cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
-mana_cost = PackedFloat32Array(65, 70, 75, 80, 85)
-indicator_size = 3.2
-base_damage = PackedFloat32Array(80, 120, 160, 200, 240)
-ap_ratio = 0.7
-target_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_isdih")])
+cast_range = 6.0
+cooldown = PackedFloat32Array(11, 10.5, 10, 9.5, 9)
+mana_cost = PackedFloat32Array(60, 65, 70, 75, 80)
+base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
+ap_ratio = 0.5
+target_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_pn1aw")])
 
-[sub_resource type="Resource" id="Resource_p2p0d"]
+[sub_resource type="Resource" id="Resource_rfxdj"]
 script = ExtResource("10_i5pup")
-beam_length = 24.0
-id = &"psychic_cataclysm"
-display_name = "Psychic Cataclysm"
-description = "Channels astral fury for 0.6s then fires a devastating mental laser across the arena."
+beam_length = 14.0
+beam_width = 2.0
+id = &"radiant_blessing"
+display_name = "Radiant Blessing"
+description = "Channels a massive beam of pure tropical sunlight across the arena."
 icon = ExtResource("9_nm5hy")
-color = Color(0.8, 0.2, 1, 1)
-cast_range = 24.0
+color = Color(1, 0.85, 0.2, 1)
 max_rank = 3
 is_ultimate = true
-cooldown = PackedFloat32Array(75, 65, 55)
+cooldown = PackedFloat32Array(90, 75, 60)
 mana_cost = PackedFloat32Array(100, 100, 100)
-indicator_size = 3.0
-base_damage = PackedFloat32Array(260, 390, 520)
-ap_ratio = 0.9
+base_damage = PackedFloat32Array(220, 340, 460)
+ap_ratio = 0.8
 
-[sub_resource type="Resource" id="Resource_4kxxx"]
+[sub_resource type="Resource" id="Resource_hh72b"]
 script = ExtResource("4_285t7")
 kind = 1
-value = 0.35
+value = 0.25
 value_per_rank = PackedFloat32Array()
 duration = 2.5
 
-[sub_resource type="Resource" id="Resource_4qhv2"]
+[sub_resource type="Resource" id="Resource_nm5hy"]
 script = ExtResource("13_iqpbi")
-effects = Array[ExtResource("4_285t7")]([SubResource("Resource_4kxxx")])
-id = &"mental_surge"
-display_name = "Mental Surge"
-description = "Every 3rd ability cast grants +35% movement speed for 2.5s."
+effects = Array[ExtResource("4_285t7")]([SubResource("Resource_hh72b")])
+id = &"island_warmth"
+display_name = "Island Warmth"
+description = "Every 3rd ability cast grants +25% move speed to empower movement."
 icon = ExtResource("12_shv3f")
-color = Color(0.65, 0.25, 0.95, 1)
+color = Color(0.95, 0.8, 0.2, 1)
 
 [resource]
 script = ExtResource("15_jjn7d")
 id = &"stephen"
 display_name = "Stephen"
-title = "The Mindbender"
-role = "Mage"
-lore = "A psychic savant capable of tearing through the minds of enemies with waves of astral force."
-color = Color(0.65, 0.25, 0.95, 1)
+title = "The Radiant Spirit"
+role = "Support"
+lore = "A warm-hearted, compact Filipino enchanter channeling island sunlight to heal and protect friends."
+color = Color(0.95, 0.78, 0.2, 1)
 model_scene = ExtResource("11_lfmau")
 portrait = ExtResource("14_lvmxa")
-difficulty = 2
-max_health = 550.0
-health_per_level = 80.0
-health_regen = 1.4
-max_mana = 420.0
-mana_per_level = 46.0
-mana_regen = 2.5
-attack_damage = 48.0
-attack_damage_per_level = 2.8
-attack_speed = 0.62
-attack_range = 5.6
-armor = 21.0
+max_health = 540.0
+health_per_level = 76.0
+max_mana = 440.0
+mana_per_level = 45.0
+mana_regen = 2.4
+attack_damage = 46.0
+attack_damage_per_level = 2.6
+attack_speed = 0.63
+attack_range = 5.2
+armor = 24.0
+armor_per_level = 3.0
+magic_resist_per_level = 1.2
 move_speed = 5.6
-attack_projectile_style = &"arcane"
-attack_projectile_speed = 22.0
-attack_windup = 0.24
-passive = SubResource("Resource_4qhv2")
-abilities = Array[ExtResource("1_n82jr")]([SubResource("Resource_w50d6"), SubResource("Resource_do357"), SubResource("Resource_4m75p"), SubResource("Resource_p2p0d")])
-bot_skill_priority = PackedInt32Array(0, 2, 1)
-bot_item_build = PackedStringArray("amp_tome", "boots", "crystal_heart", "archmage_staff")
-bot_preferred_range = 5.5
+passive = SubResource("Resource_nm5hy")
+abilities = Array[ExtResource("1_n82jr")]([SubResource("Resource_uq2d5"), SubResource("Resource_285t7"), SubResource("Resource_ttu06"), SubResource("Resource_rfxdj")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("amplifying_tome", "boots", "fiendish_codex", "ludens_echo")
+bot_preferred_range = 5.2

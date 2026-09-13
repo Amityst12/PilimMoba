@@ -1,27 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <radialGradient id="bg_glow_0ea5e9" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.4" />
-      <stop offset="85%" stop-color="#0d1b2e" stop-opacity="0.95" />
+    <radialGradient id="bg_glow_f59e0b" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.45" />
+      <stop offset="85%" stop-color="#451a03" stop-opacity="0.95" />
       <stop offset="100%" stop-color="#040608" stop-opacity="1.0" />
     </radialGradient>
-    <linearGradient id="border_grad_0ea5e9" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7dd3fc" />
-      <stop offset="60%" stop-color="#0ea5e9" />
+    <linearGradient id="border_grad_f59e0b" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="60%" stop-color="#f59e0b" />
       <stop offset="100%" stop-color="#111822" />
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="8" fill="url(#bg_glow_0ea5e9)" />
-  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_0ea5e9)" stroke-width="2" />
-  <path d="M 4,10 L 4,4 L 10,4" stroke="#7dd3fc" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,10 L 60,4 L 54,4" stroke="#7dd3fc" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 4,54 L 4,60 L 10,60" stroke="#7dd3fc" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,54 L 60,60 L 54,60" stroke="#7dd3fc" stroke-width="1.5" fill="none" opacity="0.8" />
+  <rect width="64" height="64" rx="8" fill="url(#bg_glow_f59e0b)" />
+  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_f59e0b)" stroke-width="2" />
+  <path d="M 4,10 L 4,4 L 10,4" stroke="#fef08a" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,10 L 60,4 L 54,4" stroke="#fef08a" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 4,54 L 4,60 L 10,60" stroke="#fef08a" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,54 L 60,60 L 54,60" stroke="#fef08a" stroke-width="1.5" fill="none" opacity="0.8" />
   <g transform="translate(32,32)">
     
-      <rect x="-14" y="-12" width="28" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-      <line x1="-10" y1="0" x2="10" y2="0" stroke="#7dd3fc" stroke-width="2" />
-      <line x1="0" y1="-8" x2="0" y2="8" stroke="#7dd3fc" stroke-width="2" />
+      <!-- Hot Snack / Shawarma Wrap -->
+      <ellipse cx="0" cy="0" rx="14" ry="8" fill="#d97706" stroke="#fde047" stroke-width="2" />
+      <circle cx="-4" cy="0" r="2" fill="#ef4444" />
+      <circle cx="4" cy="0" r="2" fill="#10b981" />
     
   </g>
 </svg>

@@ -1,9 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#100720" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#241242" stroke="#a855f7" stroke-width="3" />
-  <ellipse cx="40" cy="40" rx="20" ry="12" fill="#3b0764" stroke="#c084fc" stroke-width="2" />
-  <circle cx="40" cy="40" r="7" fill="#06b6d4" />
-  <circle cx="40" cy="40" r="3" fill="#ffffff" />
-  <polygon points="40,14 43,24 40,21 37,24" fill="#a855f7" />
-  <polygon points="40,66 43,56 40,59 37,56" fill="#a855f7" />
+  <rect width="80" height="80" rx="12" fill="#172554" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#1e3a8a" stroke="#facc15" stroke-width="3" />
+  <!-- Filipino Golden Sun with 8 rays -->
+  <circle cx="40" cy="40" r="14" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" />
+  <line x1="40" y1="16" x2="40" y2="22" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="40" y1="58" x2="40" y2="64" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="16" y1="40" x2="22" y2="40" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="58" y1="40" x2="64" y2="40" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="23" y1="23" x2="28" y2="28" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="57" y1="23" x2="52" y2="28" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="23" y1="57" x2="28" y2="52" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="57" y1="57" x2="52" y2="52" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <!-- Pocket heart emblem inside sun -->
+  <path d="M 40,36 C 38,33 34,33 34,37 C 34,42 40,46 40,46 C 40,46 46,42 46,37 C 46,33 42,33 40,36 Z" fill="#ef4444" />
 </svg>

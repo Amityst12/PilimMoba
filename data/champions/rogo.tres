@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_8l17p"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/rogo_q.svg" id="2_em057"]
-[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_mese0"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="3_mese0"]
 [ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_s46b3"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/rogo_w.svg" id="5_rxljl"]
 [ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="6_2gqb2"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/rogo_e.svg" id="7_xrx78"]
-[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_s482l"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="8_s482l"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/rogo_r.svg" id="9_di24c"]
 [ext_resource type="PackedScene" path="res://entities/champion/models/RogoModel.tscn" id="10_qupx6"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/rogo_p.svg" id="11_887ar"]
@@ -16,137 +16,129 @@
 [ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_ek6bl"]
 
 [sub_resource type="Resource" id="Resource_vn6cb"]
-script = ExtResource("3_mese0")
-dash_distance = 5.2
-travel_speed = 20.0
-id = &"cleaving_strike"
-display_name = "Cleaving Strike"
-description = "Lunges forward 5m swinging heavy twin axes, cleaving all enemies in path."
-icon = ExtResource("2_em057")
-color = Color(0.95, 0.35, 0.1, 1)
-cast_range = 5.2
-cooldown = PackedFloat32Array(6.5, 6, 5.5, 5, 4.5)
-mana_cost = PackedFloat32Array(35, 40, 45, 50, 55)
-blocked_by_root = true
-indicator_size = 1.4
-base_damage = PackedFloat32Array(80, 115, 150, 185, 220)
-ad_ratio = 0.85
-damage_type = 0
-
-[sub_resource type="Resource" id="Resource_ui56j"]
-script = ExtResource("4_s46b3")
-kind = 4
-value = 150.0
-value_per_rank = PackedFloat32Array()
-duration = 3.0
-
-[sub_resource type="Resource" id="Resource_bdy46"]
-script = ExtResource("4_s46b3")
-kind = 1
-value_per_rank = PackedFloat32Array()
-duration = 2.5
-
-[sub_resource type="Resource" id="Resource_luq7u"]
-script = ExtResource("6_2gqb2")
-shield_amount = PackedFloat32Array()
-heal_amount = PackedFloat32Array()
-id = &"unyielding_roar"
-display_name = "Unyielding Roar"
-description = "Bellows a ferocious war roar, gaining a temporary shield and +30% movement speed."
-icon = ExtResource("5_rxljl")
-color = Color(0.85, 0.15, 0.15, 1)
-targeting = 0
-cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
-mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
-base_damage = PackedFloat32Array()
-self_effects = Array[ExtResource("4_s46b3")]([SubResource("Resource_ui56j"), SubResource("Resource_bdy46")])
-
-[sub_resource type="Resource" id="Resource_ec6y3"]
 script = ExtResource("4_s46b3")
 value = 0.45
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_th30m"]
-script = ExtResource("8_s482l")
-center = 1
-radius = 4.0
-id = &"earth_shaker"
-display_name = "Earth Shaker"
-description = "Slams the ground with monstrous force, damaging and slowing enemies by 45%."
-icon = ExtResource("7_xrx78")
-color = Color(0.8, 0.25, 0.1, 1)
-targeting = 0
-cooldown = PackedFloat32Array(9, 8, 7, 6, 5)
-mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
-indicator_size = 4.0
-base_damage = PackedFloat32Array(70, 105, 140, 175, 210)
-ad_ratio = 0.7
+[sub_resource type="Resource" id="Resource_ui56j"]
+script = ExtResource("3_mese0")
+radius = 2.8
+delay = 0.25
+id = &"heavy_slam"
+display_name = "Heavy Slam"
+description = "Slams the ground with colossal fists, fracturing the earth and slowing enemies."
+icon = ExtResource("2_em057")
+color = Color(0.9, 0.2, 0.2, 1)
+targeting = 2
+cast_range = 3.8
+cooldown = PackedFloat32Array(7.5, 7, 6.5, 6, 5.5)
+mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
+base_damage = PackedFloat32Array(75, 115, 155, 195, 235)
 damage_type = 0
-target_effects = Array[ExtResource("4_s46b3")]([SubResource("Resource_ec6y3")])
+target_effects = Array[ExtResource("4_s46b3")]([SubResource("Resource_vn6cb")])
 
-[sub_resource type="Resource" id="Resource_doet1"]
+[sub_resource type="Resource" id="Resource_bdy46"]
+script = ExtResource("6_2gqb2")
+shield_amount = PackedFloat32Array(100, 160, 220, 280, 340)
+shield_duration = 3.5
+heal_amount = PackedFloat32Array()
+id = &"iron_belly"
+display_name = "Iron Belly"
+description = "Hardens his massive midsection, gaining a huge absorption shield."
+icon = ExtResource("5_rxljl")
+color = Color(0.95, 0.35, 0.35, 1)
+targeting = 0
+cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
+mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
+base_damage = PackedFloat32Array()
+
+[sub_resource type="Resource" id="Resource_luq7u"]
 script = ExtResource("4_s46b3")
 kind = 2
-value = 1.0
+value = 0.75
 value_per_rank = PackedFloat32Array()
-duration = 1.0
+duration = 0.75
 
-[sub_resource type="Resource" id="Resource_m0jfq"]
+[sub_resource type="Resource" id="Resource_ec6y3"]
 script = ExtResource("8_s482l")
-radius = 4.5
-delay = 0.4
-id = &"rampage_apex"
-display_name = "Rampage Apex"
-description = "Leaps into the air and crashes down upon target zone, shattering the ground and stunning enemies for 1.0s."
+dash_distance = 4.8
+travel_speed = 18.0
+id = &"belly_flop"
+display_name = "Belly Flop"
+description = "Launches himself forward in a devastating belly flop, stunning the first enemy."
+icon = ExtResource("7_xrx78")
+color = Color(0.8, 0.1, 0.4, 1)
+cast_range = 4.8
+cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
+mana_cost = PackedFloat32Array(55, 60, 65, 70, 75)
+blocked_by_root = true
+base_damage = PackedFloat32Array(65, 105, 145, 185, 225)
+damage_type = 0
+target_effects = Array[ExtResource("4_s46b3")]([SubResource("Resource_luq7u")])
+
+[sub_resource type="Resource" id="Resource_th30m"]
+script = ExtResource("4_s46b3")
+kind = 2
+value = 1.5
+value_per_rank = PackedFloat32Array()
+
+[sub_resource type="Resource" id="Resource_doet1"]
+script = ExtResource("3_mese0")
+radius = 4.2
+id = &"cataclysmic_crush"
+display_name = "Cataclysmic Crush"
+description = "Leaps high into the air and crashes down with earthquake force, crushing and stunning all foes."
 icon = ExtResource("9_di24c")
 color = Color(1, 0.2, 0.1, 1)
 targeting = 2
-cast_range = 9.0
+cast_range = 6.0
 max_rank = 3
 is_ultimate = true
-cooldown = PackedFloat32Array(75, 65, 55)
+cooldown = PackedFloat32Array(95, 80, 65)
 mana_cost = PackedFloat32Array(100, 100, 100)
-indicator_size = 4.5
-base_damage = PackedFloat32Array(260, 390, 520)
-ad_ratio = 1.05
+base_damage = PackedFloat32Array(250, 380, 510)
 damage_type = 0
-target_effects = Array[ExtResource("4_s46b3")]([SubResource("Resource_doet1")])
+target_effects = Array[ExtResource("4_s46b3")]([SubResource("Resource_th30m")])
 
-[sub_resource type="Resource" id="Resource_5bmu2"]
+[sub_resource type="Resource" id="Resource_m0jfq"]
 script = ExtResource("12_hxx0e")
-bonus_max_health_ratio = 0.04
-id = &"blood_rage"
-display_name = "Blood Rage"
-description = "Every 3rd basic attack strikes with primal fury, dealing +40% bonus physical damage."
+bonus_damage = 30.0
+bonus_damage_per_level = 8.0
+bonus_max_health_ratio = 0.05
+heal_max_health_ratio = 0.03
+id = &"colossal_mass"
+display_name = "Colossal Mass"
+description = "Every 3rd basic attack crushes the target with his immense weight, dealing bonus damage."
 icon = ExtResource("11_887ar")
-color = Color(0.9, 0.25, 0.15, 1)
+color = Color(0.85, 0.15, 0.15, 1)
 
 [resource]
 script = ExtResource("14_ek6bl")
 id = &"rogo"
 display_name = "Rogo"
-title = "The Juggernaut"
-role = "Berserker"
-lore = "An unstoppable warrior fueled by raw fury who cuts down anyone reckless enough to enter his domain."
-color = Color(0.9, 0.25, 0.15, 1)
+title = "The Heavy Smasher"
+role = "Tank"
+lore = "A colossal heavyweight whose immense mass and crushing body slams reshape the terrain."
+color = Color(0.85, 0.15, 0.15, 1)
 model_scene = ExtResource("10_qupx6")
 portrait = ExtResource("13_38bg5")
-max_health = 640.0
-health_per_level = 94.0
-health_regen = 2.2
+max_health = 680.0
+health_per_level = 105.0
+health_regen = 2.4
 max_mana = 300.0
 mana_per_level = 32.0
 mana_regen = 1.4
-attack_damage = 64.0
+attack_damage = 62.0
 attack_damage_per_level = 3.8
-attack_speed = 0.68
-armor = 34.0
-magic_resist = 32.0
-move_speed = 5.9
-attack_windup = 0.2
-passive = SubResource("Resource_5bmu2")
-abilities = Array[ExtResource("1_8l17p")]([SubResource("Resource_vn6cb"), SubResource("Resource_luq7u"), SubResource("Resource_th30m"), SubResource("Resource_m0jfq")])
-bot_skill_priority = PackedInt32Array(0, 2, 1)
-bot_item_build = PackedStringArray("long_sword", "ruby_crystal", "boots", "blade_of_ruin", "titan_plate")
-bot_preferred_range = 1.9
+attack_speed = 0.62
+armor = 38.0
+armor_per_level = 4.2
+magic_resist = 34.0
+magic_resist_per_level = 1.8
+move_speed = 5.5
+passive = SubResource("Resource_m0jfq")
+abilities = Array[ExtResource("1_8l17p")]([SubResource("Resource_ui56j"), SubResource("Resource_bdy46"), SubResource("Resource_ec6y3"), SubResource("Resource_doet1")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("cloth_armor", "ruby_crystal", "boots", "sunfire_aegis", "thornmail", "warmog_armor")
+bot_preferred_range = 1.8

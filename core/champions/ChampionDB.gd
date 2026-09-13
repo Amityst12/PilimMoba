@@ -3,7 +3,7 @@ extends RefCounted
 ## Registry of playable champions. Add a new champion by creating
 ## `res://data/champions/<id>.tres` and adding its id to IDS.
 
-const IDS: Array[StringName] = [&"erez", &"stephen", &"amit", &"nissim", &"rogo", &"yakir", &"edgy"]
+const IDS: Array[StringName] = [&"erez", &"stephen", &"amit", &"nissim", &"rogo", &"yakir", &"lior"]
 
 static var _cache: Dictionary = {}
 

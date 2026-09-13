@@ -1,8 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#0b1320" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="3" />
-  <path d="M 40,16 L 60,24 L 56,54 C 56,62 40,68 40,68 C 40,68 24,62 24,54 L 20,24 Z" fill="#334155" stroke="#7dd3fc" stroke-width="2.5" />
-  <circle cx="40" cy="42" r="8" fill="#0284c7" stroke="#e0f2fe" stroke-width="2" />
-  <line x1="40" y1="26" x2="40" y2="34" stroke="#e0f2fe" stroke-width="2.5" />
-  <line x1="40" y1="50" x2="40" y2="58" stroke="#e0f2fe" stroke-width="2.5" />
+  <rect width="80" height="80" rx="12" fill="#042f2e" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#064e3b" stroke="#10b981" stroke-width="3" />
+  <!-- Energy Drink Can (XL / Monster) -->
+  <rect x="22" y="22" width="16" height="36" rx="4" fill="#0f172a" stroke="#22c55e" stroke-width="2" />
+  <path d="M 28,30 L 34,38 L 30,38 L 36,48" stroke="#22c55e" stroke-width="2" fill="none" />
+  <!-- Hot Pizza / Shawarma Slice -->
+  <polygon points="56,22 42,56 68,52" fill="#f59e0b" stroke="#fbbf24" stroke-width="2" />
+  <circle cx="54" cy="40" r="2.5" fill="#ef4444" />
+  <circle cx="50" cy="48" r="2" fill="#ef4444" />
 </svg>

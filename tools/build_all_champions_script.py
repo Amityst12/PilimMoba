@@ -1,4 +1,13 @@
-extends RefCounted
+#!/usr/bin/env python3
+"""Builds tools/gen_data.gd conforming strictly to Pilim MOBA ability class APIs.
+Champions: Erez, Stephen, Amit, Nissim, Rogo, Yakir, Lior (and legacy: arcanist, warden, ranger, wraith, luminary).
+"""
+
+import os
+
+GEN_DATA_GD = os.path.join(os.path.dirname(__file__), "gen_data.gd")
+
+content = '''extends RefCounted
 
 const GameConst = preload("res://core/GameConst.gd")
 const StatusEffectData = preload("res://core/combat/StatusEffectData.gd")
@@ -1265,3 +1274,8 @@ func _build_wraith() -> void:
 
 func _build_luminary() -> void:
 	_build_stephen()
+'''
+
+with open(GEN_DATA_GD, "w", encoding="utf-8") as f:
+	f.write(content.strip() + "\n")
+print(f"Updated {GEN_DATA_GD}")

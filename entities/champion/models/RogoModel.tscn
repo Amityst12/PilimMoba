@@ -2,69 +2,72 @@
 
 [ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
 
-[sub_resource type="StandardMaterial3D" id="iron"]
-albedo_color = Color(0.3, 0.1, 0.1, 1)
-roughness = 0.7
+[sub_resource type="StandardMaterial3D" id="iron_red"]
+albedo_color = Color(0.65, 0.12, 0.12, 1)
+roughness = 0.5
+metallic = 0.4
 
-[sub_resource type="StandardMaterial3D" id="blood"]
-albedo_color = Color(0.85, 0.15, 0.15, 1)
-roughness = 0.6
-
-[sub_resource type="StandardMaterial3D" id="axe_edge"]
-albedo_color = Color(1, 0.4, 0.1, 1)
+[sub_resource type="StandardMaterial3D" id="dark_metal"]
+albedo_color = Color(0.2, 0.2, 0.22, 1)
 metallic = 0.8
-roughness = 0.2
-emission_enabled = true
-emission = Color(1, 0.3, 0, 1)
-emission_energy_multiplier = 3.0
+roughness = 0.3
 
-[sub_resource type="BoxMesh" id="mesh_chest"]
-material = SubResource("iron")
-size = Vector3(0.8, 0.75, 0.5)
+[sub_resource type="StandardMaterial3D" id="spikes"]
+albedo_color = Color(0.85, 0.75, 0.25, 1)
+metallic = 0.9
 
-[sub_resource type="CylinderMesh" id="mesh_legs"]
-material = SubResource("iron")
-top_radius = 0.3
-bottom_radius = 0.45
-height = 0.7
-radial_segments = 12
+[sub_resource type="CylinderMesh" id="mesh_heavy_body"]
+material = SubResource("iron_red")
+top_radius = 0.42
+bottom_radius = 0.65
+height = 1.2
+radial_segments = 16
 
-[sub_resource type="BoxMesh" id="mesh_pauldron"]
-material = SubResource("blood")
-size = Vector3(0.35, 0.35, 0.45)
+[sub_resource type="BoxMesh" id="mesh_massive_chest"]
+material = SubResource("dark_metal")
+size = Vector3(0.95, 0.75, 0.6)
 
-[sub_resource type="SphereMesh" id="mesh_head"]
-material = SubResource("blood")
-radius = 0.22
-height = 0.44
+[sub_resource type="SphereMesh" id="mesh_pauldron"]
+material = SubResource("iron_red")
+radius = 0.3
+height = 0.45
 
-[sub_resource type="BoxMesh" id="mesh_axe"]
-material = SubResource("axe_edge")
-size = Vector3(0.1, 0.9, 0.4)
+[sub_resource type="SphereMesh" id="mesh_heavy_head"]
+material = SubResource("dark_metal")
+radius = 0.24
+height = 0.42
+
+[sub_resource type="BoxMesh" id="mesh_fist_slammer"]
+material = SubResource("dark_metal")
+size = Vector3(0.3, 0.35, 0.3)
 
 [node name="RogoModel" type="Node3D"]
 script = ExtResource("1_model")
 
-[node name="Legs" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
-mesh = SubResource("mesh_legs")
+[node name="HeavyBody" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("mesh_heavy_body")
 
-[node name="Chest" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
-mesh = SubResource("mesh_chest")
+[node name="MassiveChest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("mesh_massive_chest")
 
-[node name="PauldronL" type="MeshInstance3D" parent="Chest"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.25, 0)
+[node name="PauldronL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62, 1.05, 0)
 mesh = SubResource("mesh_pauldron")
 
-[node name="PauldronR" type="MeshInstance3D" parent="Chest"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.25, 0)
+[node name="PauldronR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, 1.05, 0)
 mesh = SubResource("mesh_pauldron")
 
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-mesh = SubResource("mesh_head")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("mesh_heavy_head")
 
-[node name="Axe" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.9, 0.4, 0, -0.4, 0.9, 0, 0, 0, 1, 0.65, 0.9, 0.1)
-mesh = SubResource("mesh_axe")
+[node name="FistL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.58, 0.5, 0.25)
+mesh = SubResource("mesh_fist_slammer")
+
+[node name="FistR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58, 0.5, 0.25)
+mesh = SubResource("mesh_fist_slammer")

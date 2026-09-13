@@ -1,26 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <radialGradient id="bg_glow_38bdf8" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.4" />
-      <stop offset="85%" stop-color="#0f172a" stop-opacity="0.95" />
+    <radialGradient id="bg_glow_10b981" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.45" />
+      <stop offset="85%" stop-color="#022c22" stop-opacity="0.95" />
       <stop offset="100%" stop-color="#040608" stop-opacity="1.0" />
     </radialGradient>
-    <linearGradient id="border_grad_38bdf8" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#94a3b8" />
-      <stop offset="60%" stop-color="#38bdf8" />
+    <linearGradient id="border_grad_10b981" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#86efac" />
+      <stop offset="60%" stop-color="#10b981" />
       <stop offset="100%" stop-color="#111822" />
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="8" fill="url(#bg_glow_38bdf8)" />
-  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_38bdf8)" stroke-width="2" />
-  <path d="M 4,10 L 4,4 L 10,4" stroke="#94a3b8" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,10 L 60,4 L 54,4" stroke="#94a3b8" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 4,54 L 4,60 L 10,60" stroke="#94a3b8" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,54 L 60,60 L 54,60" stroke="#94a3b8" stroke-width="1.5" fill="none" opacity="0.8" />
+  <rect width="64" height="64" rx="8" fill="url(#bg_glow_10b981)" />
+  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_10b981)" stroke-width="2" />
+  <path d="M 4,10 L 4,4 L 10,4" stroke="#86efac" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,10 L 60,4 L 54,4" stroke="#86efac" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 4,54 L 4,60 L 10,60" stroke="#86efac" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,54 L 60,60 L 54,60" stroke="#86efac" stroke-width="1.5" fill="none" opacity="0.8" />
   <g transform="translate(32,32)">
     
-      <polygon points="0,-15 13,-6 13,8 0,16 -13,8 -13,-6" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-      <circle cx="0" cy="0" r="4" fill="#7dd3fc" />
+      <!-- Energy Boost Sneakers -->
+      <path d="M-12,4 L0,-6 L12,4 L8,10 L-8,10 Z" fill="#10b981" stroke="#86efac" stroke-width="2" />
+      <path d="M-2,-12 L4,-6 L0,-6 L3,0" stroke="#facc15" stroke-width="2" fill="none" />
     
   </g>
 </svg>

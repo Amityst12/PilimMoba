@@ -19,9 +19,10 @@
   <path d="M 60,54 L 60,60 L 54,60" stroke="#fda4af" stroke-width="1.5" fill="none" opacity="0.8" />
   <g transform="translate(32,32)">
     
-      <!-- Iron Belly Bounce -->
-      <circle cx="0" cy="0" r="14" fill="#be123c" stroke="#f43f5e" stroke-width="2.5" />
-      <path d="M-8,0 Q0,8 8,0" stroke="#ffffff" stroke-width="2.5" fill="none" />
+      <!-- Graceful Mirror Lunge -->
+      <line x1="-12" y1="12" x2="12" y2="-12" stroke="#fda4af" stroke-width="3" stroke-linecap="round" />
+      <polygon points="12,-12 4,-12 12,-4" fill="#f43f5e" />
+      <circle cx="-6" cy="6" r="3" fill="#fbcfe8" />
     
   </g>
 </svg>

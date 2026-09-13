@@ -15,119 +15,114 @@
 [ext_resource type="Texture2D" path="res://assets/icons/champions/edgy.svg" id="13_hsois"]
 [ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_0f47e"]
 
-[sub_resource type="Resource" id="Resource_kjug0"]
+[sub_resource type="Resource" id="Resource_v0w5s"]
 script = ExtResource("3_tsplg")
-dash_distance = 6.5
-travel_speed = 26.0
-id = &"shadow_step"
-display_name = "Shadow Step"
-description = "Dashes swiftly through shadows in the targeted direction, striking enemies."
+id = &"shadow_strike"
+display_name = "Shadow Strike"
+description = "Dashes swiftly forward, striking enemies in path."
 icon = ExtResource("2_3fo20")
-color = Color(0.95, 0.1, 0.3, 1)
-cast_range = 6.5
+color = Color(0.8, 0.2, 0.9, 1)
+cast_range = 5.0
 cooldown = PackedFloat32Array(8, 7, 6, 5, 4)
-mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
+mana_cost = PackedFloat32Array(40, 40, 40, 40, 40)
 blocked_by_root = true
-indicator_size = 1.2
-base_damage = PackedFloat32Array(75, 110, 145, 180, 215)
+base_damage = PackedFloat32Array(80, 120, 160, 200, 240)
 ad_ratio = 0.85
 damage_type = 0
 
-[sub_resource type="Resource" id="Resource_ej33x"]
-script = ExtResource("4_bq4ht")
-kind = 1
-value_per_rank = PackedFloat32Array()
-duration = 2.0
-
-[sub_resource type="Resource" id="Resource_0g7ob"]
+[sub_resource type="Resource" id="Resource_3fo20"]
 script = ExtResource("4_bq4ht")
 kind = 7
-value = 0.0
+value = 1.0
 value_per_rank = PackedFloat32Array()
 duration = 0.75
 
-[sub_resource type="Resource" id="Resource_l8kib"]
+[sub_resource type="Resource" id="Resource_tsplg"]
+script = ExtResource("4_bq4ht")
+kind = 1
+value = 0.35
+value_per_rank = PackedFloat32Array()
+duration = 2.5
+
+[sub_resource type="Resource" id="Resource_bq4ht"]
 script = ExtResource("6_3xj6c")
 center = 1
-radius = 3.6
-id = &"smoke_mirage"
-display_name = "Smoke Mirage"
-description = "Deploys an obscuring smoke cloud around self, gaining haste and brief untargetability."
+delay = 0.0
+id = &"smoke_bomb"
+display_name = "Smoke Bomb"
+description = "Deploys a smoke cloud around self, gaining haste and brief untargetability."
 icon = ExtResource("5_6144s")
-color = Color(0.7, 0.05, 0.2, 1)
+color = Color(0.5, 0.2, 0.6, 1)
 targeting = 0
 cooldown = PackedFloat32Array(16, 15, 14, 13, 12)
 mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
-indicator_size = 3.6
 base_damage = PackedFloat32Array()
-self_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_ej33x"), SubResource("Resource_0g7ob")])
+self_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_3fo20"), SubResource("Resource_tsplg")])
 
-[sub_resource type="Resource" id="Resource_w66y8"]
+[sub_resource type="Resource" id="Resource_6144s"]
 script = ExtResource("4_bq4ht")
 value = 0.45
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_jo44f"]
+[sub_resource type="Resource" id="Resource_3xj6c"]
 script = ExtResource("8_rhe2n")
-projectile_speed = 24.0
-projectile_width = 0.9
-id = &"venom_dagger"
-display_name = "Venom Dagger"
-description = "Flings a poisoned dagger that damages and slows the first target hit by 45% for 2s."
+projectile_speed = 17.0
+id = &"crippling_slash"
+display_name = "Crippling Slash"
+description = "Throws a curved shadow blade that slows the target."
 icon = ExtResource("7_5li48")
-color = Color(0.2, 0.8, 0.3, 1)
-cast_range = 8.5
-cooldown = PackedFloat32Array(8, 7.5, 7, 6.5, 6)
-mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
-indicator_size = 0.9
-base_damage = PackedFloat32Array(65, 100, 135, 170, 205)
-ad_ratio = 0.75
+color = Color(0.9, 0.1, 0.4, 1)
+cast_range = 6.5
+cooldown = PackedFloat32Array(10, 9, 8, 7, 6)
+mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
+base_damage = PackedFloat32Array(70, 105, 140, 175, 210)
+ad_ratio = 0.65
 damage_type = 0
-target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_w66y8")])
+target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_6144s")])
 
-[sub_resource type="Resource" id="Resource_exmu1"]
+[sub_resource type="Resource" id="Resource_5li48"]
 script = ExtResource("4_bq4ht")
 kind = 8
 value = 1.2
 value_per_rank = PackedFloat32Array()
 duration = 1.2
 
-[sub_resource type="Resource" id="Resource_ai1pg"]
+[sub_resource type="Resource" id="Resource_rhe2n"]
 script = ExtResource("3_tsplg")
-mode = 1
-id = &"reapers_execution"
-display_name = "Reaper's Execution"
-description = "Targets an enemy champion, blinking behind them to deliver a lethal blow that silences for 1.2s."
+dash_distance = 7.0
+travel_speed = 28.0
+id = &"death_mark"
+display_name = "Death Mark"
+description = "Assaults an enemy with blinding speed, dealing massive execution damage."
 icon = ExtResource("9_o5cxs")
-color = Color(1, 0, 0.2, 1)
-targeting = 3
-cast_range = 8.0
+color = Color(1, 0.1, 0.3, 1)
+cast_range = 7.0
 max_rank = 3
 is_ultimate = true
-cooldown = PackedFloat32Array(75, 65, 55)
+cooldown = PackedFloat32Array(80, 65, 50)
 mana_cost = PackedFloat32Array(100, 100, 100)
 blocked_by_root = true
-base_damage = PackedFloat32Array(260, 390, 520)
-ad_ratio = 1.05
+base_damage = PackedFloat32Array(260, 400, 540)
+ad_ratio = 1.15
 damage_type = 0
-target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_exmu1")])
+target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_5li48")])
 
-[sub_resource type="Resource" id="Resource_vbmdp"]
+[sub_resource type="Resource" id="Resource_o5cxs"]
 script = ExtResource("4_bq4ht")
 kind = 1
 value = 0.4
 value_per_rank = PackedFloat32Array()
 duration = 2.5
 
-[sub_resource type="Resource" id="Resource_tpr3q"]
+[sub_resource type="Resource" id="Resource_2631r"]
 script = ExtResource("12_bxyx3")
-effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_vbmdp")])
-id = &"nightstalker"
-display_name = "Nightstalker"
+effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_o5cxs")])
+id = &"shadow_dance"
+display_name = "Shadow Dance"
 description = "Every 3rd ability cast grants +40% movement speed for 2.5s."
 icon = ExtResource("11_uits5")
-color = Color(0.95, 0.1, 0.3, 1)
+color = Color(0.75, 0.15, 0.85, 1)
 
 [resource]
 script = ExtResource("14_0f47e")
@@ -135,26 +130,25 @@ id = &"edgy"
 display_name = "Edgy"
 title = "The Shadowblade"
 role = "Assassin"
-lore = "A deadly operative stalking the shadows, striking with lethal haste and vanishing without a trace."
-color = Color(0.95, 0.1, 0.3, 1)
+lore = "A silent rogue who darts through shadows, striking vital points before slipping back into the void."
+color = Color(0.75, 0.15, 0.85, 1)
 model_scene = ExtResource("10_2631r")
 portrait = ExtResource("13_hsois")
 difficulty = 3
 max_health = 540.0
-health_per_level = 85.0
+health_per_level = 76.0
 health_regen = 1.6
-max_mana = 360.0
-mana_per_level = 40.0
-mana_regen = 2.0
-attack_damage = 59.0
-attack_damage_per_level = 3.5
-attack_speed = 0.69
+max_mana = 320.0
+mana_per_level = 32.0
+mana_regen = 1.5
+attack_damage = 62.0
+attack_damage_per_level = 4.0
+attack_speed = 0.68
 armor = 26.0
-magic_resist = 32.0
+armor_per_level = 3.2
 move_speed = 6.0
-attack_windup = 0.18
-passive = SubResource("Resource_tpr3q")
-abilities = Array[ExtResource("1_v0w5s")]([SubResource("Resource_kjug0"), SubResource("Resource_l8kib"), SubResource("Resource_jo44f"), SubResource("Resource_ai1pg")])
-bot_skill_priority = PackedInt32Array(0, 2, 1)
-bot_item_build = PackedStringArray("long_sword", "boots", "dagger", "blade_of_ruin", "storm_bow")
-bot_preferred_range = 1.9
+passive = SubResource("Resource_2631r")
+abilities = Array[ExtResource("1_v0w5s")]([SubResource("Resource_v0w5s"), SubResource("Resource_bq4ht"), SubResource("Resource_3xj6c"), SubResource("Resource_rhe2n")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("long_sword", "boots", "serrated_dirk", "duskblade", "infinity_edge")
+bot_preferred_range = 1.8

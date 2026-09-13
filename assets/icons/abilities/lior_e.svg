@@ -2,26 +2,26 @@
   <defs>
     <radialGradient id="bg_glow_c026d3" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#c026d3" stop-opacity="0.45" />
-      <stop offset="85%" stop-color="#2e1065" stop-opacity="0.95" />
+      <stop offset="85%" stop-color="#4a044e" stop-opacity="0.95" />
       <stop offset="100%" stop-color="#040608" stop-opacity="1.0" />
     </radialGradient>
     <linearGradient id="border_grad_c026d3" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f0abfc" />
+      <stop offset="0%" stop-color="#f5d0fe" />
       <stop offset="60%" stop-color="#c026d3" />
       <stop offset="100%" stop-color="#111822" />
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="8" fill="url(#bg_glow_c026d3)" />
   <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_c026d3)" stroke-width="2" />
-  <path d="M 4,10 L 4,4 L 10,4" stroke="#f0abfc" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,10 L 60,4 L 54,4" stroke="#f0abfc" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 4,54 L 4,60 L 10,60" stroke="#f0abfc" stroke-width="1.5" fill="none" opacity="0.8" />
-  <path d="M 60,54 L 60,60 L 54,60" stroke="#f0abfc" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 4,10 L 4,4 L 10,4" stroke="#f5d0fe" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,10 L 60,4 L 54,4" stroke="#f5d0fe" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 4,54 L 4,60 L 10,60" stroke="#f5d0fe" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,54 L 60,60 L 54,60" stroke="#f5d0fe" stroke-width="1.5" fill="none" opacity="0.8" />
   <g transform="translate(32,32)">
     
-      <!-- Belly Flop Dash -->
-      <ellipse cx="0" cy="0" rx="16" ry="10" fill="#9333ea" stroke="#f0abfc" stroke-width="2" />
-      <polygon points="8,-4 14,0 8,4" fill="#ffffff" />
+      <!-- Charming Step Swirl -->
+      <circle cx="0" cy="0" r="14" fill="none" stroke="#f5d0fe" stroke-width="2" stroke-dasharray="4,3" />
+      <polygon points="0,-8 6,0 0,8 -6,0" fill="#e879f9" />
     
   </g>
 </svg>

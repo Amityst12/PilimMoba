@@ -17,37 +17,36 @@
 
 [sub_resource type="Resource" id="Resource_0v25a"]
 script = ExtResource("3_jqxra")
-projectile_speed = 28.0
-id = &"piercing_rail"
-display_name = "Piercing Rail"
-description = "Fires a high-velocity kinetic rail shot that damages all enemies in its path."
+projectile_speed = 18.0
+id = &"rock_powerchord"
+display_name = "Rock Powerchord"
+description = "Strikes a roaring electric guitar riff, firing a sonic lightning wave forward."
 icon = ExtResource("2_i51gq")
-color = Color(0.95, 0.7, 0.2, 1)
-cast_range = 11.0
-cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
-mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
-base_damage = PackedFloat32Array(80, 120, 160, 200, 240)
-ad_ratio = 0.85
+color = Color(0.95, 0.2, 0.2, 1)
+cast_range = 6.5
+cooldown = PackedFloat32Array(6.5, 6, 5.5, 5, 4.5)
+mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
+base_damage = PackedFloat32Array(70, 110, 150, 190, 230)
+ad_ratio = 0.7
 damage_type = 0
 
 [sub_resource type="Resource" id="Resource_x7cnn"]
 script = ExtResource("4_jbiuo")
 kind = 1
-value = 0.25
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
 [sub_resource type="Resource" id="Resource_ydi2s"]
 script = ExtResource("6_7m5hl")
 dash_distance = 4.8
-travel_speed = 18.0
-id = &"tactical_slide"
-display_name = "Tactical Slide"
-description = "Slides nimbly in target direction, resetting basic attack windup and gaining haste."
+travel_speed = 19.0
+id = &"pop_slide"
+display_name = "Pop Slide"
+description = "Slides nimbly with pop rhythm, gaining haste and resetting basic attack windup."
 icon = ExtResource("5_v7gqq")
-color = Color(0.3, 0.8, 0.5, 1)
+color = Color(0.95, 0.4, 0.75, 1)
 cast_range = 4.8
-cooldown = PackedFloat32Array(10, 9, 8, 7, 6)
+cooldown = PackedFloat32Array(9, 8.5, 8, 7.5, 7)
 mana_cost = PackedFloat32Array(40, 40, 40, 40, 40)
 blocked_by_root = true
 base_damage = PackedFloat32Array()
@@ -55,82 +54,90 @@ self_effects = Array[ExtResource("4_jbiuo")]([SubResource("Resource_x7cnn")])
 
 [sub_resource type="Resource" id="Resource_sp5xy"]
 script = ExtResource("4_jbiuo")
-value = 0.5
+value = 0.45
 value_per_rank = PackedFloat32Array()
-duration = 2.5
+duration = 2.0
 
 [sub_resource type="Resource" id="Resource_ni2r2"]
 script = ExtResource("8_l1k8f")
 radius = 2.8
-id = &"stasis_caltrop"
-display_name = "Stasis Caltrop"
-description = "Deploys an electrified stasis field that damages and slows enemies by 50% for 2.5s."
+delay = 0.35
+id = &"mizrahit_groove"
+display_name = "Mizrahit Groove"
+description = "Drops a pulsating middle-eastern rhythm beat, slowing enemies caught in the groove."
 icon = ExtResource("7_41ikw")
-color = Color(0.9, 0.3, 0.3, 1)
+color = Color(0.95, 0.7, 0.15, 1)
 targeting = 2
-cast_range = 8.0
-cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
-mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
-indicator_size = 2.8
+cast_range = 5.5
+cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
 base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
 ad_ratio = 0.5
 damage_type = 0
 target_effects = Array[ExtResource("4_jbiuo")]([SubResource("Resource_sp5xy")])
 
 [sub_resource type="Resource" id="Resource_0mb1q"]
-script = ExtResource("8_l1k8f")
-radius = 5.0
-delay = 0.5
-id = &"orbital_barrage"
-display_name = "Orbital Barrage"
-description = "Calls down a devastating artillery barrage from afar that saturates the target zone."
-icon = ExtResource("9_6wti6")
-color = Color(0.95, 0.6, 0.1, 1)
-targeting = 2
-cast_range = 16.0
-max_rank = 3
-is_ultimate = true
-cooldown = PackedFloat32Array(70, 60, 50)
-mana_cost = PackedFloat32Array(100, 100, 100)
-indicator_size = 5.0
-base_damage = PackedFloat32Array(250, 380, 510)
-ad_ratio = 0.95
-damage_type = 0
+script = ExtResource("4_jbiuo")
+kind = 2
+value = 1.0
+value_per_rank = PackedFloat32Array()
+duration = 1.0
 
 [sub_resource type="Resource" id="Resource_qo01l"]
+script = ExtResource("8_l1k8f")
+radius = 4.0
+delay = 0.5
+id = &"grand_concert"
+display_name = "Grand Concert"
+description = "Unleashes a showstopping musical finale that deafens foes and electrifies the arena."
+icon = ExtResource("9_6wti6")
+color = Color(0.8, 0.2, 0.95, 1)
+targeting = 2
+cast_range = 7.0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(85, 70, 55)
+mana_cost = PackedFloat32Array(100, 100, 100)
+base_damage = PackedFloat32Array(240, 360, 480)
+ad_ratio = 0.9
+damage_type = 0
+target_effects = Array[ExtResource("4_jbiuo")]([SubResource("Resource_0mb1q")])
+
+[sub_resource type="Resource" id="Resource_pwehe"]
 script = ExtResource("12_nhlcu")
-id = &"calculated_shot"
-display_name = "Calculated Shot"
-description = "Every 4th basic attack deals +45% bonus physical damage."
+attack_speed_per_stack = 0.08
+stack_duration = 4.0
+full_stack_haste = 0.15
+id = &"rhythmic_flow"
+display_name = "Rhythmic Flow"
+description = "Attacking in rhythm builds musical tempo stacks, granting attack speed and burst haste."
 icon = ExtResource("11_pxubc")
-color = Color(0.95, 0.7, 0.2, 1)
-max_stacks = 4
+color = Color(0.92, 0.28, 0.6, 1)
 
 [resource]
 script = ExtResource("14_3w0wj")
 id = &"amit"
 display_name = "Amit"
-title = "The Grand Architect"
-role = "Marksman"
-lore = "An ingenious engineer and pinpoint sniper who shapes the battlefield with deadly precision."
-color = Color(0.95, 0.7, 0.2, 1)
+title = "The Maestro of Stances"
+lore = "A dynamic fighter switching rhythms between Rock, White Girl Pop, and Mizrahit to control the tempo of battle."
+color = Color(0.92, 0.28, 0.6, 1)
 model_scene = ExtResource("10_mom3y")
 portrait = ExtResource("13_ttvwu")
 difficulty = 2
-max_health = 530.0
-health_per_level = 76.0
-health_regen = 1.3
+max_health = 590.0
+health_per_level = 84.0
+health_regen = 1.6
+max_mana = 360.0
 mana_regen = 1.6
-attack_damage = 54.0
-attack_speed = 0.68
-attack_range = 6.0
-armor = 24.0
+attack_damage = 59.0
+attack_damage_per_level = 3.5
+attack_speed = 0.66
+attack_range = 3.2
+armor = 28.0
+armor_per_level = 3.4
 move_speed = 5.7
-attack_projectile_style = &"arrow"
-attack_projectile_speed = 26.0
-attack_windup = 0.16
-passive = SubResource("Resource_qo01l")
-abilities = Array[ExtResource("1_t2mu0")]([SubResource("Resource_0v25a"), SubResource("Resource_ydi2s"), SubResource("Resource_ni2r2"), SubResource("Resource_0mb1q")])
+passive = SubResource("Resource_pwehe")
+abilities = Array[ExtResource("1_t2mu0")]([SubResource("Resource_0v25a"), SubResource("Resource_ydi2s"), SubResource("Resource_ni2r2"), SubResource("Resource_qo01l")])
 bot_skill_priority = PackedInt32Array(0, 1, 2)
 bot_item_build = PackedStringArray("long_sword", "boots", "dagger", "storm_bow", "blade_of_ruin")
-bot_preferred_range = 5.8
+bot_preferred_range = 3.2

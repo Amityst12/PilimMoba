@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Generates SVG portraits and ability icons for the 7 champions:
-Erez, Stephen, Amit, Nissim, Rogo, Yakir, Edgy.
+"""Generates SVG portraits and ability icons for all 7 champions:
+Erez, Stephen, Amit, Nissim, Rogo, Yakir, Lior (and Edgy as fallback).
 """
 
 import os
@@ -14,13 +14,14 @@ def write_svg(folder: str, name: str, svg_content: str) -> None:
     path = os.path.join(folder, f"{name}.svg")
     with open(path, "w", encoding="utf-8") as f:
         f.write(svg_content.strip())
+    print(f"Wrote {path}")
 
 def ability_svg(bg_dark: str, primary_color: str, accent_color: str, glyph_svg: str) -> str:
-    p_safe = primary_color.replace('#','')
+    p_safe = primary_color.replace('#','').replace(',','_').replace('(','_').replace(')','_')
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
     <radialGradient id="bg_glow_{p_safe}" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="{primary_color}" stop-opacity="0.4" />
+      <stop offset="0%" stop-color="{primary_color}" stop-opacity="0.45" />
       <stop offset="85%" stop-color="{bg_dark}" stop-opacity="0.95" />
       <stop offset="100%" stop-color="#040608" stop-opacity="1.0" />
     </radialGradient>
@@ -42,245 +43,311 @@ def ability_svg(bg_dark: str, primary_color: str, accent_color: str, glyph_svg: 
 </svg>"""
 
 def gen():
-    # --- 1. Erez ---
+    # =========================================================================
+    # 1. EREZ - The Beast Vanguard (Melee Fighter with Animal Companions)
+    # =========================================================================
     write_svg(CHAMPS_DIR, "erez", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
   <rect width="80" height="80" rx="12" fill="#0b172a" />
   <rect x="3" y="3" width="74" height="74" rx="10" fill="#172b4d" stroke="#3b82f6" stroke-width="3" />
-  <path d="M 40,16 L 60,26 L 60,48 C 60,60 40,68 40,68 C 40,68 20,60 20,48 L 20,26 Z" fill="#1e3a8a" stroke="#fbbf24" stroke-width="2.5" />
+  <!-- Shield with wolf paw & sword -->
+  <path d="M 40,14 L 62,25 L 62,48 C 62,62 40,70 40,70 C 40,70 18,62 18,48 L 18,25 Z" fill="#1e3a8a" stroke="#fbbf24" stroke-width="2.5" />
   <line x1="28" y1="28" x2="52" y2="52" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" />
-  <line x1="52" y1="28" x2="28" y2="52" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" />
-  <polygon points="40,32 44,42 36,42" fill="#f59e0b" />
+  <!-- Beast Paw Silhouette -->
+  <ellipse cx="40" cy="45" rx="7" ry="6" fill="#f59e0b" />
+  <circle cx="33" cy="35" r="3" fill="#f59e0b" />
+  <circle cx="40" cy="32" r="3" fill="#f59e0b" />
+  <circle cx="47" cy="35" r="3" fill="#f59e0b" />
 </svg>""")
     write_svg(ABILITIES_DIR, "erez_p", ability_svg("#0f1f3d", "#3b82f6", "#fbbf24", """
-      <path d="M-12,-12 L12,-12 L15,6 C15,14 0,18 0,18 C0,18 -15,14 -15,6 Z" fill="#1e3a8a" stroke="#fbbf24" stroke-width="2" />
-      <polygon points="0,-8 3,0 -3,0" fill="#facc15" />
+      <ellipse cx="0" cy="3" rx="8" ry="6" fill="#fbbf24" />
+      <circle cx="-8" cy="-8" r="3.5" fill="#fbbf24" />
+      <circle cx="0" cy="-11" r="3.5" fill="#fbbf24" />
+      <circle cx="8" cy="-8" r="3.5" fill="#fbbf24" />
     """))
     write_svg(ABILITIES_DIR, "erez_q", ability_svg("#112447", "#60a5fa", "#ffffff", """
-      <line x1="-14" y1="14" x2="14" y2="-14" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round" />
-      <polygon points="14,-14 6,-14 14,-6" fill="#facc15" />
-      <path d="M-8,-14 C4,-14 14,-4 14,8" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" />
+      <line x1="-15" y1="15" x2="15" y2="-15" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" />
+      <!-- Claw scratches -->
+      <path d="M-8,-10 L-2,-16 M0,-4 L6,-10 M8,2 L14,-4" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
     """))
-    write_svg(ABILITIES_DIR, "erez_w", ability_svg("#0c1b33", "#2563eb", "#fbbf24", """
-      <path d="M-14,-14 L14,-14 L16,8 C16,16 0,20 0,20 C0,20 -16,16 -16,8 Z" fill="#1d4ed8" stroke="#fbbf24" stroke-width="2" />
-      <circle cx="0" cy="0" r="5" fill="#facc15" />
+    write_svg(ABILITIES_DIR, "erez_w", ability_svg("#162e3b", "#38bdf8", "#67e8f9", """
+      <path d="M-14,-14 L14,-14 L16,6 C16,16 0,20 0,20 C0,20 -16,16 -16,6 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+      <circle cx="0" cy="2" r="5" fill="#e0f2fe" />
     """))
-    write_svg(ABILITIES_DIR, "erez_e", ability_svg("#0d182b", "#3b82f6", "#93c5fd", """
-      <ellipse cx="0" cy="4" rx="16" ry="7" fill="none" stroke="#60a5fa" stroke-width="2" />
-      <ellipse cx="0" cy="4" rx="9" ry="4" fill="none" stroke="#93c5fd" stroke-width="1.5" />
-      <line x1="0" y1="-14" x2="0" y2="4" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" />
+    write_svg(ABILITIES_DIR, "erez_e", ability_svg("#1e293b", "#f59e0b", "#fbbf24", """
+      <circle cx="0" cy="0" r="15" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,3" />
+      <circle cx="0" cy="0" r="8" fill="none" stroke="#fbbf24" stroke-width="2" />
+      <circle cx="0" cy="0" r="3" fill="#fef08a" />
     """))
-    write_svg(ABILITIES_DIR, "erez_r", ability_svg("#172554", "#fbbf24", "#ffffff", """
-      <polygon points="0,-18 7,-4 16,-2 8,6 10,16 0,9 -10,16 -8,6 -16,-2 -7,-4" fill="#fbbf24" stroke="#fff" stroke-width="1.5" />
-      <circle cx="0" cy="0" r="4" fill="#ffffff" />
+    write_svg(ABILITIES_DIR, "erez_r", ability_svg("#2e1065", "#ec4899", "#f43f5e", """
+      <polygon points="0,-16 5,-5 16,-5 8,4 11,15 0,8 -11,15 -8,4 -16,-5 -5,-5" fill="#f43f5e" stroke="#fbbf24" stroke-width="2" />
     """))
 
-    # --- 2. Stephen ---
+    # =========================================================================
+    # 2. STEPHEN - The Radiant Spirit (Petite Filipino Support)
+    # =========================================================================
     write_svg(CHAMPS_DIR, "stephen", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#100720" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#241242" stroke="#a855f7" stroke-width="3" />
-  <ellipse cx="40" cy="40" rx="20" ry="12" fill="#3b0764" stroke="#c084fc" stroke-width="2" />
-  <circle cx="40" cy="40" r="7" fill="#06b6d4" />
-  <circle cx="40" cy="40" r="3" fill="#ffffff" />
-  <polygon points="40,14 43,24 40,21 37,24" fill="#a855f7" />
-  <polygon points="40,66 43,56 40,59 37,56" fill="#a855f7" />
+  <rect width="80" height="80" rx="12" fill="#172554" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#1e3a8a" stroke="#facc15" stroke-width="3" />
+  <!-- Filipino Golden Sun with 8 rays -->
+  <circle cx="40" cy="40" r="14" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" />
+  <line x1="40" y1="16" x2="40" y2="22" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="40" y1="58" x2="40" y2="64" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="16" y1="40" x2="22" y2="40" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="58" y1="40" x2="64" y2="40" stroke="#facc15" stroke-width="3" stroke-linecap="round" />
+  <line x1="23" y1="23" x2="28" y2="28" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="57" y1="23" x2="52" y2="28" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="23" y1="57" x2="28" y2="52" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="57" y1="57" x2="52" y2="52" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" />
+  <!-- Pocket heart emblem inside sun -->
+  <path d="M 40,36 C 38,33 34,33 34,37 C 34,42 40,46 40,46 C 40,46 46,42 46,37 C 46,33 42,33 40,36 Z" fill="#ef4444" />
 </svg>""")
-    write_svg(ABILITIES_DIR, "stephen_p", ability_svg("#1a082b", "#a855f7", "#06b6d4", """
-      <circle cx="0" cy="0" r="14" fill="none" stroke="#c084fc" stroke-width="2" stroke-dasharray="4 3" />
-      <circle cx="0" cy="0" r="7" fill="#a855f7" stroke="#06b6d4" stroke-width="1.5" />
-      <circle cx="0" cy="0" r="3" fill="#ffffff" />
+    write_svg(ABILITIES_DIR, "stephen_p", ability_svg("#1e1b4b", "#facc15", "#ef4444", """
+      <circle cx="0" cy="0" r="9" fill="#facc15" />
+      <path d="M0,-2 C-3,-5 -7,-5 -7,-1 C-7,4 0,8 0,8 C0,8 7,4 7,-1 C7,-5 3,-5 0,-2 Z" fill="#ef4444" />
     """))
-    write_svg(ABILITIES_DIR, "stephen_q", ability_svg("#1f0b36", "#c084fc", "#06b6d4", """
-      <polygon points="0,-16 8,2 0,-1 -8,2" fill="#06b6d4" stroke="#c084fc" stroke-width="1.5" />
-      <line x1="0" y1="4" x2="0" y2="18" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" />
+    write_svg(ABILITIES_DIR, "stephen_q", ability_svg("#1e1b4b", "#fbbf24", "#fef08a", """
+      <circle cx="0" cy="0" r="10" fill="#fde047" />
+      <line x1="0" y1="-17" x2="0" y2="-12" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" />
+      <line x1="0" y1="17" x2="0" y2="12" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" />
+      <line x1="-17" y1="0" x2="-12" y2="0" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" />
+      <line x1="17" y1="0" x2="12" y2="0" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" />
     """))
-    write_svg(ABILITIES_DIR, "stephen_w", ability_svg("#17092c", "#7e22ce", "#38bdf8", """
-      <ellipse cx="0" cy="0" rx="16" ry="8" fill="#3b0764" stroke="#c084fc" stroke-width="2" transform="rotate(-30)" />
-      <circle cx="0" cy="0" r="4" fill="#06b6d4" />
+    write_svg(ABILITIES_DIR, "stephen_w", ability_svg("#0f172a", "#38bdf8", "#fbbf24", """
+      <circle cx="0" cy="0" r="14" fill="none" stroke="#38bdf8" stroke-width="3" />
+      <circle cx="0" cy="0" r="6" fill="#facc15" />
     """))
-    write_svg(ABILITIES_DIR, "stephen_e", ability_svg("#1c0936", "#9333ea", "#f43f5e", """
-      <path d="M-14,0 C-14,-9 0,-15 11,-11 C17,-8 15,5 7,11 C0,16 -13,11 -11,1" fill="none" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" />
-      <circle cx="0" cy="0" r="4" fill="#c084fc" />
+    write_svg(ABILITIES_DIR, "stephen_e", ability_svg("#064e3b", "#10b981", "#34d399", """
+      <circle cx="0" cy="0" r="15" fill="none" stroke="#34d399" stroke-width="2" stroke-dasharray="3,3" />
+      <rect x="-3" y="-10" width="6" height="20" rx="2" fill="#10b981" />
+      <rect x="-10" y="-3" width="20" height="6" rx="2" fill="#10b981" />
     """))
-    write_svg(ABILITIES_DIR, "stephen_r", ability_svg("#2a084d", "#06b6d4", "#f43f5e", """
-      <rect x="-5" y="-18" width="10" height="36" rx="4" fill="#06b6d4" stroke="#ffffff" stroke-width="1.5" />
-      <ellipse cx="0" cy="-4" rx="14" ry="5" fill="none" stroke="#c084fc" stroke-width="2" />
-      <ellipse cx="0" cy="8" rx="17" ry="6" fill="none" stroke="#a855f7" stroke-width="2" />
+    write_svg(ABILITIES_DIR, "stephen_r", ability_svg("#312e81", "#f59e0b", "#fde047", """
+      <circle cx="0" cy="0" r="16" fill="#fde047" opacity="0.4" />
+      <circle cx="0" cy="0" r="10" fill="#f59e0b" />
+      <line x1="-20" y1="0" x2="20" y2="0" stroke="#fde047" stroke-width="2.5" />
+      <line x1="0" y1="-20" x2="0" y2="20" stroke="#fde047" stroke-width="2.5" />
     """))
 
-    # --- 3. Amit ---
+    # =========================================================================
+    # 3. AMIT - The Maestro of Stances (Rock / White Girl / Mizrahit)
+    # =========================================================================
     write_svg(CHAMPS_DIR, "amit", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#0c131f" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="3" />
-  <circle cx="40" cy="40" r="22" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5 3" />
-  <line x1="40" y1="18" x2="40" y2="62" stroke="#f59e0b" stroke-width="2" />
-  <line x1="18" y1="40" x2="62" y2="40" stroke="#f59e0b" stroke-width="2" />
-  <circle cx="40" cy="40" r="6" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />
+  <rect width="80" height="80" rx="12" fill="#1a102f" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#2e1065" stroke="#ec4899" stroke-width="3" />
+  <!-- Electric Guitar Body & Neck -->
+  <path d="M 30,55 C 20,48 24,35 34,42 C 37,44 42,38 46,45 C 52,55 42,62 30,55 Z" fill="#ef4444" stroke="#fbbf24" stroke-width="2" />
+  <line x1="36" y1="42" x2="60" y2="18" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
+  <!-- Musical 8th notes -->
+  <circle cx="22" cy="26" r="4" fill="#38bdf8" />
+  <circle cx="32" cy="22" r="4" fill="#38bdf8" />
+  <line x1="26" y1="26" x2="26" y2="14" stroke="#38bdf8" stroke-width="2" />
+  <line x1="36" y1="22" x2="36" y2="10" stroke="#38bdf8" stroke-width="2" />
+  <line x1="26" y1="14" x2="36" y2="10" stroke="#38bdf8" stroke-width="2.5" />
 </svg>""")
-    write_svg(ABILITIES_DIR, "amit_p", ability_svg("#111827", "#f59e0b", "#38bdf8", """
-      <circle cx="0" cy="0" r="14" fill="none" stroke="#f59e0b" stroke-width="2" />
-      <line x1="0" y1="-18" x2="0" y2="18" stroke="#38bdf8" stroke-width="1.5" />
-      <line x1="-18" y1="0" x2="18" y2="0" stroke="#38bdf8" stroke-width="1.5" />
-      <circle cx="0" cy="0" r="3" fill="#ef4444" />
+    write_svg(ABILITIES_DIR, "amit_p", ability_svg("#2e1065", "#ec4899", "#38bdf8", """
+      <!-- Equalizer soundbars -->
+      <rect x="-14" y="0" width="4" height="14" rx="1" fill="#ec4899" />
+      <rect x="-6" y="-10" width="4" height="24" rx="1" fill="#38bdf8" />
+      <rect x="2" y="-16" width="4" height="30" rx="1" fill="#facc15" />
+      <rect x="10" y="-4" width="4" height="18" rx="1" fill="#10b981" />
     """))
-    write_svg(ABILITIES_DIR, "amit_q", ability_svg("#172033", "#38bdf8", "#f59e0b", """
-      <line x1="-16" y1="16" x2="16" y2="-16" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
-      <polygon points="16,-16 8,-14 14,-8" fill="#38bdf8" />
-      <line x1="-10" y1="10" x2="-4" y2="4" stroke="#ffffff" stroke-width="2" />
+    write_svg(ABILITIES_DIR, "amit_q", ability_svg("#450a0a", "#ef4444", "#fbbf24", """
+      <!-- Rock Lightning Guitar Pick -->
+      <polygon points="0,-16 14,12 -14,12" fill="#ef4444" stroke="#fbbf24" stroke-width="2" />
+      <path d="M-2,-8 L4,-2 L-1,-1 L3,6" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" />
     """))
-    write_svg(ABILITIES_DIR, "amit_w", ability_svg("#0f172a", "#10b981", "#38bdf8", """
-      <path d="M-15,-8 C-5,-16 5,-4 15,-10" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
-      <polygon points="15,-10 9,-8 13,-4" fill="#38bdf8" />
-      <path d="M-15,8 C-5,0 5,12 15,6" fill="none" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" />
+    write_svg(ABILITIES_DIR, "amit_w", ability_svg("#3b0764", "#ec4899", "#f472b6", """
+      <!-- Pop Star Sparkling Heart Note -->
+      <path d="M0,-5 C-4,-11 -12,-11 -12,-4 C-12,4 0,12 0,12 C0,12 12,4 12,-4 C12,-11 4,-11 0,-5 Z" fill="#ec4899" />
+      <circle cx="-2" cy="-2" r="1.5" fill="#ffffff" />
     """))
-    write_svg(ABILITIES_DIR, "amit_e", ability_svg("#1a1f2c", "#f59e0b", "#ef4444", """
-      <circle cx="0" cy="0" r="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
-      <line x1="-12" y1="-12" x2="12" y2="12" stroke="#ef4444" stroke-width="2.5" />
-      <line x1="12" y1="-12" x2="-12" y2="12" stroke="#ef4444" stroke-width="2.5" />
+    write_svg(ABILITIES_DIR, "amit_e", ability_svg("#422006", "#d97706", "#fbbf24", """
+      <!-- Mizrahit Oud & Melody Wave -->
+      <ellipse cx="-4" cy="4" rx="10" ry="8" fill="#b45309" stroke="#fbbf24" stroke-width="1.5" />
+      <line x1="2" y1="-2" x2="16" y2="-14" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" />
+      <path d="M-14,-8 Q-4,-16 6,-8 T16,-4" stroke="#fde68a" stroke-width="2" fill="none" />
     """))
-    write_svg(ABILITIES_DIR, "amit_r", ability_svg("#1f1a14", "#f59e0b", "#ffffff", """
-      <line x1="-12" y1="-16" x2="-4" y2="14" stroke="#f59e0b" stroke-width="2.5" />
-      <line x1="0" y1="-18" x2="0" y2="16" stroke="#38bdf8" stroke-width="3" />
-      <line x1="12" y1="-16" x2="4" y2="14" stroke="#f59e0b" stroke-width="2.5" />
-      <polygon points="0,16 -3,8 3,8" fill="#fff" />
+    write_svg(ABILITIES_DIR, "amit_r", ability_svg("#1e1b4b", "#8b5cf6", "#f43f5e", """
+      <!-- Grand Concert Sonic Blast -->
+      <circle cx="0" cy="0" r="15" fill="none" stroke="#ec4899" stroke-width="2.5" />
+      <circle cx="0" cy="0" r="9" fill="none" stroke="#38bdf8" stroke-width="2.5" />
+      <circle cx="0" cy="0" r="4" fill="#fbbf24" />
     """))
 
-    # --- 4. Nissim ---
+    # =========================================================================
+    # 4. NISSIM - The Grandfather Strategist ("אבא של כולם")
+    # =========================================================================
     write_svg(CHAMPS_DIR, "nissim", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#041f1e" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#0f443b" stroke="#10b981" stroke-width="3" />
-  <circle cx="40" cy="40" r="20" fill="#064e3b" stroke="#34d399" stroke-width="2" />
-  <path d="M 36,24 L 44,24 L 44,36 L 56,36 L 56,44 L 44,44 L 44,56 L 36,56 L 36,44 L 24,44 L 24,36 L 36,36 Z" fill="#facc15" />
-  <circle cx="40" cy="40" r="4" fill="#ffffff" />
+  <rect width="80" height="80" rx="12" fill="#0c1e19" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#132e27" stroke="#10b981" stroke-width="3" />
+  <!-- Reading Glasses -->
+  <circle cx="32" cy="30" r="7" fill="none" stroke="#fbbf24" stroke-width="2.5" />
+  <circle cx="48" cy="30" r="7" fill="none" stroke="#fbbf24" stroke-width="2.5" />
+  <line x1="39" y1="30" x2="41" y2="30" stroke="#fbbf24" stroke-width="2.5" />
+  <!-- Steaming Coffee Cup -->
+  <rect x="30" y="44" width="20" height="18" rx="4" fill="#047857" stroke="#34d399" stroke-width="2" />
+  <path d="M 50,48 C 55,48 55,58 50,58" fill="none" stroke="#34d399" stroke-width="2" />
+  <!-- Steam lines -->
+  <path d="M 35,41 Q 33,37 36,34" stroke="#a7f3d0" stroke-width="1.5" fill="none" />
+  <path d="M 45,41 Q 43,37 46,34" stroke="#a7f3d0" stroke-width="1.5" fill="none" />
 </svg>""")
-    write_svg(ABILITIES_DIR, "nissim_p", ability_svg("#05221d", "#10b981", "#facc15", """
-      <circle cx="0" cy="0" r="10" fill="none" stroke="#10b981" stroke-width="2.5" />
+    write_svg(ABILITIES_DIR, "nissim_p", ability_svg("#064e3b", "#10b981", "#fbbf24", """
+      <!-- Reading Glasses -->
+      <circle cx="-8" cy="0" r="6" fill="none" stroke="#fbbf24" stroke-width="2" />
+      <circle cx="8" cy="0" r="6" fill="none" stroke="#fbbf24" stroke-width="2" />
+      <line x1="-2" y1="0" x2="2" y2="0" stroke="#fbbf24" stroke-width="2" />
+    """))
+    write_svg(ABILITIES_DIR, "nissim_q", ability_svg("#0f2922", "#34d399", "#ffffff", """
+      <!-- Tactical Decree Arrow -->
+      <polygon points="0,-16 12,4 4,4 4,14 -4,14 -4,4 -12,4" fill="#34d399" stroke="#fbbf24" stroke-width="1.5" />
+    """))
+    write_svg(ABILITIES_DIR, "nissim_w", ability_svg("#1e293b", "#0284c7", "#38bdf8", """
+      <!-- Tactical Time-Out Barrier -->
+      <rect x="-14" y="-14" width="28" height="28" rx="4" fill="none" stroke="#38bdf8" stroke-width="2.5" />
+      <line x1="-8" y1="-8" x2="8" y2="8" stroke="#38bdf8" stroke-width="2" />
+    """))
+    write_svg(ABILITIES_DIR, "nissim_e", ability_svg("#451a03", "#d97706", "#fef3c7", """
+      <!-- Steaming Coffee Cup -->
+      <rect x="-8" y="-4" width="16" height="16" rx="3" fill="#b45309" stroke="#fbbf24" stroke-width="1.5" />
+      <path d="M 8,0 C 13,0 13,8 8,8" fill="none" stroke="#fbbf24" stroke-width="1.5" />
+      <path d="M-4,-8 Q-6,-12 -3,-15" stroke="#fef3c7" stroke-width="1.5" fill="none" />
+      <path d="M3,-8 Q1,-12 4,-15" stroke="#fef3c7" stroke-width="1.5" fill="none" />
+    """))
+    write_svg(ABILITIES_DIR, "nissim_r", ability_svg("#022c22", "#10b981", "#facc15", """
+      <!-- Master Plan Blueprint Grid -->
+      <rect x="-15" y="-15" width="30" height="30" rx="3" fill="#065f46" stroke="#facc15" stroke-width="2" />
+      <line x1="-15" y1="0" x2="15" y2="0" stroke="#34d399" stroke-width="1.5" />
+      <line x1="0" y1="-15" x2="0" y2="15" stroke="#34d399" stroke-width="1.5" />
       <circle cx="0" cy="0" r="4" fill="#facc15" />
-      <line x1="0" y1="-15" x2="0" y2="-11" stroke="#34d399" stroke-width="2" />
-      <line x1="0" y1="15" x2="0" y2="11" stroke="#34d399" stroke-width="2" />
-      <line x1="-15" y1="0" x2="-11" y2="0" stroke="#34d399" stroke-width="2" />
-      <line x1="15" y1="0" x2="11" y2="0" stroke="#34d399" stroke-width="2" />
-    """))
-    write_svg(ABILITIES_DIR, "nissim_q", ability_svg("#072b25", "#34d399", "#ffffff", """
-      <polygon points="0,-16 5,-2 14,0 5,2 0,16 -5,2 -14,0 -5,-2" fill="#facc15" stroke="#34d399" stroke-width="1.5" />
-      <circle cx="0" cy="0" r="3.5" fill="#ffffff" />
-    """))
-    write_svg(ABILITIES_DIR, "nissim_w", ability_svg("#06241e", "#10b981", "#facc15", """
-      <circle cx="0" cy="0" r="15" fill="#0f443b" stroke="#10b981" stroke-width="2" />
-      <path d="M-4,-9 L4,-9 L4,-4 L9,-4 L9,4 L4,4 L4,9 L-4,9 L-4,4 L-9,4 L-9,-4 L-4,-4 Z" fill="#facc15" />
-    """))
-    write_svg(ABILITIES_DIR, "nissim_e", ability_svg("#092b23", "#059669", "#6ee7b7", """
-      <circle cx="-6" cy="-4" r="5" fill="#10b981" /><circle cx="7" cy="-3" r="4" fill="#34d399" /><circle cx="0" cy="7" r="5" fill="#facc15" />
-      <line x1="-6" y1="-4" x2="7" y2="-3" stroke="#fff" stroke-width="1.5" />
-      <line x1="7" y1="-3" x2="0" y2="7" stroke="#fff" stroke-width="1.5" />
-      <line x1="0" y1="7" x2="-6" y2="-4" stroke="#fff" stroke-width="1.5" />
-    """))
-    write_svg(ABILITIES_DIR, "nissim_r", ability_svg("#0a382e", "#facc15", "#ffffff", """
-      <rect x="-6" y="-18" width="12" height="36" rx="4" fill="#facc15" stroke="#ffffff" stroke-width="2" />
-      <circle cx="0" cy="0" r="8" fill="#10b981" opacity="0.8" />
-      <line x1="-16" y1="0" x2="16" y2="0" stroke="#fff" stroke-width="2" />
     """))
 
-    # --- 5. Rogo ---
+    # =========================================================================
+    # 5. ROGO - The Heavy Smasher (Colossal Tank)
+    # =========================================================================
     write_svg(CHAMPS_DIR, "rogo", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#200606" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#450a0a" stroke="#ef4444" stroke-width="3" />
-  <path d="M 22,24 L 36,20 L 40,32 L 28,40 Z" fill="#b91c1c" stroke="#f87171" stroke-width="2" />
-  <path d="M 58,24 L 44,20 L 40,32 L 52,40 Z" fill="#b91c1c" stroke="#f87171" stroke-width="2" />
-  <line x1="26" y1="58" x2="54" y2="26" stroke="#f97316" stroke-width="3" stroke-linecap="round" />
-  <polygon points="40,42 46,58 34,58" fill="#facc15" />
+  <rect width="80" height="80" rx="12" fill="#2d0a0a" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#4c0d0d" stroke="#ef4444" stroke-width="3" />
+  <!-- Massive Crushing Fist / Anvil -->
+  <path d="M 22,34 L 58,34 L 52,58 L 28,58 Z" fill="#991b1b" stroke="#f87171" stroke-width="3" />
+  <rect x="25" y="24" width="30" height="12" rx="4" fill="#dc2626" stroke="#fca5a5" stroke-width="2" />
+  <!-- Shockwave ripples -->
+  <path d="M 16,64 Q 40,54 64,64" stroke="#fbbf24" stroke-width="3" fill="none" stroke-linecap="round" />
 </svg>""")
-    write_svg(ABILITIES_DIR, "rogo_p", ability_svg("#2a0808", "#ef4444", "#f97316", """
-      <path d="M0,-14 C-10,-4 -10,8 0,16 C10,8 10,-4 0,-14 Z" fill="#dc2626" stroke="#f87171" stroke-width="2" />
-      <circle cx="0" cy="6" r="3" fill="#facc15" />
+    write_svg(ABILITIES_DIR, "rogo_p", ability_svg("#450a0a", "#ef4444", "#f87171", """
+      <!-- Colossal Armor Mass -->
+      <polygon points="0,-16 16,-6 16,10 0,16 -16,10 -16,-6" fill="#991b1b" stroke="#f87171" stroke-width="2" />
+      <circle cx="0" cy="0" r="4" fill="#fca5a5" />
     """))
-    write_svg(ABILITIES_DIR, "rogo_q", ability_svg("#330a0a", "#f97316", "#ffffff", """
-      <path d="M-14,-10 C-4,-16 8,-12 14,0 C8,-6 -4,-4 -14,-10 Z" fill="#ef4444" stroke="#f97316" stroke-width="2" />
-      <line x1="-12" y1="12" x2="12" y2="-8" stroke="#ffffff" stroke-width="2.5" />
+    write_svg(ABILITIES_DIR, "rogo_q", ability_svg("#3b0707", "#dc2626", "#fbbf24", """
+      <!-- Heavy Fist Slam -->
+      <rect x="-10" y="-15" width="20" height="16" rx="4" fill="#b91c1c" stroke="#fbbf24" stroke-width="2" />
+      <line x1="-12" y1="8" x2="12" y2="8" stroke="#f87171" stroke-width="3" />
     """))
-    write_svg(ABILITIES_DIR, "rogo_w", ability_svg("#2e0707", "#b91c1c", "#facc15", """
-      <circle cx="0" cy="0" r="14" fill="none" stroke="#ef4444" stroke-width="2" />
-      <circle cx="0" cy="0" r="8" fill="none" stroke="#f97316" stroke-width="2" />
-      <polygon points="0,-6 6,4 -6,4" fill="#facc15" />
+    write_svg(ABILITIES_DIR, "rogo_w", ability_svg("#4c0519", "#f43f5e", "#fda4af", """
+      <!-- Iron Belly Bounce -->
+      <circle cx="0" cy="0" r="14" fill="#be123c" stroke="#f43f5e" stroke-width="2.5" />
+      <path d="M-8,0 Q0,8 8,0" stroke="#ffffff" stroke-width="2.5" fill="none" />
     """))
-    write_svg(ABILITIES_DIR, "rogo_e", ability_svg("#280808", "#ea580c", "#fca5a5", """
-      <line x1="-16" y1="10" x2="16" y2="10" stroke="#ef4444" stroke-width="3" />
-      <line x1="-10" y1="10" x2="-6" y2="-8" stroke="#f97316" stroke-width="2" />
-      <line x1="0" y1="10" x2="4" y2="-12" stroke="#f97316" stroke-width="2" />
-      <line x1="10" y1="10" x2="8" y2="-6" stroke="#f97316" stroke-width="2" />
+    write_svg(ABILITIES_DIR, "rogo_e", ability_svg("#2e1065", "#c026d3", "#f0abfc", """
+      <!-- Belly Flop Dash -->
+      <ellipse cx="0" cy="0" rx="16" ry="10" fill="#9333ea" stroke="#f0abfc" stroke-width="2" />
+      <polygon points="8,-4 14,0 8,4" fill="#ffffff" />
     """))
-    write_svg(ABILITIES_DIR, "rogo_r", ability_svg("#3b0606", "#ef4444", "#facc15", """
-      <polygon points="0,-16 12,-6 14,8 0,16 -14,8 -12,-6" fill="#b91c1c" stroke="#f97316" stroke-width="2" />
-      <polygon points="0,-8 6,-2 6,4 0,8 -6,4 -6,-2" fill="#facc15" />
+    write_svg(ABILITIES_DIR, "rogo_r", ability_svg("#500724", "#e11d48", "#fbbf24", """
+      <!-- Cataclysmic Crater -->
+      <circle cx="0" cy="0" r="16" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4,2" />
+      <polygon points="0,-10 8,-2 14,-8 10,4 16,8 6,10 0,16 -6,10 -16,8 -10,4 -14,-8 -8,-2" fill="#be123c" />
     """))
 
-    # --- 6. Yakir ---
+    # =========================================================================
+    # 6. YAKIR - The Refreshment Specialist (Energy Drinks & Food Support)
+    # =========================================================================
     write_svg(CHAMPS_DIR, "yakir", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#0b1320" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="3" />
-  <path d="M 40,16 L 60,24 L 56,54 C 56,62 40,68 40,68 C 40,68 24,62 24,54 L 20,24 Z" fill="#334155" stroke="#7dd3fc" stroke-width="2.5" />
-  <circle cx="40" cy="42" r="8" fill="#0284c7" stroke="#e0f2fe" stroke-width="2" />
-  <line x1="40" y1="26" x2="40" y2="34" stroke="#e0f2fe" stroke-width="2.5" />
-  <line x1="40" y1="50" x2="40" y2="58" stroke="#e0f2fe" stroke-width="2.5" />
+  <rect width="80" height="80" rx="12" fill="#042f2e" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#064e3b" stroke="#10b981" stroke-width="3" />
+  <!-- Energy Drink Can (XL / Monster) -->
+  <rect x="22" y="22" width="16" height="36" rx="4" fill="#0f172a" stroke="#22c55e" stroke-width="2" />
+  <path d="M 28,30 L 34,38 L 30,38 L 36,48" stroke="#22c55e" stroke-width="2" fill="none" />
+  <!-- Hot Pizza / Shawarma Slice -->
+  <polygon points="56,22 42,56 68,52" fill="#f59e0b" stroke="#fbbf24" stroke-width="2" />
+  <circle cx="54" cy="40" r="2.5" fill="#ef4444" />
+  <circle cx="50" cy="48" r="2" fill="#ef4444" />
 </svg>""")
-    write_svg(ABILITIES_DIR, "yakir_p", ability_svg("#0f172a", "#38bdf8", "#94a3b8", """
-      <polygon points="0,-15 13,-6 13,8 0,16 -13,8 -13,-6" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-      <circle cx="0" cy="0" r="4" fill="#7dd3fc" />
+    write_svg(ABILITIES_DIR, "yakir_p", ability_svg("#022c22", "#10b981", "#86efac", """
+      <!-- Energy Boost Sneakers -->
+      <path d="M-12,4 L0,-6 L12,4 L8,10 L-8,10 Z" fill="#10b981" stroke="#86efac" stroke-width="2" />
+      <path d="M-2,-12 L4,-6 L0,-6 L3,0" stroke="#facc15" stroke-width="2" fill="none" />
     """))
-    write_svg(ABILITIES_DIR, "yakir_q", ability_svg("#131e33", "#0284c7", "#ffffff", """
-      <path d="M-8,-14 L8,-14 L12,8 C12,14 0,18 0,18 C0,18 -12,14 -12,8 Z" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
-      <path d="M8,-16 C15,-8 15,8 8,16" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
+    write_svg(ABILITIES_DIR, "yakir_q", ability_svg("#064e3b", "#22c55e", "#86efac", """
+      <!-- Flying Energy Drink Can -->
+      <rect x="-6" y="-14" width="12" height="28" rx="3" fill="#0f172a" stroke="#22c55e" stroke-width="2" />
+      <path d="M-2,-6 L2,0 L-1,0 L3,6" stroke="#22c55e" stroke-width="2" fill="none" />
     """))
-    write_svg(ABILITIES_DIR, "yakir_w", ability_svg("#0d1b2e", "#0ea5e9", "#7dd3fc", """
-      <rect x="-14" y="-12" width="28" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-      <line x1="-10" y1="0" x2="10" y2="0" stroke="#7dd3fc" stroke-width="2" />
-      <line x1="0" y1="-8" x2="0" y2="8" stroke="#7dd3fc" stroke-width="2" />
+    write_svg(ABILITIES_DIR, "yakir_w", ability_svg("#451a03", "#f59e0b", "#fef08a", """
+      <!-- Hot Snack / Shawarma Wrap -->
+      <ellipse cx="0" cy="0" rx="14" ry="8" fill="#d97706" stroke="#fde047" stroke-width="2" />
+      <circle cx="-4" cy="0" r="2" fill="#ef4444" />
+      <circle cx="4" cy="0" r="2" fill="#10b981" />
     """))
-    write_svg(ABILITIES_DIR, "yakir_e", ability_svg("#111e30", "#38bdf8", "#e0f2fe", """
-      <circle cx="0" cy="0" r="14" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="6 3" />
-      <rect x="-4" y="-10" width="8" height="20" rx="2" fill="#38bdf8" stroke="#fff" stroke-width="1.5" />
+    write_svg(ABILITIES_DIR, "yakir_e", ability_svg("#1e1b4b", "#6366f1", "#a5b4fc", """
+      <!-- Sugar / Caffeine Surge -->
+      <polygon points="0,-16 5,-3 16,0 6,6 8,16 0,9 -8,16 -6,6 -16,0 -5,-3" fill="#818cf8" stroke="#c7d2fe" stroke-width="1.5" />
     """))
-    write_svg(ABILITIES_DIR, "yakir_r", ability_svg("#152438", "#38bdf8", "#facc15", """
-      <polygon points="0,-18 16,-8 16,10 0,18 -16,10 -16,-8" fill="#0369a1" stroke="#facc15" stroke-width="2.5" />
-      <polygon points="0,-10 9,-4 9,6 0,11 -9,6 -9,-4" fill="#38bdf8" stroke="#fff" stroke-width="1.5" />
+    write_svg(ABILITIES_DIR, "yakir_r", ability_svg("#14532d", "#22c55e", "#facc15", """
+      <!-- The Grand Picnic Feast -->
+      <ellipse cx="0" cy="4" rx="16" ry="10" fill="#166534" stroke="#facc15" stroke-width="2" />
+      <rect x="-4" y="-8" width="8" height="12" rx="2" fill="#f59e0b" />
+      <circle cx="-8" cy="2" r="3" fill="#ef4444" />
+      <circle cx="8" cy="2" r="3" fill="#22c55e" />
     """))
 
-    # --- 7. Edgy ---
-    write_svg(CHAMPS_DIR, "edgy", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <rect width="80" height="80" rx="12" fill="#080005" />
-  <rect x="3" y="3" width="74" height="74" rx="10" fill="#1f020f" stroke="#f43f5e" stroke-width="3" />
-  <path d="M 40,16 C 26,22 22,46 22,60 L 58,60 C 58,46 54,22 40,16 Z" fill="#3f071b" stroke="#fb7185" stroke-width="2" />
-  <polygon points="30,36 38,38 32,41" fill="#ff0055" />
-  <polygon points="50,36 42,38 48,41" fill="#ff0055" />
-  <line x1="20" y1="62" x2="36" y2="48" stroke="#ff0055" stroke-width="2.5" stroke-linecap="round" />
-  <line x1="60" y1="62" x2="44" y2="48" stroke="#ff0055" stroke-width="2.5" stroke-linecap="round" />
+    # =========================================================================
+    # 7. LIOR - The Graceful Vanguard (Feminine / Effeminate Male Tank)
+    # =========================================================================
+    write_svg(CHAMPS_DIR, "lior", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <rect width="80" height="80" rx="12" fill="#2a1222" />
+  <rect x="3" y="3" width="74" height="74" rx="10" fill="#4a1d3c" stroke="#f472b6" stroke-width="3" />
+  <!-- Elegant Prismatic Mirror Shield -->
+  <path d="M 40,16 L 62,28 C 62,50 40,68 40,68 C 40,68 18,50 18,28 Z" fill="#ec4899" stroke="#fbcfe8" stroke-width="2.5" />
+  <!-- Crystal mirror facet reflection -->
+  <polygon points="40,24 52,34 40,54 28,34" fill="#fdf2f8" opacity="0.85" />
+  <!-- Rose-gold delicate floral embellishment -->
+  <circle cx="40" cy="38" r="4" fill="#fb7185" />
+  <circle cx="40" cy="32" r="2" fill="#f43f5e" />
+  <circle cx="40" cy="44" r="2" fill="#f43f5e" />
+  <circle cx="34" cy="38" r="2" fill="#f43f5e" />
+  <circle cx="46" cy="38" r="2" fill="#f43f5e" />
 </svg>""")
-    write_svg(ABILITIES_DIR, "edgy_p", ability_svg("#1f030d", "#f43f5e", "#ff0055", """
-      <path d="M0,-14 C-10,-8 -10,8 0,16 C10,8 10,-8 0,-14 Z" fill="#3f071b" stroke="#f43f5e" stroke-width="2" />
-      <polygon points="-6,-2 -2,0 -4,2" fill="#ff0055" /><polygon points="6,-2 2,0 4,2" fill="#ff0055" />
+    write_svg(ABILITIES_DIR, "lior_p", ability_svg("#3b0724", "#ec4899", "#fbcfe8", """
+      <!-- Prismatic Glamour Sparkle -->
+      <polygon points="0,-15 4,-4 15,0 4,4 0,15 -4,4 -15,0 -4,-4" fill="#f472b6" stroke="#ffffff" stroke-width="1.5" />
+      <circle cx="-8" cy="-8" r="2" fill="#fbcfe8" />
+      <circle cx="8" cy="8" r="2" fill="#fbcfe8" />
     """))
-    write_svg(ABILITIES_DIR, "edgy_q", ability_svg("#260410", "#ff0055", "#ffffff", """
-      <line x1="-15" y1="-15" x2="15" y2="15" stroke="#f43f5e" stroke-width="3.5" stroke-linecap="round" />
-      <polygon points="15,15 7,15 15,7" fill="#ff0055" />
-      <line x1="15" y1="-15" x2="-15" y2="15" stroke="#fb7185" stroke-width="3.5" stroke-linecap="round" />
-      <polygon points="-15,15 -7,15 -15,7" fill="#ff0055" />
+    write_svg(ABILITIES_DIR, "lior_q", ability_svg("#4c0519", "#f43f5e", "#fda4af", """
+      <!-- Graceful Mirror Lunge -->
+      <line x1="-12" y1="12" x2="12" y2="-12" stroke="#fda4af" stroke-width="3" stroke-linecap="round" />
+      <polygon points="12,-12 4,-12 12,-4" fill="#f43f5e" />
+      <circle cx="-6" cy="6" r="3" fill="#fbcfe8" />
     """))
-    write_svg(ABILITIES_DIR, "edgy_w", ability_svg("#1a020d", "#881337", "#f43f5e", """
-      <circle cx="-6" cy="-4" r="8" fill="#3f071b" opacity="0.85" />
-      <circle cx="6" cy="-4" r="9" fill="#1f020f" opacity="0.95" />
-      <circle cx="0" cy="5" r="10" fill="#4c0519" opacity="0.9" />
-      <path d="M-15,10 C-6,6 6,14 15,8" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" />
+    write_svg(ABILITIES_DIR, "lior_w", ability_svg("#3b0724", "#db2777", "#fdf2f8", """
+      <!-- Mirror Sheen Reflection Barrier -->
+      <path d="M-14,-14 L14,-14 L16,6 C16,16 0,20 0,20 C0,20 -16,16 -16,6 Z" fill="#ec4899" stroke="#fdf2f8" stroke-width="2" />
+      <line x1="-6" y1="-4" x2="6" y2="8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
     """))
-    write_svg(ABILITIES_DIR, "edgy_e", ability_svg("#21030e", "#f43f5e", "#22c55e", """
-      <polygon points="0,-16 6,-2 2,12 -2,12 -6,-2" fill="#f43f5e" stroke="#fb7185" stroke-width="1.5" />
-      <circle cx="0" cy="15" r="2.5" fill="#22c55e" />
+    write_svg(ABILITIES_DIR, "lior_e", ability_svg("#4a044e", "#c026d3", "#f5d0fe", """
+      <!-- Charming Step Swirl -->
+      <circle cx="0" cy="0" r="14" fill="none" stroke="#f5d0fe" stroke-width="2" stroke-dasharray="4,3" />
+      <polygon points="0,-8 6,0 0,8 -6,0" fill="#e879f9" />
     """))
-    write_svg(ABILITIES_DIR, "edgy_r", ability_svg("#330014", "#ff0055", "#ffffff", """
-      <line x1="-14" y1="-14" x2="14" y2="14" stroke="#ff0055" stroke-width="4" stroke-linecap="round" />
-      <line x1="14" y1="-14" x2="-14" y2="14" stroke="#ff0055" stroke-width="4" stroke-linecap="round" />
-      <circle cx="0" cy="0" r="5" fill="#ffffff" />
+    write_svg(ABILITIES_DIR, "lior_r", ability_svg("#2a1222", "#f472b6", "#fef08a", """
+      <!-- Dazzling Pavilion Dome -->
+      <path d="M-16,10 C-16,-8 16,-8 16,10 Z" fill="#db2777" stroke="#fef08a" stroke-width="2.5" />
+      <circle cx="0" cy="-10" r="4" fill="#fef08a" />
+      <line x1="-16" y1="10" x2="16" y2="10" stroke="#fef08a" stroke-width="2" />
     """))
 
-    print("Generated 7 portraits and 35 ability SVGs successfully!")
+    print("All SVGs successfully written!")
 
 if __name__ == "__main__":
     gen()
