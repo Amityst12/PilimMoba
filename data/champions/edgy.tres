@@ -5,152 +5,149 @@
 [ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_tsplg"]
 [ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_bq4ht"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_w.svg" id="5_6144s"]
-[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="6_3xj6c"]
+[ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="6_3xj6c"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_e.svg" id="7_5li48"]
-[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="8_rhe2n"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_rhe2n"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_r.svg" id="9_o5cxs"]
 [ext_resource type="PackedScene" path="res://entities/champion/models/EdgyModel.tscn" id="10_2631r"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_p.svg" id="11_uits5"]
-[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_bxyx3"]
+[ext_resource type="Script" path="res://core/abilities/AttackCounterPassive.gd" id="12_bxyx3"]
 [ext_resource type="Texture2D" path="res://assets/icons/champions/edgy.svg" id="13_hsois"]
 [ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_0f47e"]
 
 [sub_resource type="Resource" id="Resource_v0w5s"]
-script = ExtResource("3_tsplg")
-id = &"shadow_strike"
-display_name = "Shadow Strike"
-description = "Dashes swiftly forward, striking enemies in path."
-icon = ExtResource("2_3fo20")
-color = Color(0.8, 0.2, 0.9, 1)
-cast_range = 5.0
-cooldown = PackedFloat32Array(8, 7, 6, 5, 4)
-mana_cost = PackedFloat32Array(40, 40, 40, 40, 40)
-blocked_by_root = true
-base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
-ad_ratio = 0.75
-damage_type = 0
+script = ExtResource("4_bq4ht")
+value = 0.35
+value_per_rank = PackedFloat32Array()
+duration = 1.8
 
 [sub_resource type="Resource" id="Resource_3fo20"]
-script = ExtResource("4_bq4ht")
-kind = 7
-value = 1.0
-value_per_rank = PackedFloat32Array()
-duration = 0.75
+script = ExtResource("3_tsplg")
+dash_distance = 5.2
+travel_speed = 20.0
+id = &"graceful_lunge"
+display_name = "Graceful Lunge"
+description = "Lunges forward with mirror shield, striking the first enemy and slowing them."
+icon = ExtResource("2_3fo20")
+color = Color(0.95, 0.4, 0.6, 1)
+cast_range = 5.2
+cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
+blocked_by_root = true
+base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
+ad_ratio = 0.4
+damage_type = 0
+target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_v0w5s")])
 
 [sub_resource type="Resource" id="Resource_tsplg"]
 script = ExtResource("4_bq4ht")
 kind = 1
-value = 0.35
+value = 0.2
 value_per_rank = PackedFloat32Array()
-duration = 2.5
+duration = 3.5
 
 [sub_resource type="Resource" id="Resource_bq4ht"]
 script = ExtResource("6_3xj6c")
-center = 1
-delay = 0.0
-id = &"smoke_bomb"
-display_name = "Smoke Bomb"
-description = "Deploys a smoke cloud around self, gaining haste and brief untargetability."
+shield_amount = PackedFloat32Array(115, 175, 235, 295, 355)
+shield_duration = 3.5
+heal_amount = PackedFloat32Array()
+id = &"mirror_sheen"
+display_name = "Mirror Sheen"
+description = "Polishes mirror shield, granting a durable absorption shield and speed."
 icon = ExtResource("5_6144s")
-color = Color(0.5, 0.2, 0.6, 1)
+color = Color(0.98, 0.6, 0.8, 1)
 targeting = 0
-cooldown = PackedFloat32Array(16, 15, 14, 13, 12)
+cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
 mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
 base_damage = PackedFloat32Array()
-self_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_3fo20"), SubResource("Resource_tsplg")])
+self_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_tsplg")])
 
 [sub_resource type="Resource" id="Resource_6144s"]
 script = ExtResource("4_bq4ht")
-value = 0.4
-value_per_rank = PackedFloat32Array()
-duration = 2.0
-
-[sub_resource type="Resource" id="Resource_3xj6c"]
-script = ExtResource("8_rhe2n")
-projectile_speed = 17.0
-projectile_width = 0.7
-id = &"crippling_slash"
-display_name = "Crippling Slash"
-description = "Throws a curved shadow blade that slows the target."
-icon = ExtResource("7_5li48")
-color = Color(0.9, 0.1, 0.4, 1)
-cast_range = 6.5
-cooldown = PackedFloat32Array(10, 9, 8, 7, 6)
-mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
-base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
-ad_ratio = 0.55
-damage_type = 0
-target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_6144s")])
-
-[sub_resource type="Resource" id="Resource_5li48"]
-script = ExtResource("4_bq4ht")
-kind = 8
+kind = 2
 value = 1.0
 value_per_rank = PackedFloat32Array()
 duration = 1.0
 
-[sub_resource type="Resource" id="Resource_rhe2n"]
-script = ExtResource("3_tsplg")
-dash_distance = 7.0
-travel_speed = 28.0
-id = &"death_mark"
-display_name = "Death Mark"
-description = "Assaults an enemy with blinding speed, dealing massive execution damage."
-icon = ExtResource("9_o5cxs")
-color = Color(1, 0.1, 0.3, 1)
-cast_range = 7.0
-max_rank = 3
-is_ultimate = true
-cooldown = PackedFloat32Array(80, 65, 50)
-mana_cost = PackedFloat32Array(100, 100, 100)
-blocked_by_root = true
-base_damage = PackedFloat32Array(200, 320, 440)
-ad_ratio = 0.95
-damage_type = 0
-target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_5li48")])
+[sub_resource type="Resource" id="Resource_3xj6c"]
+script = ExtResource("8_rhe2n")
+radius = 3.2
+delay = 0.3
+id = &"charming_step"
+display_name = "Charming Step"
+description = "Performs a graceful twirl, dispersing crystal fragments that stun enemies around him."
+icon = ExtResource("7_5li48")
+color = Color(0.85, 0.35, 0.8, 1)
+targeting = 2
+cast_range = 4.5
+cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
+mana_cost = PackedFloat32Array(55, 60, 65, 70, 75)
+base_damage = PackedFloat32Array(50, 80, 110, 140, 170)
+ad_ratio = 0.35
+target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_6144s")])
 
-[sub_resource type="Resource" id="Resource_o5cxs"]
+[sub_resource type="Resource" id="Resource_5li48"]
 script = ExtResource("4_bq4ht")
 kind = 1
-value = 0.4
 value_per_rank = PackedFloat32Array()
-duration = 2.5
+duration = 6.0
 
-[sub_resource type="Resource" id="Resource_2631r"]
+[sub_resource type="Resource" id="Resource_rhe2n"]
+script = ExtResource("6_3xj6c")
+shield_amount = PackedFloat32Array(350, 550, 750)
+shield_duration = 6.0
+heal_amount = PackedFloat32Array()
+id = &"dazzling_pavilion"
+display_name = "Dazzling Pavilion"
+description = "Erects a prismatic mirror pavilion, gaining enormous shielding and speed."
+icon = ExtResource("9_o5cxs")
+color = Color(1, 0.7, 0.85, 1)
+targeting = 0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(90, 80, 70)
+mana_cost = PackedFloat32Array(100, 100, 100)
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_5li48")])
+
+[sub_resource type="Resource" id="Resource_o5cxs"]
 script = ExtResource("12_bxyx3")
-effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_o5cxs")])
-id = &"shadow_dance"
-display_name = "Shadow Dance"
-description = "Every 3rd ability cast grants +40% movement speed for 2.5s."
+bonus_damage = 22.0
+bonus_max_health_ratio = 0.035
+heal_max_health_ratio = 0.03
+id = &"prismatic_glamour"
+display_name = "Prismatic Glamour"
+description = "Every 3rd attack releases a dazzling flash, dealing bonus damage and restoring health."
 icon = ExtResource("11_uits5")
-color = Color(0.75, 0.15, 0.85, 1)
+color = Color(0.95, 0.5, 0.7, 1)
 
 [resource]
 script = ExtResource("14_0f47e")
 id = &"edgy"
 display_name = "Edgy"
-title = "The Shadowblade"
-role = "Assassin"
-lore = "A silent rogue who darts through shadows, striking vital points before slipping back into the void."
-color = Color(0.75, 0.15, 0.85, 1)
+title = "The Graceful Vanguard"
+role = "Tank"
+lore = "An exceptionally elegant, effeminate warrior whose poise is rivaled only by his impenetrable mirror barrier."
+color = Color(0.95, 0.45, 0.65, 1)
 model_scene = ExtResource("10_2631r")
 portrait = ExtResource("13_hsois")
-difficulty = 3
-max_health = 720.0
-health_regen = 2.8
+max_health = 880.0
+health_per_level = 120.0
+health_regen = 3.8
 max_mana = 320.0
-mana_per_level = 32.0
-mana_regen = 1.5
-attack_damage = 56.0
-attack_damage_per_level = 3.6
-attack_speed = 0.68
-armor = 30.0
-armor_per_level = 3.4
-magic_resist = 32.0
-magic_resist_per_level = 1.4
-move_speed = 6.0
-passive = SubResource("Resource_2631r")
-abilities = Array[ExtResource("1_v0w5s")]([SubResource("Resource_v0w5s"), SubResource("Resource_bq4ht"), SubResource("Resource_3xj6c"), SubResource("Resource_rhe2n")])
+mana_per_level = 36.0
+mana_regen = 1.6
+attack_damage = 50.0
+attack_damage_per_level = 3.0
+attack_speed = 0.64
+attack_range = 1.9
+armor = 44.0
+armor_per_level = 4.4
+magic_resist = 38.0
+magic_resist_per_level = 2.0
+move_speed = 5.6
+passive = SubResource("Resource_o5cxs")
+abilities = Array[ExtResource("1_v0w5s")]([SubResource("Resource_3fo20"), SubResource("Resource_bq4ht"), SubResource("Resource_3xj6c"), SubResource("Resource_rhe2n")])
 bot_skill_priority = PackedInt32Array(0, 1, 2)
-bot_item_build = PackedStringArray("long_sword", "boots", "serrated_dirk", "duskblade", "infinity_edge")
+bot_item_build = PackedStringArray("cloth_armor", "ruby_crystal", "boots", "sunfire_aegis", "thornmail", "warmog_armor")
 bot_preferred_range = 1.8

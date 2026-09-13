@@ -843,122 +843,119 @@ func _build_lior() -> void:
 	ResourceSaver.save(champ, "res://data/champions/lior.tres")
 
 # =========================================================================
-# 8. EDGY - Fallback Assassin
+# 7. EDGY (formerly referred to as Lior) - The Graceful Vanguard (Feminine / Effeminate Male Tank)
 # =========================================================================
 func _build_edgy() -> void:
 	var champ := ChampionData.new()
 	champ.id = &"edgy"
 	champ.display_name = "Edgy"
-	champ.title = "The Shadowblade"
-	champ.role = "Assassin"
-	champ.lore = "A silent rogue who darts through shadows, striking vital points before slipping back into the void."
-	champ.color = Color(0.75, 0.15, 0.85)
-	champ.difficulty = 3
+	champ.title = "The Graceful Vanguard"
+	champ.role = "Tank"
+	champ.lore = "An exceptionally elegant, effeminate warrior whose poise is rivaled only by his impenetrable mirror barrier."
+	champ.color = Color(0.95, 0.45, 0.65)
+	champ.difficulty = 1
 	champ.model_scene = load("res://entities/champion/models/EdgyModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/edgy.svg")
 
-	champ.max_health = 720.0
-	champ.health_per_level = 90.0
-	champ.health_regen = 2.8
+	champ.max_health = 880.0
+	champ.health_per_level = 120.0
+	champ.health_regen = 3.8
 	champ.max_mana = 320.0
-	champ.mana_per_level = 32.0
-	champ.mana_regen = 1.5
-	champ.attack_damage = 56.0
-	champ.attack_damage_per_level = 3.6
-	champ.attack_speed = 0.68
-	champ.attack_range = 1.8
-	champ.armor = 30.0
-	champ.armor_per_level = 3.4
-	champ.magic_resist = 32.0
-	champ.magic_resist_per_level = 1.4
-	champ.move_speed = 6.0
+	champ.mana_per_level = 36.0
+	champ.mana_regen = 1.6
+	champ.attack_damage = 50.0
+	champ.attack_damage_per_level = 3.0
+	champ.attack_speed = 0.64
+	champ.attack_range = 1.9
+	champ.armor = 44.0
+	champ.armor_per_level = 4.4
+	champ.magic_resist = 38.0
+	champ.magic_resist_per_level = 2.0
+	champ.move_speed = 5.6
 
-	var passive := CastCounterPassive.new()
-	passive.id = &"shadow_dance"
-	passive.display_name = "Shadow Dance"
-	passive.description = "Every 3rd ability cast grants +40% movement speed for 2.5s."
-	passive.color = Color(0.75, 0.15, 0.85)
+	var passive := AttackCounterPassive.new()
+	passive.id = &"prismatic_glamour"
+	passive.display_name = "Prismatic Glamour"
+	passive.description = "Every 3rd attack releases a dazzling flash, dealing bonus damage and restoring health."
+	passive.color = Color(0.95, 0.5, 0.7)
 	passive.icon = load("res://assets/icons/abilities/edgy_p.svg")
-	passive.casts_required = 3
-	passive.effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.4, 2.5)]
+	passive.attacks_required = 3
+	passive.bonus_damage = 22.0
+	passive.bonus_damage_per_level = 6.0
+	passive.bonus_max_health_ratio = 0.035
+	passive.heal_max_health_ratio = 0.03
 	champ.passive = passive
 
 	var q := DashAbility.new()
-	q.id = &"shadow_strike"
-	q.display_name = "Shadow Strike"
-	q.description = "Dashes swiftly forward, striking enemies in path."
-	q.color = Color(0.8, 0.2, 0.9)
+	q.id = &"graceful_lunge"
+	q.display_name = "Graceful Lunge"
+	q.description = "Lunges forward with mirror shield, striking the first enemy and slowing them."
+	q.color = Color(0.95, 0.4, 0.6)
 	q.icon = load("res://assets/icons/abilities/edgy_q.svg")
 	q.mode = DashAbility.Mode.DASH
 	q.targeting = AbilityData.Targeting.DIRECTION
-	q.cast_range = 5.0
-	q.dash_distance = 5.0
-	q.travel_speed = 24.0
-	q.cooldown = PackedFloat32Array([8.0, 7.0, 6.0, 5.0, 4.0])
-	q.mana_cost = PackedFloat32Array([40.0, 40.0, 40.0, 40.0, 40.0])
-	q.base_damage = PackedFloat32Array([60.0, 95.0, 130.0, 165.0, 200.0])
-	q.ad_ratio = 0.75
+	q.cast_range = 5.2
+	q.dash_distance = 5.2
+	q.travel_speed = 20.0
+	q.cooldown = PackedFloat32Array([11.0, 10.0, 9.0, 8.0, 7.0])
+	q.mana_cost = PackedFloat32Array([50.0, 55.0, 60.0, 65.0, 70.0])
+	q.base_damage = PackedFloat32Array([55.0, 85.0, 115.0, 145.0, 175.0])
+	q.ad_ratio = 0.4
 	q.damage_type = GameConst.DamageType.PHYSICAL
+	q.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.35, 1.8)]
 
-	var w := AreaAbility.new()
-	w.id = &"smoke_bomb"
-	w.display_name = "Smoke Bomb"
-	w.description = "Deploys a smoke cloud around self, gaining haste and brief untargetability."
-	w.color = Color(0.5, 0.2, 0.6)
+	var w := SelfBuffAbility.new()
+	w.id = &"mirror_sheen"
+	w.display_name = "Mirror Sheen"
+	w.description = "Polishes mirror shield, granting a durable absorption shield and speed."
+	w.color = Color(0.98, 0.6, 0.8)
 	w.icon = load("res://assets/icons/abilities/edgy_w.svg")
-	w.center = AreaAbility.Center.SELF
 	w.targeting = AbilityData.Targeting.NONE
-	w.radius = 3.0
-	w.delay = 0.0
-	w.cooldown = PackedFloat32Array([16.0, 15.0, 14.0, 13.0, 12.0])
+	w.cooldown = PackedFloat32Array([14.0, 13.0, 12.0, 11.0, 10.0])
 	w.mana_cost = PackedFloat32Array([60.0, 60.0, 60.0, 60.0, 60.0])
-	w.self_effects = [
-		StatusEffectData.make(GameConst.Status.UNTARGETABLE, 1.0, 0.75),
-		StatusEffectData.make(GameConst.Status.HASTE, 0.35, 2.5)
-	]
+	w.shield_amount = PackedFloat32Array([115.0, 175.0, 235.0, 295.0, 355.0])
+	w.shield_duration = 3.5
+	w.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.2, 3.5)]
 
-	var e := ProjectileAbility.new()
-	e.id = &"crippling_slash"
-	e.display_name = "Crippling Slash"
-	e.description = "Throws a curved shadow blade that slows the target."
-	e.color = Color(0.9, 0.1, 0.4)
+	var e := AreaAbility.new()
+	e.id = &"charming_step"
+	e.display_name = "Charming Step"
+	e.description = "Performs a graceful twirl, dispersing crystal fragments that stun enemies around him."
+	e.color = Color(0.85, 0.35, 0.8)
 	e.icon = load("res://assets/icons/abilities/edgy_e.svg")
-	e.targeting = AbilityData.Targeting.DIRECTION
-	e.cast_range = 6.5
-	e.projectile_speed = 17.0
-	e.projectile_width = 0.7
-	e.cooldown = PackedFloat32Array([10.0, 9.0, 8.0, 7.0, 6.0])
-	e.mana_cost = PackedFloat32Array([50.0, 50.0, 50.0, 50.0, 50.0])
-	e.base_damage = PackedFloat32Array([55.0, 85.0, 115.0, 145.0, 175.0])
-	e.ad_ratio = 0.55
-	e.damage_type = GameConst.DamageType.PHYSICAL
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
+	e.targeting = AbilityData.Targeting.POINT
+	e.center = AreaAbility.Center.POINT
+	e.cast_range = 4.5
+	e.radius = 3.2
+	e.delay = 0.3
+	e.cooldown = PackedFloat32Array([12.0, 11.0, 10.0, 9.0, 8.0])
+	e.mana_cost = PackedFloat32Array([55.0, 60.0, 65.0, 70.0, 75.0])
+	e.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	e.ad_ratio = 0.35
+	e.damage_type = GameConst.DamageType.MAGIC
+	e.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.0, 1.0)]
 
-	var r := DashAbility.new()
-	r.id = &"death_mark"
-	r.display_name = "Death Mark"
-	r.description = "Assaults an enemy with blinding speed, dealing massive execution damage."
-	r.color = Color(1.0, 0.1, 0.3)
+	var r := SelfBuffAbility.new()
+	r.id = &"dazzling_pavilion"
+	r.display_name = "Dazzling Pavilion"
+	r.description = "Erects a prismatic mirror pavilion, gaining enormous shielding and speed."
+	r.color = Color(1.0, 0.7, 0.85)
 	r.icon = load("res://assets/icons/abilities/edgy_r.svg")
-	r.mode = DashAbility.Mode.DASH
-	r.targeting = AbilityData.Targeting.DIRECTION
-	r.cast_range = 7.0
-	r.dash_distance = 7.0
-	r.travel_speed = 28.0
+	r.targeting = AbilityData.Targeting.NONE
 	r.is_ultimate = true
 	r.max_rank = 3
-	r.cooldown = PackedFloat32Array([80.0, 65.0, 50.0])
+	r.cooldown = PackedFloat32Array([90.0, 80.0, 70.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([200.0, 320.0, 440.0])
-	r.ad_ratio = 0.95
-	r.damage_type = GameConst.DamageType.PHYSICAL
-	r.target_effects = [StatusEffectData.make(GameConst.Status.SILENCE, 1.0, 1.0)]
+	r.shield_amount = PackedFloat32Array([350.0, 550.0, 750.0])
+	r.shield_duration = 6.0
+	r.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.3, 6.0)]
 
 	champ.abilities = [q, w, e, r]
 	champ.bot_skill_priority = PackedInt32Array([0, 1, 2])
-	champ.bot_item_build = PackedStringArray(["long_sword", "boots", "serrated_dirk", "duskblade", "infinity_edge"])
+	champ.bot_item_build = PackedStringArray(["cloth_armor", "ruby_crystal", "boots", "sunfire_aegis", "thornmail", "warmog_armor"])
 	champ.bot_preferred_range = 1.8
 	ResourceSaver.save(champ, "res://data/champions/edgy.tres")
+
 
 # =========================================================================
 # Legacy Champions

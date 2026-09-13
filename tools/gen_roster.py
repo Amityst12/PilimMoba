@@ -302,9 +302,11 @@ def gen():
     """))
 
     # =========================================================================
-    # 7. LIOR - The Graceful Vanguard (Feminine / Effeminate Male Tank)
     # =========================================================================
-    write_svg(CHAMPS_DIR, "lior", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+    # 7. EDGY (formerly referenced as Lior) - The Graceful Vanguard (Feminine / Effeminate Male Tank)
+    # =========================================================================
+    for cid in ["edgy", "lior"]:
+        write_svg(CHAMPS_DIR, cid, """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
   <rect width="80" height="80" rx="12" fill="#2a1222" />
   <rect x="3" y="3" width="74" height="74" rx="10" fill="#4a1d3c" stroke="#f472b6" stroke-width="3" />
   <!-- Elegant Prismatic Mirror Shield -->
@@ -318,34 +320,34 @@ def gen():
   <circle cx="34" cy="38" r="2" fill="#f43f5e" />
   <circle cx="46" cy="38" r="2" fill="#f43f5e" />
 </svg>""")
-    write_svg(ABILITIES_DIR, "lior_p", ability_svg("#3b0724", "#ec4899", "#fbcfe8", """
-      <!-- Prismatic Glamour Sparkle -->
-      <polygon points="0,-15 4,-4 15,0 4,4 0,15 -4,4 -15,0 -4,-4" fill="#f472b6" stroke="#ffffff" stroke-width="1.5" />
-      <circle cx="-8" cy="-8" r="2" fill="#fbcfe8" />
-      <circle cx="8" cy="8" r="2" fill="#fbcfe8" />
-    """))
-    write_svg(ABILITIES_DIR, "lior_q", ability_svg("#4c0519", "#f43f5e", "#fda4af", """
-      <!-- Graceful Mirror Lunge -->
-      <line x1="-12" y1="12" x2="12" y2="-12" stroke="#fda4af" stroke-width="3" stroke-linecap="round" />
-      <polygon points="12,-12 4,-12 12,-4" fill="#f43f5e" />
-      <circle cx="-6" cy="6" r="3" fill="#fbcfe8" />
-    """))
-    write_svg(ABILITIES_DIR, "lior_w", ability_svg("#3b0724", "#db2777", "#fdf2f8", """
-      <!-- Mirror Sheen Reflection Barrier -->
-      <path d="M-14,-14 L14,-14 L16,6 C16,16 0,20 0,20 C0,20 -16,16 -16,6 Z" fill="#ec4899" stroke="#fdf2f8" stroke-width="2" />
-      <line x1="-6" y1="-4" x2="6" y2="8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
-    """))
-    write_svg(ABILITIES_DIR, "lior_e", ability_svg("#4a044e", "#c026d3", "#f5d0fe", """
-      <!-- Charming Step Swirl -->
-      <circle cx="0" cy="0" r="14" fill="none" stroke="#f5d0fe" stroke-width="2" stroke-dasharray="4,3" />
-      <polygon points="0,-8 6,0 0,8 -6,0" fill="#e879f9" />
-    """))
-    write_svg(ABILITIES_DIR, "lior_r", ability_svg("#2a1222", "#f472b6", "#fef08a", """
-      <!-- Dazzling Pavilion Dome -->
-      <path d="M-16,10 C-16,-8 16,-8 16,10 Z" fill="#db2777" stroke="#fef08a" stroke-width="2.5" />
-      <circle cx="0" cy="-10" r="4" fill="#fef08a" />
-      <line x1="-16" y1="10" x2="16" y2="10" stroke="#fef08a" stroke-width="2" />
-    """))
+        write_svg(ABILITIES_DIR, f"{cid}_p", ability_svg("#3b0724", "#ec4899", "#fbcfe8", """
+          <!-- Prismatic Glamour Sparkle -->
+          <polygon points="0,-15 4,-4 15,0 4,4 0,15 -4,4 -15,0 -4,-4" fill="#f472b6" stroke="#ffffff" stroke-width="1.5" />
+          <circle cx="-8" cy="-8" r="2" fill="#fbcfe8" />
+          <circle cx="8" cy="8" r="2" fill="#fbcfe8" />
+        """))
+        write_svg(ABILITIES_DIR, f"{cid}_q", ability_svg("#4c0519", "#f43f5e", "#fda4af", """
+          <!-- Graceful Mirror Lunge -->
+          <line x1="-12" y1="12" x2="12" y2="-12" stroke="#fda4af" stroke-width="3" stroke-linecap="round" />
+          <polygon points="12,-12 4,-12 12,-4" fill="#f43f5e" />
+          <circle cx="-6" cy="6" r="3" fill="#fbcfe8" />
+        """))
+        write_svg(ABILITIES_DIR, f"{cid}_w", ability_svg("#3b0724", "#db2777", "#fdf2f8", """
+          <!-- Mirror Sheen Reflection Barrier -->
+          <path d="M-14,-14 L14,-14 L16,6 C16,16 0,20 0,20 C0,20 -16,16 -16,6 Z" fill="#ec4899" stroke="#fdf2f8" stroke-width="2" />
+          <line x1="-6" y1="-4" x2="6" y2="8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+        """))
+        write_svg(ABILITIES_DIR, f"{cid}_e", ability_svg("#4a044e", "#c026d3", "#f5d0fe", """
+          <!-- Charming Step Swirl -->
+          <circle cx="0" cy="0" r="14" fill="none" stroke="#f5d0fe" stroke-width="2" stroke-dasharray="4,3" />
+          <polygon points="0,-8 6,0 0,8 -6,0" fill="#e879f9" />
+        """))
+        write_svg(ABILITIES_DIR, f"{cid}_r", ability_svg("#2a1222", "#f472b6", "#fef08a", """
+          <!-- Dazzling Pavilion Dome -->
+          <path d="M-16,10 C-16,-8 16,-8 16,10 Z" fill="#db2777" stroke="#fef08a" stroke-width="2.5" />
+          <circle cx="0" cy="-10" r="4" fill="#fef08a" />
+          <line x1="-16" y1="10" x2="16" y2="10" stroke="#fef08a" stroke-width="2" />
+        """))
 
     print("All SVGs successfully written!")
 

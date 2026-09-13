@@ -19,9 +19,9 @@
   <path d="M 60,54 L 60,60 L 54,60" stroke="#fdf2f8" stroke-width="1.5" fill="none" opacity="0.8" />
   <g transform="translate(32,32)">
     
-      <!-- Mirror Sheen Reflection Barrier -->
-      <path d="M-14,-14 L14,-14 L16,6 C16,16 0,20 0,20 C0,20 -16,16 -16,6 Z" fill="#ec4899" stroke="#fdf2f8" stroke-width="2" />
-      <line x1="-6" y1="-4" x2="6" y2="8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
-    
+          <!-- Mirror Sheen Reflection Barrier -->
+          <path d="M-14,-14 L14,-14 L16,6 C16,16 0,20 0,20 C0,20 -16,16 -16,6 Z" fill="#ec4899" stroke="#fdf2f8" stroke-width="2" />
+          <line x1="-6" y1="-4" x2="6" y2="8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+        
   </g>
 </svg>

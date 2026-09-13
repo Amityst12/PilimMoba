@@ -19,10 +19,10 @@
   <path d="M 60,54 L 60,60 L 54,60" stroke="#fef08a" stroke-width="1.5" fill="none" opacity="0.8" />
   <g transform="translate(32,32)">
     
-      <!-- Dazzling Pavilion Dome -->
-      <path d="M-16,10 C-16,-8 16,-8 16,10 Z" fill="#db2777" stroke="#fef08a" stroke-width="2.5" />
-      <circle cx="0" cy="-10" r="4" fill="#fef08a" />
-      <line x1="-16" y1="10" x2="16" y2="10" stroke="#fef08a" stroke-width="2" />
-    
+          <!-- Dazzling Pavilion Dome -->
+          <path d="M-16,10 C-16,-8 16,-8 16,10 Z" fill="#db2777" stroke="#fef08a" stroke-width="2.5" />
+          <circle cx="0" cy="-10" r="4" fill="#fef08a" />
+          <line x1="-16" y1="10" x2="16" y2="10" stroke="#fef08a" stroke-width="2" />
+        
   </g>
 </svg>
