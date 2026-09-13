@@ -1,0 +1,136 @@
+[gd_resource type="Resource" script_class="ChampionData" format=3]
+
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_t2mu0"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/amit_q.svg" id="2_i51gq"]
+[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="3_jqxra"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_jbiuo"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/amit_w.svg" id="5_v7gqq"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="6_7m5hl"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/amit_e.svg" id="7_41ikw"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_l1k8f"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/amit_r.svg" id="9_6wti6"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/AmitModel.tscn" id="10_mom3y"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/amit_p.svg" id="11_pxubc"]
+[ext_resource type="Script" path="res://core/abilities/AttackStackPassive.gd" id="12_nhlcu"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/amit.svg" id="13_ttvwu"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_3w0wj"]
+
+[sub_resource type="Resource" id="Resource_0v25a"]
+script = ExtResource("3_jqxra")
+projectile_speed = 28.0
+id = &"piercing_rail"
+display_name = "Piercing Rail"
+description = "Fires a high-velocity kinetic rail shot that damages all enemies in its path."
+icon = ExtResource("2_i51gq")
+color = Color(0.95, 0.7, 0.2, 1)
+cast_range = 11.0
+cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
+mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
+base_damage = PackedFloat32Array(80, 120, 160, 200, 240)
+ad_ratio = 0.85
+damage_type = 0
+
+[sub_resource type="Resource" id="Resource_x7cnn"]
+script = ExtResource("4_jbiuo")
+kind = 1
+value = 0.25
+value_per_rank = PackedFloat32Array()
+duration = 2.0
+
+[sub_resource type="Resource" id="Resource_ydi2s"]
+script = ExtResource("6_7m5hl")
+dash_distance = 4.8
+travel_speed = 18.0
+id = &"tactical_slide"
+display_name = "Tactical Slide"
+description = "Slides nimbly in target direction, resetting basic attack windup and gaining haste."
+icon = ExtResource("5_v7gqq")
+color = Color(0.3, 0.8, 0.5, 1)
+cast_range = 4.8
+cooldown = PackedFloat32Array(10, 9, 8, 7, 6)
+mana_cost = PackedFloat32Array(40, 40, 40, 40, 40)
+blocked_by_root = true
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_jbiuo")]([SubResource("Resource_x7cnn")])
+
+[sub_resource type="Resource" id="Resource_sp5xy"]
+script = ExtResource("4_jbiuo")
+value = 0.5
+value_per_rank = PackedFloat32Array()
+duration = 2.5
+
+[sub_resource type="Resource" id="Resource_ni2r2"]
+script = ExtResource("8_l1k8f")
+radius = 2.8
+id = &"stasis_caltrop"
+display_name = "Stasis Caltrop"
+description = "Deploys an electrified stasis field that damages and slows enemies by 50% for 2.5s."
+icon = ExtResource("7_41ikw")
+color = Color(0.9, 0.3, 0.3, 1)
+targeting = 2
+cast_range = 8.0
+cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
+mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
+indicator_size = 2.8
+base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
+ad_ratio = 0.5
+damage_type = 0
+target_effects = Array[ExtResource("4_jbiuo")]([SubResource("Resource_sp5xy")])
+
+[sub_resource type="Resource" id="Resource_0mb1q"]
+script = ExtResource("8_l1k8f")
+radius = 5.0
+delay = 0.5
+id = &"orbital_barrage"
+display_name = "Orbital Barrage"
+description = "Calls down a devastating artillery barrage from afar that saturates the target zone."
+icon = ExtResource("9_6wti6")
+color = Color(0.95, 0.6, 0.1, 1)
+targeting = 2
+cast_range = 16.0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(70, 60, 50)
+mana_cost = PackedFloat32Array(100, 100, 100)
+indicator_size = 5.0
+base_damage = PackedFloat32Array(250, 380, 510)
+ad_ratio = 0.95
+damage_type = 0
+
+[sub_resource type="Resource" id="Resource_qo01l"]
+script = ExtResource("12_nhlcu")
+id = &"calculated_shot"
+display_name = "Calculated Shot"
+description = "Every 4th basic attack deals +45% bonus physical damage."
+icon = ExtResource("11_pxubc")
+color = Color(0.95, 0.7, 0.2, 1)
+max_stacks = 4
+
+[resource]
+script = ExtResource("14_3w0wj")
+id = &"amit"
+display_name = "Amit"
+title = "The Grand Architect"
+role = "Marksman"
+lore = "An ingenious engineer and pinpoint sniper who shapes the battlefield with deadly precision."
+color = Color(0.95, 0.7, 0.2, 1)
+model_scene = ExtResource("10_mom3y")
+portrait = ExtResource("13_ttvwu")
+difficulty = 2
+max_health = 530.0
+health_per_level = 76.0
+health_regen = 1.3
+mana_regen = 1.6
+attack_damage = 54.0
+attack_speed = 0.68
+attack_range = 6.0
+armor = 24.0
+move_speed = 5.7
+attack_projectile_style = &"arrow"
+attack_projectile_speed = 26.0
+attack_windup = 0.16
+passive = SubResource("Resource_qo01l")
+abilities = Array[ExtResource("1_t2mu0")]([SubResource("Resource_0v25a"), SubResource("Resource_ydi2s"), SubResource("Resource_ni2r2"), SubResource("Resource_0mb1q")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("long_sword", "boots", "dagger", "storm_bow", "blade_of_ruin")
+bot_preferred_range = 5.8

@@ -1,0 +1,155 @@
+[gd_resource type="Resource" script_class="ChampionData" format=3]
+
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_76kew"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/nissim_q.svg" id="2_2j1qf"]
+[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="3_gpuob"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_s5nf4"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/nissim_w.svg" id="5_8hfdd"]
+[ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="6_30fcx"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/nissim_e.svg" id="7_1dllc"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_8a2hr"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/nissim_r.svg" id="9_hostj"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/NissimModel.tscn" id="10_l2awe"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/nissim_p.svg" id="11_1o16d"]
+[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_te8fe"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/nissim.svg" id="13_8ioo6"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_2vxdu"]
+
+[sub_resource type="Resource" id="Resource_pijli"]
+script = ExtResource("3_gpuob")
+projectile_speed = 20.0
+projectile_width = 1.1
+id = &"radiant_spark"
+display_name = "Radiant Spark"
+description = "Fires a spark of divine radiance that damages the first enemy hit."
+icon = ExtResource("2_2j1qf")
+color = Color(0.2, 0.9, 0.6, 1)
+cast_range = 9.0
+cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
+mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
+indicator_size = 1.1
+base_damage = PackedFloat32Array(70, 105, 140, 175, 210)
+ap_ratio = 0.6
+
+[sub_resource type="Resource" id="Resource_rvwv3"]
+script = ExtResource("4_s5nf4")
+kind = 4
+value = 130.0
+value_per_rank = PackedFloat32Array()
+duration = 3.5
+
+[sub_resource type="Resource" id="Resource_q2tby"]
+script = ExtResource("4_s5nf4")
+kind = 1
+value = 0.25
+value_per_rank = PackedFloat32Array()
+duration = 2.5
+
+[sub_resource type="Resource" id="Resource_fvfih"]
+script = ExtResource("6_30fcx")
+shield_amount = PackedFloat32Array()
+heal_amount = PackedFloat32Array()
+id = &"sanctuary_ward"
+display_name = "Sanctuary Ward"
+description = "Conjures a sanctuary shield absorbing damage and granting speed."
+icon = ExtResource("5_8hfdd")
+color = Color(0.1, 0.85, 0.5, 1)
+targeting = 0
+cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
+mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_s5nf4")]([SubResource("Resource_rvwv3"), SubResource("Resource_q2tby")])
+
+[sub_resource type="Resource" id="Resource_juteu"]
+script = ExtResource("4_s5nf4")
+kind = 3
+value = 1.4
+value_per_rank = PackedFloat32Array()
+duration = 1.4
+
+[sub_resource type="Resource" id="Resource_ri14u"]
+script = ExtResource("8_8a2hr")
+delay = 0.5
+id = &"binding_constellation"
+display_name = "Binding Constellation"
+description = "Calls down a constellation that detonates after 0.5s, rooting enemies for 1.4s."
+icon = ExtResource("7_1dllc")
+color = Color(0.3, 0.7, 0.9, 1)
+targeting = 2
+cast_range = 8.5
+cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
+mana_cost = PackedFloat32Array(60, 65, 70, 75, 80)
+indicator_size = 3.0
+base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
+ap_ratio = 0.55
+target_effects = Array[ExtResource("4_s5nf4")]([SubResource("Resource_juteu")])
+
+[sub_resource type="Resource" id="Resource_4bbuc"]
+script = ExtResource("4_s5nf4")
+kind = 4
+value = 280.0
+value_per_rank = PackedFloat32Array()
+duration = 4.0
+
+[sub_resource type="Resource" id="Resource_b2drj"]
+script = ExtResource("8_8a2hr")
+center = 1
+radius = 7.5
+id = &"divine_intervention"
+display_name = "Divine Intervention"
+description = "Unleashes a tidal wave of holy starlight across the arena, shielding allies and scorching foes."
+icon = ExtResource("9_hostj")
+color = Color(0.95, 0.85, 0.3, 1)
+targeting = 0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(75, 65, 55)
+mana_cost = PackedFloat32Array(100, 100, 100)
+indicator_size = 7.5
+base_damage = PackedFloat32Array(200, 300, 400)
+ap_ratio = 0.7
+self_effects = Array[ExtResource("4_s5nf4")]([SubResource("Resource_4bbuc")])
+
+[sub_resource type="Resource" id="Resource_5cwbk"]
+script = ExtResource("4_s5nf4")
+kind = 1
+value_per_rank = PackedFloat32Array()
+duration = 2.5
+
+[sub_resource type="Resource" id="Resource_rtg6s"]
+script = ExtResource("12_te8fe")
+effects = Array[ExtResource("4_s5nf4")]([SubResource("Resource_5cwbk")])
+id = &"living_grace"
+display_name = "Living Grace"
+description = "Every 3rd ability cast restores health to Nissim and grants +30% movement speed."
+icon = ExtResource("11_1o16d")
+color = Color(0.1, 0.8, 0.55, 1)
+
+[resource]
+script = ExtResource("14_2vxdu")
+id = &"nissim"
+display_name = "Nissim"
+title = "The Miracle Worker"
+role = "Support"
+lore = "A compassionate beacon of light who weaves protective barriers and revitalizing miracles."
+color = Color(0.1, 0.8, 0.55, 1)
+model_scene = ExtResource("10_l2awe")
+portrait = ExtResource("13_8ioo6")
+max_health = 570.0
+health_per_level = 82.0
+health_regen = 1.8
+max_mana = 400.0
+mana_per_level = 45.0
+mana_regen = 2.6
+attack_damage = 48.0
+attack_damage_per_level = 2.6
+attack_speed = 0.64
+attack_range = 5.2
+move_speed = 5.6
+attack_projectile_style = &"solar"
+attack_windup = 0.2
+passive = SubResource("Resource_rtg6s")
+abilities = Array[ExtResource("1_76kew")]([SubResource("Resource_pijli"), SubResource("Resource_fvfih"), SubResource("Resource_ri14u"), SubResource("Resource_b2drj")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("sapphire_crystal", "boots", "archmage_staff", "crystal_heart")
+bot_preferred_range = 5.2

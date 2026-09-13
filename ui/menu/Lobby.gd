@@ -140,9 +140,17 @@ func _build_ui() -> void:
 	var select_title := UI.label("CHOOSE YOUR CHAMPION", 16, UITheme.ACCENT, true)
 	select_vbox.add_child(select_title)
 
+	var cards_scroll := ScrollContainer.new()
+	cards_scroll.custom_minimum_size = Vector2(0, 84)
+	cards_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	cards_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	cards_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	select_vbox.add_child(cards_scroll)
+
 	var cards_row := UI.hbox(10)
+	cards_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	select_vbox.add_child(cards_row)
+	cards_scroll.add_child(cards_row)
 
 	for champ_id: StringName in ChampionDB.IDS:
 		var champ_data: ChampionData = ChampionDB.get_champion(champ_id)
@@ -350,6 +358,9 @@ func _refresh() -> void:
 
 	# Update champion card highlights
 	var my_champ: String = String(NetworkManager.local_player().get("champion", ChampionDB.default_id()))
+	if not ChampionDB.IDS.has(StringName(my_champ)):
+		my_champ = String(ChampionDB.default_id())
+		NetworkManager.request_champion(my_champ)
 	for cid: StringName in _champ_cards:
 		var card: Button = _champ_cards[cid]
 		if String(cid) == my_champ:

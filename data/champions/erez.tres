@@ -1,0 +1,150 @@
+[gd_resource type="Resource" script_class="ChampionData" format=3]
+
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_dc2n8"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/erez_q.svg" id="2_h0nxp"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_xj774"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_3xr5b"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/erez_w.svg" id="5_6hy7o"]
+[ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="6_d8k38"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/erez_e.svg" id="7_q43hw"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_0if8o"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/erez_r.svg" id="9_iqpoj"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/ErezModel.tscn" id="10_ui24b"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/erez_p.svg" id="11_1gyu1"]
+[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_g71qh"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/erez.svg" id="13_fmg0q"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_lscvp"]
+
+[sub_resource type="Resource" id="Resource_5yqxd"]
+script = ExtResource("3_xj774")
+dash_distance = 6.0
+travel_speed = 22.0
+id = &"tactical_strike"
+display_name = "Tactical Strike"
+description = "Charges forward in the targeted direction, striking enemies for physical damage."
+icon = ExtResource("2_h0nxp")
+color = Color(0.3, 0.5, 0.95, 1)
+cast_range = 6.0
+cooldown = PackedFloat32Array(7, 6.5, 6, 5.5, 5)
+mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
+blocked_by_root = true
+indicator_size = 1.3
+base_damage = PackedFloat32Array(75, 110, 145, 180, 215)
+ad_ratio = 0.8
+damage_type = 0
+
+[sub_resource type="Resource" id="Resource_k8tfc"]
+script = ExtResource("4_3xr5b")
+kind = 4
+value = 140.0
+value_per_rank = PackedFloat32Array()
+duration = 3.0
+
+[sub_resource type="Resource" id="Resource_7wre0"]
+script = ExtResource("6_d8k38")
+shield_amount = PackedFloat32Array()
+heal_amount = PackedFloat32Array()
+id = &"commanders_aegis"
+display_name = "Commander's Aegis"
+description = "Braces for battle, gaining a durable shield and 25% damage reduction for 3s."
+icon = ExtResource("5_6hy7o")
+color = Color(0.2, 0.6, 0.9, 1)
+targeting = 0
+cooldown = PackedFloat32Array(13, 12, 11, 10, 9)
+mana_cost = PackedFloat32Array(55, 55, 55, 55, 55)
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_3xr5b")]([SubResource("Resource_k8tfc")])
+
+[sub_resource type="Resource" id="Resource_kn24t"]
+script = ExtResource("4_3xr5b")
+value = 0.4
+value_per_rank = PackedFloat32Array()
+duration = 2.0
+
+[sub_resource type="Resource" id="Resource_6s6kh"]
+script = ExtResource("8_0if8o")
+center = 1
+radius = 4.2
+id = &"rallying_quake"
+display_name = "Rallying Quake"
+description = "Stomps the ground, sending a shockwave that deals physical damage and slows nearby enemies by 40%."
+icon = ExtResource("7_q43hw")
+color = Color(0.35, 0.65, 0.95, 1)
+targeting = 0
+cooldown = PackedFloat32Array(10, 9, 8, 7, 6)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
+indicator_size = 4.2
+base_damage = PackedFloat32Array(65, 100, 135, 170, 205)
+ad_ratio = 0.6
+damage_type = 0
+target_effects = Array[ExtResource("4_3xr5b")]([SubResource("Resource_kn24t")])
+
+[sub_resource type="Resource" id="Resource_x6ek7"]
+script = ExtResource("4_3xr5b")
+kind = 2
+value = 1.2
+value_per_rank = PackedFloat32Array()
+duration = 1.2
+
+[sub_resource type="Resource" id="Resource_hcgqf"]
+script = ExtResource("3_xj774")
+dash_distance = 10.0
+travel_speed = 28.0
+id = &"vanguard_onslaught"
+display_name = "Vanguard Onslaught"
+description = "Unleashes an unstoppable charge across the battlefield, slamming the first enemy champion for massive damage and stunning them for 1.2s."
+icon = ExtResource("9_iqpoj")
+color = Color(0.95, 0.75, 0.25, 1)
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(80, 70, 60)
+mana_cost = PackedFloat32Array(100, 100, 100)
+blocked_by_root = true
+indicator_size = 2.0
+base_damage = PackedFloat32Array(240, 360, 480)
+ad_ratio = 1.0
+damage_type = 0
+target_effects = Array[ExtResource("4_3xr5b")]([SubResource("Resource_x6ek7")])
+
+[sub_resource type="Resource" id="Resource_34urm"]
+script = ExtResource("4_3xr5b")
+kind = 1
+value = 0.35
+value_per_rank = PackedFloat32Array()
+duration = 2.5
+
+[sub_resource type="Resource" id="Resource_cnnqw"]
+script = ExtResource("12_g71qh")
+effects = Array[ExtResource("4_3xr5b")]([SubResource("Resource_34urm")])
+id = &"battle_command"
+display_name = "Battle Command"
+description = "Every 3rd ability cast grants +35% movement speed and 15% bonus armor for 2.5s."
+icon = ExtResource("11_1gyu1")
+color = Color(0.25, 0.45, 0.95, 1)
+
+[resource]
+script = ExtResource("14_lscvp")
+id = &"erez"
+display_name = "Erez"
+title = "The Tactician"
+role = "Bruiser"
+lore = "A master strategist whose calculated strikes and resolute presence inspire allies on the front lines."
+color = Color(0.25, 0.45, 0.95, 1)
+model_scene = ExtResource("10_ui24b")
+portrait = ExtResource("13_fmg0q")
+max_health = 610.0
+health_per_level = 88.0
+health_regen = 1.8
+max_mana = 350.0
+mana_regen = 1.8
+attack_damage = 60.0
+attack_damage_per_level = 3.6
+attack_range = 1.9
+armor = 32.0
+magic_resist = 32.0
+attack_windup = 0.22
+passive = SubResource("Resource_cnnqw")
+abilities = Array[ExtResource("1_dc2n8")]([SubResource("Resource_5yqxd"), SubResource("Resource_7wre0"), SubResource("Resource_6s6kh"), SubResource("Resource_hcgqf")])
+bot_skill_priority = PackedInt32Array(0, 2, 1)
+bot_item_build = PackedStringArray("long_sword", "boots", "blade_of_ruin", "titan_plate", "crystal_heart")
+bot_preferred_range = 2.0

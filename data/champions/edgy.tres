@@ -1,0 +1,160 @@
+[gd_resource type="Resource" script_class="ChampionData" format=3]
+
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_v0w5s"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_q.svg" id="2_3fo20"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_tsplg"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_bq4ht"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_w.svg" id="5_6144s"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="6_3xj6c"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_e.svg" id="7_5li48"]
+[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="8_rhe2n"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_r.svg" id="9_o5cxs"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/EdgyModel.tscn" id="10_2631r"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/edgy_p.svg" id="11_uits5"]
+[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_bxyx3"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/edgy.svg" id="13_hsois"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_0f47e"]
+
+[sub_resource type="Resource" id="Resource_kjug0"]
+script = ExtResource("3_tsplg")
+dash_distance = 6.5
+travel_speed = 26.0
+id = &"shadow_step"
+display_name = "Shadow Step"
+description = "Dashes swiftly through shadows in the targeted direction, striking enemies."
+icon = ExtResource("2_3fo20")
+color = Color(0.95, 0.1, 0.3, 1)
+cast_range = 6.5
+cooldown = PackedFloat32Array(8, 7, 6, 5, 4)
+mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
+blocked_by_root = true
+indicator_size = 1.2
+base_damage = PackedFloat32Array(75, 110, 145, 180, 215)
+ad_ratio = 0.85
+damage_type = 0
+
+[sub_resource type="Resource" id="Resource_ej33x"]
+script = ExtResource("4_bq4ht")
+kind = 1
+value_per_rank = PackedFloat32Array()
+duration = 2.0
+
+[sub_resource type="Resource" id="Resource_0g7ob"]
+script = ExtResource("4_bq4ht")
+kind = 7
+value = 0.0
+value_per_rank = PackedFloat32Array()
+duration = 0.75
+
+[sub_resource type="Resource" id="Resource_l8kib"]
+script = ExtResource("6_3xj6c")
+center = 1
+radius = 3.6
+id = &"smoke_mirage"
+display_name = "Smoke Mirage"
+description = "Deploys an obscuring smoke cloud around self, gaining haste and brief untargetability."
+icon = ExtResource("5_6144s")
+color = Color(0.7, 0.05, 0.2, 1)
+targeting = 0
+cooldown = PackedFloat32Array(16, 15, 14, 13, 12)
+mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
+indicator_size = 3.6
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_ej33x"), SubResource("Resource_0g7ob")])
+
+[sub_resource type="Resource" id="Resource_w66y8"]
+script = ExtResource("4_bq4ht")
+value = 0.45
+value_per_rank = PackedFloat32Array()
+duration = 2.0
+
+[sub_resource type="Resource" id="Resource_jo44f"]
+script = ExtResource("8_rhe2n")
+projectile_speed = 24.0
+projectile_width = 0.9
+id = &"venom_dagger"
+display_name = "Venom Dagger"
+description = "Flings a poisoned dagger that damages and slows the first target hit by 45% for 2s."
+icon = ExtResource("7_5li48")
+color = Color(0.2, 0.8, 0.3, 1)
+cast_range = 8.5
+cooldown = PackedFloat32Array(8, 7.5, 7, 6.5, 6)
+mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
+indicator_size = 0.9
+base_damage = PackedFloat32Array(65, 100, 135, 170, 205)
+ad_ratio = 0.75
+damage_type = 0
+target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_w66y8")])
+
+[sub_resource type="Resource" id="Resource_exmu1"]
+script = ExtResource("4_bq4ht")
+kind = 8
+value = 1.2
+value_per_rank = PackedFloat32Array()
+duration = 1.2
+
+[sub_resource type="Resource" id="Resource_ai1pg"]
+script = ExtResource("3_tsplg")
+mode = 1
+id = &"reapers_execution"
+display_name = "Reaper's Execution"
+description = "Targets an enemy champion, blinking behind them to deliver a lethal blow that silences for 1.2s."
+icon = ExtResource("9_o5cxs")
+color = Color(1, 0, 0.2, 1)
+targeting = 3
+cast_range = 8.0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(75, 65, 55)
+mana_cost = PackedFloat32Array(100, 100, 100)
+blocked_by_root = true
+base_damage = PackedFloat32Array(260, 390, 520)
+ad_ratio = 1.05
+damage_type = 0
+target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_exmu1")])
+
+[sub_resource type="Resource" id="Resource_vbmdp"]
+script = ExtResource("4_bq4ht")
+kind = 1
+value = 0.4
+value_per_rank = PackedFloat32Array()
+duration = 2.5
+
+[sub_resource type="Resource" id="Resource_tpr3q"]
+script = ExtResource("12_bxyx3")
+effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_vbmdp")])
+id = &"nightstalker"
+display_name = "Nightstalker"
+description = "Every 3rd ability cast grants +40% movement speed for 2.5s."
+icon = ExtResource("11_uits5")
+color = Color(0.95, 0.1, 0.3, 1)
+
+[resource]
+script = ExtResource("14_0f47e")
+id = &"edgy"
+display_name = "Edgy"
+title = "The Shadowblade"
+role = "Assassin"
+lore = "A deadly operative stalking the shadows, striking with lethal haste and vanishing without a trace."
+color = Color(0.95, 0.1, 0.3, 1)
+model_scene = ExtResource("10_2631r")
+portrait = ExtResource("13_hsois")
+difficulty = 3
+max_health = 540.0
+health_per_level = 85.0
+health_regen = 1.6
+max_mana = 360.0
+mana_per_level = 40.0
+mana_regen = 2.0
+attack_damage = 59.0
+attack_damage_per_level = 3.5
+attack_speed = 0.69
+armor = 26.0
+magic_resist = 32.0
+move_speed = 6.0
+attack_windup = 0.18
+passive = SubResource("Resource_tpr3q")
+abilities = Array[ExtResource("1_v0w5s")]([SubResource("Resource_kjug0"), SubResource("Resource_l8kib"), SubResource("Resource_jo44f"), SubResource("Resource_ai1pg")])
+bot_skill_priority = PackedInt32Array(0, 2, 1)
+bot_item_build = PackedStringArray("long_sword", "boots", "dagger", "blade_of_ruin", "storm_bow")
+bot_preferred_range = 1.9

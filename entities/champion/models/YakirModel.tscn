@@ -1,0 +1,58 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="slate"]
+albedo_color = Color(0.35, 0.4, 0.48, 1)
+metallic = 0.8
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="cyan_glow"]
+albedo_color = Color(0.2, 0.75, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.15, 0.7, 1, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="mesh_body"]
+material = SubResource("slate")
+size = Vector3(0.85, 1.0, 0.6)
+
+[sub_resource type="BoxMesh" id="mesh_head"]
+material = SubResource("slate")
+size = Vector3(0.35, 0.35, 0.4)
+
+[sub_resource type="BoxMesh" id="mesh_visor"]
+material = SubResource("cyan_glow")
+size = Vector3(0.36, 0.08, 0.1)
+
+[sub_resource type="BoxMesh" id="mesh_shield"]
+material = SubResource("slate")
+size = Vector3(0.15, 1.2, 0.8)
+
+[sub_resource type="BoxMesh" id="mesh_shield_core"]
+material = SubResource("cyan_glow")
+size = Vector3(0.18, 0.3, 0.3)
+
+[node name="YakirModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+mesh = SubResource("mesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0.05)
+mesh = SubResource("mesh_head")
+
+[node name="Visor" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.18)
+mesh = SubResource("mesh_visor")
+
+[node name="Shield" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.96, 0, 0.26, 0, 1, 0, -0.26, 0, 0.96, 0.45, 0.75, 0.3)
+mesh = SubResource("mesh_shield")
+
+[node name="Core" type="MeshInstance3D" parent="Shield"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0, 0)
+mesh = SubResource("mesh_shield_core")

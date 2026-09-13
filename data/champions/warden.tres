@@ -11,119 +11,133 @@
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/warden_r.svg" id="9_hxykn"]
 [ext_resource type="PackedScene" path="res://entities/champion/models/WardenModel.tscn" id="10_mvwui"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/warden_p.svg" id="11_idmlb"]
-[ext_resource type="Script" path="res://core/abilities/AttackStackPassive.gd" id="12_3ffuk"]
+[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_3ffuk"]
 [ext_resource type="Texture2D" path="res://assets/icons/champions/warden.svg" id="13_4tg0b"]
 [ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_4wrvb"]
 
 [sub_resource type="Resource" id="Resource_en7qn"]
 script = ExtResource("4_gtf7b")
 kind = 2
-value = 0.0
+value = 1.0
 value_per_rank = PackedFloat32Array()
 duration = 1.0
 
 [sub_resource type="Resource" id="Resource_wlsa8"]
 script = ExtResource("3_0380b")
-dash_distance = 6.5
-travel_speed = 22.0
+dash_distance = 5.5
+travel_speed = 18.0
 id = &"shield_charge"
 display_name = "Shield Charge"
-description = "Charges forward, slamming into enemies and stunning them."
+description = "Charges forward, slamming into the first enemy hit and stunning them."
 icon = ExtResource("2_t0mtg")
-color = Color(0.9, 0.6, 0.2, 1)
-cast_range = 6.5
+color = Color(0.9, 0.65, 0.2, 1)
+cast_range = 5.5
 cooldown = PackedFloat32Array(9, 8.5, 8, 7.5, 7)
-mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
+mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
 blocked_by_root = true
-indicator_size = 1.4
+indicator_size = 1.5
 base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
-ad_ratio = 0.6
+ad_ratio = 0.5
 damage_type = 0
 target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_en7qn")])
-fx_style = &"impact"
 
 [sub_resource type="Resource" id="Resource_kp2mx"]
+script = ExtResource("4_gtf7b")
+kind = 4
+value = 160.0
+value_per_rank = PackedFloat32Array()
+duration = 3.5
+
+[sub_resource type="Resource" id="Resource_rg6sa"]
 script = ExtResource("6_f7ggu")
-shield_amount = PackedFloat32Array(90, 135, 180, 225, 270)
-shield_max_health_ratio = 0.08
-shield_duration = 3.5
+shield_amount = PackedFloat32Array()
 heal_amount = PackedFloat32Array()
 id = &"fortress"
 display_name = "Fortress"
-description = "Hardens armor with an impenetrable kinetic barrier, absorbing incoming damage."
+description = "Fortifies his defenses, gaining a large shield and bonus armor for 3.5s."
 icon = ExtResource("5_vwti4")
-color = Color(1, 0.75, 0.3, 1)
+color = Color(0.95, 0.8, 0.3, 1)
 targeting = 0
-cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
-mana_cost = PackedFloat32Array(55, 55, 55, 55, 55)
+cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
+mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
 base_damage = PackedFloat32Array()
-fx_style = &"buff"
+self_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_kp2mx")])
 
-[sub_resource type="Resource" id="Resource_rg6sa"]
+[sub_resource type="Resource" id="Resource_k77ox"]
 script = ExtResource("4_gtf7b")
-value = 0.5
+value = 0.45
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
-[sub_resource type="Resource" id="Resource_k77ox"]
+[sub_resource type="Resource" id="Resource_5tkm5"]
 script = ExtResource("8_de08v")
 center = 1
-radius = 4.2
-delay = 0.15
+radius = 4.0
 id = &"ground_slam"
 display_name = "Ground Slam"
-description = "Slams the ground with massive force, dealing damage and heavily slowing nearby enemies."
+description = "Slams the ground, dealing damage and slowing all nearby enemies."
 icon = ExtResource("7_hnetk")
-color = Color(0.8, 0.5, 0.2, 1)
+color = Color(0.85, 0.55, 0.15, 1)
 targeting = 0
-cooldown = PackedFloat32Array(8, 7.5, 7, 6.5, 6)
-mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
-indicator_size = 4.2
-base_damage = PackedFloat32Array(70, 105, 140, 175, 210)
-ad_ratio = 0.65
+cooldown = PackedFloat32Array(9, 8.5, 8, 7.5, 7)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
+indicator_size = 4.0
+base_damage = PackedFloat32Array(65, 100, 135, 170, 205)
+ad_ratio = 0.5
 damage_type = 0
-target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_rg6sa")])
-fx_style = &"earth"
-
-[sub_resource type="Resource" id="Resource_5tkm5"]
-script = ExtResource("4_gtf7b")
-kind = 2
-value = 0.0
-value_per_rank = PackedFloat32Array()
-duration = 1.4
+target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_k77ox")])
 
 [sub_resource type="Resource" id="Resource_4hxpk"]
+script = ExtResource("4_gtf7b")
+kind = 4
+value = 300.0
+value_per_rank = PackedFloat32Array()
+duration = 4.0
+
+[sub_resource type="Resource" id="Resource_7xro4"]
+script = ExtResource("4_gtf7b")
+kind = 2
+value = 1.25
+value_per_rank = PackedFloat32Array()
+duration = 1.25
+
+[sub_resource type="Resource" id="Resource_2d2oj"]
 script = ExtResource("8_de08v")
 center = 1
 radius = 5.5
-delay = 0.2
 id = &"colossus_roar"
 display_name = "Colossus Roar"
-description = "Unleashes an earth-shattering roar, dealing massive damage and stunning all surrounding enemies."
+description = "Roars with titan power, gaining a massive shield and stunning nearby enemies."
 icon = ExtResource("9_hxykn")
-color = Color(1, 0.4, 0.1, 1)
+color = Color(1, 0.85, 0.2, 1)
 targeting = 0
 max_rank = 3
 is_ultimate = true
 cooldown = PackedFloat32Array(80, 70, 60)
 mana_cost = PackedFloat32Array(100, 100, 100)
 indicator_size = 5.5
-base_damage = PackedFloat32Array(200, 320, 440)
-ad_ratio = 0.8
+base_damage = PackedFloat32Array(150, 250, 350)
+ad_ratio = 0.6
 damage_type = 0
-target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_5tkm5")])
-fx_style = &"explosion"
+target_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_7xro4")])
+self_effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_4hxpk")])
 
-[sub_resource type="Resource" id="Resource_7xro4"]
+[sub_resource type="Resource" id="Resource_acsbf"]
+script = ExtResource("4_gtf7b")
+kind = 4
+value = 120.0
+value_per_rank = PackedFloat32Array()
+duration = 3.0
+
+[sub_resource type="Resource" id="Resource_brls6"]
 script = ExtResource("12_3ffuk")
-attack_speed_per_stack = 0.08
-stack_duration = 4.0
-full_stack_haste = 0.15
+casts_required = 2
+effects = Array[ExtResource("4_gtf7b")]([SubResource("Resource_acsbf")])
 id = &"ironhide"
 display_name = "Ironhide"
-description = "Attacking grants stacking attack speed and move speed."
+description = "Casting abilities grants a temporary shield absorbing up to 120 damage for 3s."
 icon = ExtResource("11_idmlb")
-color = Color(0.9, 0.7, 0.3, 1)
+color = Color(0.9, 0.7, 0.2, 1)
 
 [resource]
 script = ExtResource("14_4wrvb")
@@ -131,22 +145,24 @@ id = &"warden"
 display_name = "Warden"
 title = "The Bulwark"
 role = "Tank"
-lore = "An armored sentinel clad in runic iron who holds the front line against any onslaught."
-color = Color(0.9, 0.65, 0.25, 1)
+lore = "A stalwart defender sworn to protect the ancient monoliths."
+color = Color(0.9, 0.7, 0.2, 1)
 model_scene = ExtResource("10_mvwui")
 portrait = ExtResource("13_4tg0b")
 max_health = 680.0
-health_per_level = 98.0
-health_regen = 2.0
+health_per_level = 95.0
+health_regen = 2.2
 max_mana = 320.0
-mana_per_level = 32.0
-mana_regen = 1.8
-attack_damage = 60.0
-attack_damage_per_level = 3.6
+mana_per_level = 35.0
+mana_regen = 1.6
+attack_damage = 58.0
+attack_speed = 0.6
 armor = 38.0
-magic_resist = 32.0
-passive = SubResource("Resource_7xro4")
-abilities = Array[ExtResource("1_4h48n")]([SubResource("Resource_wlsa8"), SubResource("Resource_kp2mx"), SubResource("Resource_k77ox"), SubResource("Resource_4hxpk")])
+magic_resist = 34.0
+move_speed = 5.6
+attack_windup = 0.22
+passive = SubResource("Resource_brls6")
+abilities = Array[ExtResource("1_4h48n")]([SubResource("Resource_wlsa8"), SubResource("Resource_rg6sa"), SubResource("Resource_5tkm5"), SubResource("Resource_2d2oj")])
 bot_skill_priority = PackedInt32Array(0, 1, 2)
-bot_item_build = PackedStringArray("ruby_crystal", "boots", "cloth_armor", "titan_plate", "spirit_cloak")
+bot_item_build = PackedStringArray("cloth_armor", "ruby_crystal", "boots", "titan_plate", "crystal_heart")
 bot_preferred_range = 1.8

@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="cowl"]
+albedo_color = Color(0.08, 0.04, 0.09, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="neon_red"]
+albedo_color = Color(1, 0.05, 0.25, 1)
+roughness = 0.15
+emission_enabled = true
+emission = Color(1, 0, 0.3, 1)
+emission_energy_multiplier = 5.0
+
+[sub_resource type="CylinderMesh" id="mesh_cloak"]
+material = SubResource("cowl")
+top_radius = 0.16
+bottom_radius = 0.42
+height = 1.2
+radial_segments = 14
+
+[sub_resource type="SphereMesh" id="mesh_head"]
+material = SubResource("cowl")
+radius = 0.2
+height = 0.4
+
+[sub_resource type="BoxMesh" id="mesh_dagger"]
+material = SubResource("neon_red")
+size = Vector3(0.05, 0.65, 0.12)
+
+[node name="EdgyModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="Cloak" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("mesh_cloak")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("mesh_head")
+
+[node name="DaggerL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, 0.52, 0, -0.52, 0.85, 0, 0, 0, 1, -0.4, 0.6, 0.15)
+mesh = SubResource("mesh_dagger")
+
+[node name="DaggerR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, -0.52, 0, 0.52, 0.85, 0, 0, 0, 1, 0.4, 0.6, 0.15)
+mesh = SubResource("mesh_dagger")

@@ -3,7 +3,7 @@ extends RefCounted
 ## Registry of playable champions. Add a new champion by creating
 ## `res://data/champions/<id>.tres` and adding its id to IDS.
 
-const IDS: Array[StringName] = [&"arcanist", &"warden", &"ranger", &"wraith", &"luminary"]
+const IDS: Array[StringName] = [&"erez", &"stephen", &"amit", &"nissim", &"rogo", &"yakir", &"edgy"]
 
 static var _cache: Dictionary = {}
 
@@ -21,7 +21,7 @@ static func get_champion(champion_id: StringName) -> ChampionData:
 
 
 static func has_champion(champion_id: StringName) -> bool:
-	return IDS.has(champion_id)
+	return IDS.has(champion_id) or ResourceLoader.exists("res://data/champions/%s.tres" % champion_id)
 
 
 static func all() -> Array[ChampionData]:
@@ -35,3 +35,4 @@ static func all() -> Array[ChampionData]:
 
 static func default_id() -> StringName:
 	return IDS[0]
+

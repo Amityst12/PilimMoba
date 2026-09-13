@@ -11,107 +11,91 @@
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/ranger_r.svg" id="9_lfu5r"]
 [ext_resource type="PackedScene" path="res://entities/champion/models/RangerModel.tscn" id="10_let8l"]
 [ext_resource type="Texture2D" path="res://assets/icons/abilities/ranger_p.svg" id="11_0rcxy"]
-[ext_resource type="Script" path="res://core/abilities/AttackCounterPassive.gd" id="12_57y8n"]
+[ext_resource type="Script" path="res://core/abilities/AttackStackPassive.gd" id="12_57y8n"]
 [ext_resource type="Texture2D" path="res://assets/icons/champions/ranger.svg" id="13_60p5x"]
 [ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_t64f6"]
 
 [sub_resource type="Resource" id="Resource_mb7gw"]
 script = ExtResource("3_6f7a2")
-projectile_speed = 28.0
-pierce = true
-pierce_falloff = 0.1
+projectile_speed = 26.0
 id = &"piercing_arrow"
 display_name = "Piercing Arrow"
-description = "Charges a powerful arrow that pierces through all enemies in a line."
+description = "Fires a swift arrow that pierces through all enemies in a line."
 icon = ExtResource("2_bjtm4")
-color = Color(0.3, 0.8, 0.4, 1)
-cast_range = 11.5
-cooldown = PackedFloat32Array(7, 6.5, 6, 5.5, 5)
-mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
-base_damage = PackedFloat32Array(70, 105, 140, 175, 210)
-ad_ratio = 0.9
+color = Color(0.4, 0.9, 0.3, 1)
+cast_range = 10.5
+cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
+base_damage = PackedFloat32Array(85, 125, 165, 205, 245)
+ad_ratio = 0.8
 damage_type = 0
-fx_style = &"arrow"
 
 [sub_resource type="Resource" id="Resource_8u6ll"]
-script = ExtResource("4_m4jki")
-kind = 1
-value = 0.35
-value_per_rank = PackedFloat32Array()
-duration = 1.8
-
-[sub_resource type="Resource" id="Resource_ain78"]
 script = ExtResource("6_dejx2")
-travel_speed = 20.0
+dash_distance = 4.5
+travel_speed = 16.0
 id = &"quick_tumble"
 display_name = "Quick Tumble"
-description = "Rolls quickly in the aimed direction, gaining a burst of movement speed."
+description = "Tumbles a short distance in the target direction, resetting basic attack windup."
 icon = ExtResource("5_nd0cs")
-color = Color(0.4, 0.9, 0.6, 1)
-cast_range = 5.0
-cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
+color = Color(0.6, 1, 0.4, 1)
+cast_range = 4.5
+cooldown = PackedFloat32Array(8, 7, 6, 5, 4)
 mana_cost = PackedFloat32Array(35, 35, 35, 35, 35)
 blocked_by_root = true
 base_damage = PackedFloat32Array()
-self_effects = Array[ExtResource("4_m4jki")]([SubResource("Resource_8u6ll")])
-fx_style = &"wind"
 
-[sub_resource type="Resource" id="Resource_3kfnt"]
+[sub_resource type="Resource" id="Resource_ain78"]
 script = ExtResource("4_m4jki")
-value = 0.6
+value = 0.45
 value_per_rank = PackedFloat32Array()
 duration = 2.5
 
-[sub_resource type="Resource" id="Resource_ujjh1"]
+[sub_resource type="Resource" id="Resource_3kfnt"]
 script = ExtResource("8_l37i5")
-radius = 2.8
-delay = 0.3
 id = &"caltrop_trap"
 display_name = "Caltrop Trap"
-description = "Scatters sharp caltrops that detonate when enemies step on them, heavily slowing them."
+description = "Throws a field of caltrops that slows enemies walking through it."
 icon = ExtResource("7_snwhx")
-color = Color(0.6, 0.8, 0.2, 1)
+color = Color(0.35, 0.75, 0.25, 1)
 targeting = 2
-cast_range = 7.5
-cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
-mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
-indicator_size = 2.8
-base_damage = PackedFloat32Array(60, 90, 120, 150, 180)
-ad_ratio = 0.5
+cast_range = 8.0
+cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
+mana_cost = PackedFloat32Array(55, 55, 55, 55, 55)
+indicator_size = 3.0
+base_damage = PackedFloat32Array(50, 80, 110, 140, 170)
+ad_ratio = 0.4
 damage_type = 0
-target_effects = Array[ExtResource("4_m4jki")]([SubResource("Resource_3kfnt")])
-fx_style = &"trap"
+target_effects = Array[ExtResource("4_m4jki")]([SubResource("Resource_ain78")])
 
-[sub_resource type="Resource" id="Resource_eaynt"]
-script = ExtResource("3_6f7a2")
-projectile_count = 7
-spread_degrees = 32.0
-projectile_speed = 26.0
-projectile_width = 1.2
+[sub_resource type="Resource" id="Resource_ujjh1"]
+script = ExtResource("8_l37i5")
+radius = 5.0
+delay = 0.4
 id = &"volley_barrage"
 display_name = "Volley Barrage"
-description = "Fires a wide volley of 7 piercing arrows in a cone, decimating the enemy team."
+description = "Unleashes a massive barrage of arrows over a wide cone area."
 icon = ExtResource("9_lfu5r")
-color = Color(0.2, 1, 0.5, 1)
-cast_range = 13.0
+color = Color(0.7, 1, 0.3, 1)
+targeting = 2
+cast_range = 14.0
 max_rank = 3
 is_ultimate = true
 cooldown = PackedFloat32Array(70, 60, 50)
 mana_cost = PackedFloat32Array(100, 100, 100)
-indicator_size = 1.2
-base_damage = PackedFloat32Array(180, 270, 360)
-ad_ratio = 0.85
+indicator_size = 5.0
+base_damage = PackedFloat32Array(240, 360, 480)
+ad_ratio = 0.9
 damage_type = 0
-fx_style = &"barrage"
 
-[sub_resource type="Resource" id="Resource_h77cm"]
+[sub_resource type="Resource" id="Resource_eaynt"]
 script = ExtResource("12_57y8n")
-bonus_damage = 25.0
 id = &"sharpshooter"
 display_name = "Sharpshooter"
-description = "Every 3rd basic attack deals bonus damage and heals the champion."
+description = "Every 4th basic attack critically strikes for +50% bonus physical damage."
 icon = ExtResource("11_0rcxy")
-color = Color(0.4, 0.9, 0.5, 1)
+color = Color(0.4, 0.9, 0.3, 1)
+max_stacks = 4
 
 [resource]
 script = ExtResource("14_t64f6")
@@ -119,28 +103,28 @@ id = &"ranger"
 display_name = "Ranger"
 title = "The Swift Arrow"
 role = "Marksman"
-lore = "A deadly sharpshooter from the borderlands whose arrows pierce armor and stone."
-color = Color(0.3, 0.85, 0.4, 1)
+lore = "A forest marksman whose arrows never miss their mark."
+color = Color(0.4, 0.9, 0.3, 1)
 model_scene = ExtResource("10_let8l")
 portrait = ExtResource("13_60p5x")
 difficulty = 2
-max_health = 540.0
-health_per_level = 80.0
-health_regen = 1.3
-max_mana = 310.0
-mana_per_level = 35.0
-mana_regen = 1.7
-attack_damage = 56.0
-attack_damage_per_level = 3.4
-attack_speed = 0.68
+max_health = 520.0
+health_per_level = 75.0
+health_regen = 1.2
+max_mana = 350.0
+mana_per_level = 40.0
+mana_regen = 1.8
+attack_damage = 52.0
+attack_damage_per_level = 3.0
+attack_speed = 0.66
 attack_range = 6.2
 armor = 24.0
 move_speed = 5.7
 attack_projectile_style = &"arrow"
 attack_projectile_speed = 26.0
-attack_windup = 0.2
-passive = SubResource("Resource_h77cm")
-abilities = Array[ExtResource("1_ujrr0")]([SubResource("Resource_mb7gw"), SubResource("Resource_ain78"), SubResource("Resource_ujjh1"), SubResource("Resource_eaynt")])
-bot_skill_priority = PackedInt32Array(0, 2, 1)
+attack_windup = 0.15
+passive = SubResource("Resource_eaynt")
+abilities = Array[ExtResource("1_ujrr0")]([SubResource("Resource_mb7gw"), SubResource("Resource_8u6ll"), SubResource("Resource_3kfnt"), SubResource("Resource_ujjh1")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
 bot_item_build = PackedStringArray("long_sword", "boots", "dagger", "storm_bow", "blade_of_ruin")
 bot_preferred_range = 6.0

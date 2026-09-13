@@ -1,0 +1,50 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="tunic"]
+albedo_color = Color(0.12, 0.16, 0.22, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="gold"]
+albedo_color = Color(0.95, 0.72, 0.2, 1)
+metallic = 0.75
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="bow_mat"]
+albedo_color = Color(0.2, 0.75, 1, 1)
+metallic = 0.8
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.1, 0.6, 0.9, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="CapsuleMesh" id="mesh_body"]
+material = SubResource("tunic")
+radius = 0.24
+height = 1.2
+
+[sub_resource type="SphereMesh" id="mesh_head"]
+material = SubResource("gold")
+radius = 0.18
+height = 0.36
+
+[sub_resource type="TorusMesh" id="mesh_bow"]
+material = SubResource("bow_mat")
+inner_radius = 0.45
+outer_radius = 0.52
+
+[node name="AmitModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("mesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("mesh_head")
+
+[node name="Bow" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0.98, 0, 1, 0, -0.98, 0, 0.2, 0.4, 0.9, 0.2)
+mesh = SubResource("mesh_bow")

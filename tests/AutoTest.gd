@@ -11,9 +11,9 @@ func _ready() -> void:
 func _run_suite() -> void:
 	await get_tree().create_timer(0.3).timeout
 
-	# 1. Check Champion Registry (5 Champions)
+	# 1. Check Champion Registry (7 Champions: Erez, Stephen, Amit, Nissim, Rogo, Yakir, Edgy)
 	print("[1/7] Verifying Champion Database...")
-	assert(ChampionDB.IDS.size() == 5, "Database must have 5 champions")
+	assert(ChampionDB.IDS.size() == 7, "Database must have 7 champions")
 	for cid: StringName in ChampionDB.IDS:
 		var cdata: ChampionData = ChampionDB.get_champion(cid)
 		assert(cdata != null, "Champion data must load for %s" % cid)

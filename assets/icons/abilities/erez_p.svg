@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="bg_glow_3b82f6" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.4" />
+      <stop offset="85%" stop-color="#0f1f3d" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#040608" stop-opacity="1.0" />
+    </radialGradient>
+    <linearGradient id="border_grad_3b82f6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="60%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#111822" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="8" fill="url(#bg_glow_3b82f6)" />
+  <rect x="2" y="2" width="60" height="60" rx="6" fill="none" stroke="url(#border_grad_3b82f6)" stroke-width="2" />
+  <path d="M 4,10 L 4,4 L 10,4" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,10 L 60,4 L 54,4" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 4,54 L 4,60 L 10,60" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+  <path d="M 60,54 L 60,60 L 54,60" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+  <g transform="translate(32,32)">
+    
+      <path d="M-12,-12 L12,-12 L15,6 C15,14 0,18 0,18 C0,18 -15,14 -15,6 Z" fill="#1e3a8a" stroke="#fbbf24" stroke-width="2" />
+      <polygon points="0,-8 3,0 -3,0" fill="#facc15" />
+    
+  </g>
+</svg>

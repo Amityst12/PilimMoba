@@ -1,0 +1,169 @@
+[gd_resource type="Resource" script_class="ChampionData" format=3]
+
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_261ai"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/yakir_q.svg" id="2_pcphv"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="3_nuu5b"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="4_hsg44"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/yakir_w.svg" id="5_q247e"]
+[ext_resource type="Script" path="res://core/abilities/SelfBuffAbility.gd" id="6_x1vrr"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/yakir_e.svg" id="7_im2yg"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="8_5hjdc"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/yakir_r.svg" id="9_7m5pj"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/YakirModel.tscn" id="10_dl0dl"]
+[ext_resource type="Texture2D" path="res://assets/icons/abilities/yakir_p.svg" id="11_ycx2e"]
+[ext_resource type="Script" path="res://core/abilities/CastCounterPassive.gd" id="12_dktqd"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/yakir.svg" id="13_ukyje"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="14_nadvk"]
+
+[sub_resource type="Resource" id="Resource_xaxxl"]
+script = ExtResource("4_hsg44")
+kind = 2
+value = 1.0
+value_per_rank = PackedFloat32Array()
+duration = 1.0
+
+[sub_resource type="Resource" id="Resource_y1yca"]
+script = ExtResource("3_nuu5b")
+dash_distance = 5.5
+travel_speed = 18.0
+id = &"shield_vault"
+display_name = "Shield Vault"
+description = "Dashes forward 5m behind an enormous tower shield, stunning the first enemy hit for 1.0s."
+icon = ExtResource("2_pcphv")
+color = Color(0.3, 0.7, 0.9, 1)
+cast_range = 5.5
+cooldown = PackedFloat32Array(9, 8, 7.5, 7, 6.5)
+mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
+blocked_by_root = true
+indicator_size = 1.5
+base_damage = PackedFloat32Array(65, 95, 125, 155, 185)
+ad_ratio = 0.5
+damage_type = 0
+target_effects = Array[ExtResource("4_hsg44")]([SubResource("Resource_xaxxl")])
+
+[sub_resource type="Resource" id="Resource_cqs4o"]
+script = ExtResource("4_hsg44")
+kind = 4
+value = 180.0
+value_per_rank = PackedFloat32Array()
+duration = 3.5
+
+[sub_resource type="Resource" id="Resource_d1g8e"]
+script = ExtResource("6_x1vrr")
+shield_amount = PackedFloat32Array()
+heal_amount = PackedFloat32Array()
+id = &"barricade_stance"
+display_name = "Barricade Stance"
+description = "Roots down in defensive stance, gaining a massive 180 HP shield and armor."
+icon = ExtResource("5_q247e")
+color = Color(0.2, 0.6, 0.8, 1)
+targeting = 0
+cooldown = PackedFloat32Array(14, 13, 12, 11, 10)
+mana_cost = PackedFloat32Array(60, 60, 60, 60, 60)
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("4_hsg44")]([SubResource("Resource_cqs4o")])
+
+[sub_resource type="Resource" id="Resource_ljbdt"]
+script = ExtResource("4_hsg44")
+value = 0.5
+value_per_rank = PackedFloat32Array()
+duration = 2.0
+
+[sub_resource type="Resource" id="Resource_4pclt"]
+script = ExtResource("8_5hjdc")
+center = 1
+radius = 4.2
+id = &"colossal_stomp"
+display_name = "Colossal Stomp"
+description = "Strikes the ground causing heavy fractures that slow enemies by 50% for 2.0s."
+icon = ExtResource("7_im2yg")
+color = Color(0.3, 0.75, 0.95, 1)
+targeting = 0
+cooldown = PackedFloat32Array(10, 9, 8, 7, 6)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
+indicator_size = 4.2
+base_damage = PackedFloat32Array(60, 90, 120, 150, 180)
+ad_ratio = 0.5
+damage_type = 0
+target_effects = Array[ExtResource("4_hsg44")]([SubResource("Resource_ljbdt")])
+
+[sub_resource type="Resource" id="Resource_blgdd"]
+script = ExtResource("4_hsg44")
+kind = 4
+value = 350.0
+value_per_rank = PackedFloat32Array()
+duration = 5.0
+
+[sub_resource type="Resource" id="Resource_uqhdg"]
+script = ExtResource("4_hsg44")
+kind = 2
+value = 1.2
+value_per_rank = PackedFloat32Array()
+duration = 1.2
+
+[sub_resource type="Resource" id="Resource_ngccv"]
+script = ExtResource("8_5hjdc")
+center = 1
+radius = 6.0
+id = &"titans_fortress"
+display_name = "Titan's Fortress"
+description = "Plants a colossal barrier into the arena, providing massive shields to self and stunning nearby foes."
+icon = ExtResource("9_7m5pj")
+color = Color(0.4, 0.85, 1, 1)
+targeting = 0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(85, 75, 65)
+mana_cost = PackedFloat32Array(100, 100, 100)
+indicator_size = 6.0
+base_damage = PackedFloat32Array(180, 270, 360)
+ad_ratio = 0.6
+damage_type = 0
+target_effects = Array[ExtResource("4_hsg44")]([SubResource("Resource_uqhdg")])
+self_effects = Array[ExtResource("4_hsg44")]([SubResource("Resource_blgdd")])
+
+[sub_resource type="Resource" id="Resource_16nlt"]
+script = ExtResource("4_hsg44")
+kind = 4
+value = 120.0
+value_per_rank = PackedFloat32Array()
+duration = 3.0
+
+[sub_resource type="Resource" id="Resource_cm3xt"]
+script = ExtResource("12_dktqd")
+casts_required = 2
+effects = Array[ExtResource("4_hsg44")]([SubResource("Resource_16nlt")])
+id = &"granite_fortress"
+display_name = "Granite Fortress"
+description = "Casting abilities grants a protective stone barrier that absorbs 120 damage for 3s."
+icon = ExtResource("11_ycx2e")
+color = Color(0.25, 0.65, 0.85, 1)
+
+[resource]
+script = ExtResource("14_nadvk")
+id = &"yakir"
+display_name = "Yakir"
+title = "The Bulwark"
+role = "Tank"
+lore = "A stalwart guardian who plants his tower shield into the earth to weather the fiercest storms."
+color = Color(0.25, 0.65, 0.85, 1)
+model_scene = ExtResource("10_dl0dl")
+portrait = ExtResource("13_ukyje")
+max_health = 660.0
+health_per_level = 96.0
+health_regen = 2.4
+max_mana = 320.0
+mana_per_level = 35.0
+mana_regen = 1.5
+attack_damage = 56.0
+attack_damage_per_level = 3.0
+attack_speed = 0.62
+armor = 38.0
+magic_resist = 34.0
+move_speed = 5.6
+attack_windup = 0.22
+passive = SubResource("Resource_cm3xt")
+abilities = Array[ExtResource("1_261ai")]([SubResource("Resource_y1yca"), SubResource("Resource_d1g8e"), SubResource("Resource_4pclt"), SubResource("Resource_ngccv")])
+bot_skill_priority = PackedInt32Array(0, 1, 2)
+bot_item_build = PackedStringArray("cloth_armor", "ruby_crystal", "boots", "titan_plate", "crystal_heart")
+bot_preferred_range = 1.8

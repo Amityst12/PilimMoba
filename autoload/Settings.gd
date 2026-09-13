@@ -28,7 +28,7 @@ const WINDOW_MODES: Array[String] = [
 var player_name: String = ""
 var last_address: String = "127.0.0.1"
 var port: int = GameConst.DEFAULT_PORT
-var last_champion: String = "arcanist"
+var last_champion: String = "erez"
 var master_volume: float = 0.8
 var sfx_volume: float = 0.9
 var resolution_idx: int = 0
@@ -62,6 +62,8 @@ func load_settings() -> void:
 	last_address = config.get_value("network", "address", last_address)
 	port = config.get_value("network", "port", port)
 	last_champion = config.get_value("player", "champion", last_champion)
+	if not ChampionDB.IDS.has(StringName(last_champion)):
+		last_champion = String(ChampionDB.default_id())
 	master_volume = config.get_value("audio", "master", master_volume)
 	sfx_volume = config.get_value("audio", "sfx", sfx_volume)
 	resolution_idx = config.get_value("video", "resolution_idx", resolution_idx)
