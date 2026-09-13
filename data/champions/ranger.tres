@@ -1,0 +1,136 @@
+[gd_resource type="Resource" script_class="ChampionData" format=3]
+
+[ext_resource type="Script" path="res://core/abilities/AbilityData.gd" id="1_idic5"]
+[ext_resource type="Script" path="res://core/abilities/ProjectileAbility.gd" id="2_kaa27"]
+[ext_resource type="Script" path="res://core/combat/StatusEffectData.gd" id="3_dgjv4"]
+[ext_resource type="Script" path="res://core/abilities/DashAbility.gd" id="4_jrl4x"]
+[ext_resource type="Script" path="res://core/abilities/AreaAbility.gd" id="5_6xwih"]
+[ext_resource type="PackedScene" path="res://entities/champion/models/RangerModel.tscn" id="6_ujrr0"]
+[ext_resource type="Script" path="res://core/abilities/AttackCounterPassive.gd" id="7_bjtm4"]
+[ext_resource type="Texture2D" path="res://assets/icons/champions/ranger.svg" id="8_6f7a2"]
+[ext_resource type="Script" path="res://core/champions/ChampionData.gd" id="9_m4jki"]
+
+[sub_resource type="Resource" id="Resource_nd0cs"]
+script = ExtResource("2_kaa27")
+projectile_speed = 28.0
+pierce = true
+pierce_falloff = 0.1
+id = &"piercing_arrow"
+display_name = "Piercing Arrow"
+description = "Charges a powerful arrow that pierces through all enemies in a line."
+color = Color(0.3, 0.8, 0.4, 1)
+cast_range = 11.5
+cooldown = PackedFloat32Array(7, 6.5, 6, 5.5, 5)
+mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
+base_damage = PackedFloat32Array(70, 105, 140, 175, 210)
+ad_ratio = 0.9
+damage_type = 0
+fx_style = &"arrow"
+
+[sub_resource type="Resource" id="Resource_dejx2"]
+script = ExtResource("3_dgjv4")
+kind = 1
+value = 0.35
+value_per_rank = PackedFloat32Array()
+duration = 1.8
+
+[sub_resource type="Resource" id="Resource_snwhx"]
+script = ExtResource("4_jrl4x")
+travel_speed = 20.0
+id = &"quick_tumble"
+display_name = "Quick Tumble"
+description = "Rolls quickly in the aimed direction, gaining a burst of movement speed."
+color = Color(0.4, 0.9, 0.6, 1)
+cast_range = 5.0
+cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
+mana_cost = PackedFloat32Array(35, 35, 35, 35, 35)
+blocked_by_root = true
+base_damage = PackedFloat32Array()
+self_effects = Array[ExtResource("3_dgjv4")]([SubResource("Resource_dejx2")])
+fx_style = &"wind"
+
+[sub_resource type="Resource" id="Resource_l37i5"]
+script = ExtResource("3_dgjv4")
+value = 0.6
+value_per_rank = PackedFloat32Array()
+duration = 2.5
+
+[sub_resource type="Resource" id="Resource_lfu5r"]
+script = ExtResource("5_6xwih")
+radius = 2.8
+delay = 0.3
+id = &"caltrop_trap"
+display_name = "Caltrop Trap"
+description = "Scatters sharp caltrops that detonate when enemies step on them, heavily slowing them."
+color = Color(0.6, 0.8, 0.2, 1)
+targeting = 2
+cast_range = 7.5
+cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
+mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
+indicator_size = 2.8
+base_damage = PackedFloat32Array(60, 90, 120, 150, 180)
+ad_ratio = 0.5
+damage_type = 0
+target_effects = Array[ExtResource("3_dgjv4")]([SubResource("Resource_l37i5")])
+fx_style = &"trap"
+
+[sub_resource type="Resource" id="Resource_let8l"]
+script = ExtResource("2_kaa27")
+projectile_count = 7
+spread_degrees = 32.0
+projectile_speed = 26.0
+projectile_width = 1.2
+id = &"volley_barrage"
+display_name = "Volley Barrage"
+description = "Fires a wide volley of 7 piercing arrows in a cone, decimating the enemy team."
+color = Color(0.2, 1, 0.5, 1)
+cast_range = 13.0
+max_rank = 3
+is_ultimate = true
+cooldown = PackedFloat32Array(70, 60, 50)
+mana_cost = PackedFloat32Array(100, 100, 100)
+indicator_size = 1.2
+base_damage = PackedFloat32Array(180, 270, 360)
+ad_ratio = 0.85
+damage_type = 0
+fx_style = &"barrage"
+
+[sub_resource type="Resource" id="Resource_0rcxy"]
+script = ExtResource("7_bjtm4")
+bonus_damage = 25.0
+id = &"sharpshooter"
+display_name = "Sharpshooter"
+description = "Every 3rd basic attack deals bonus damage and heals the champion."
+color = Color(0.4, 0.9, 0.5, 1)
+
+[resource]
+script = ExtResource("9_m4jki")
+id = &"ranger"
+display_name = "Ranger"
+title = "The Swift Arrow"
+role = "Marksman"
+lore = "A deadly sharpshooter from the borderlands whose arrows pierce armor and stone."
+color = Color(0.3, 0.85, 0.4, 1)
+model_scene = ExtResource("6_ujrr0")
+portrait = ExtResource("8_6f7a2")
+difficulty = 2
+max_health = 540.0
+health_per_level = 80.0
+health_regen = 1.3
+max_mana = 310.0
+mana_per_level = 35.0
+mana_regen = 1.7
+attack_damage = 56.0
+attack_damage_per_level = 3.4
+attack_speed = 0.68
+attack_range = 6.2
+armor = 24.0
+move_speed = 5.7
+attack_projectile_style = &"arrow"
+attack_projectile_speed = 26.0
+attack_windup = 0.2
+passive = SubResource("Resource_0rcxy")
+abilities = Array[ExtResource("1_idic5")]([SubResource("Resource_nd0cs"), SubResource("Resource_snwhx"), SubResource("Resource_lfu5r"), SubResource("Resource_let8l")])
+bot_skill_priority = PackedInt32Array(0, 2, 1)
+bot_item_build = PackedStringArray("long_sword", "boots", "dagger", "storm_bow", "blade_of_ruin")
+bot_preferred_range = 6.0

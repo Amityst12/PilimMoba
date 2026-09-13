@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Play Pilim MOBA (Game)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "\"${workspaceFolder}\\Godot_v4.7.2-stable_win64.exe\" --path \"${workspaceFolder}\""
+        },
+        {
+            "name": "Open in Godot Editor",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "\"${workspaceFolder}\\Godot_v4.7.2-stable_win64.exe\" -e --path \"${workspaceFolder}\""
+        }
+    ]
+}

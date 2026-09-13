@@ -1,0 +1,168 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="steel"]
+albedo_color = Color(0.6, 0.63, 0.68, 1)
+metallic = 0.85
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="steel_dark"]
+albedo_color = Color(0.28, 0.3, 0.34, 1)
+metallic = 0.7
+roughness = 0.45
+
+[sub_resource type="StandardMaterial3D" id="gold"]
+albedo_color = Color(0.95, 0.72, 0.28, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="crimson"]
+albedo_color = Color(0.7, 0.12, 0.12, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="visor"]
+albedo_color = Color(1, 0.55, 0.15, 1)
+roughness = 0.3
+emission_enabled = true
+emission = Color(1, 0.55, 0.15, 1)
+emission_energy_multiplier = 4
+
+[sub_resource type="StandardMaterial3D" id="leather"]
+albedo_color = Color(0.3, 0.2, 0.13, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="mesh_0"]
+material = SubResource("steel_dark")
+size = Vector3(0.24, 0.8, 0.28)
+
+[sub_resource type="BoxMesh" id="mesh_1"]
+material = SubResource("steel_dark")
+size = Vector3(0.24, 0.8, 0.28)
+
+[sub_resource type="BoxMesh" id="mesh_2"]
+material = SubResource("crimson")
+size = Vector3(0.46, 0.7, 0.05)
+
+[sub_resource type="BoxMesh" id="mesh_3"]
+material = SubResource("steel")
+size = Vector3(0.82, 0.78, 0.52)
+
+[sub_resource type="BoxMesh" id="mesh_4"]
+material = SubResource("gold")
+size = Vector3(0.62, 0.42, 0.06)
+
+[sub_resource type="BoxMesh" id="mesh_5"]
+material = SubResource("leather")
+size = Vector3(0.86, 0.1, 0.56)
+
+[sub_resource type="SphereMesh" id="mesh_6"]
+material = SubResource("gold")
+radius = 0.28
+height = 0.5
+
+[sub_resource type="SphereMesh" id="mesh_7"]
+material = SubResource("gold")
+radius = 0.28
+height = 0.5
+
+[sub_resource type="SphereMesh" id="mesh_8"]
+material = SubResource("steel")
+radius = 0.26
+height = 0.56
+
+[sub_resource type="BoxMesh" id="mesh_9"]
+material = SubResource("visor")
+size = Vector3(0.32, 0.05, 0.06)
+
+[sub_resource type="BoxMesh" id="mesh_10"]
+material = SubResource("crimson")
+size = Vector3(0.07, 0.28, 0.56)
+
+[sub_resource type="BoxMesh" id="mesh_11"]
+material = SubResource("steel")
+size = Vector3(0.12, 1, 0.78)
+
+[sub_resource type="BoxMesh" id="mesh_12"]
+material = SubResource("gold")
+size = Vector3(0.08, 1.08, 0.86)
+
+[sub_resource type="SphereMesh" id="mesh_13"]
+material = SubResource("visor")
+radius = 0.12
+height = 0.24
+
+[sub_resource type="BoxMesh" id="mesh_14"]
+material = SubResource("leather")
+size = Vector3(0.07, 1, 0.07)
+
+[sub_resource type="BoxMesh" id="mesh_15"]
+material = SubResource("steel_dark")
+size = Vector3(0.32, 0.28, 0.28)
+
+[node name="WardenModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="LegL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0.4, 0)
+mesh = SubResource("mesh_0")
+
+[node name="LegR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0.4, 0)
+mesh = SubResource("mesh_1")
+
+[node name="Tabard" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, -0.2)
+mesh = SubResource("mesh_2")
+
+[node name="Torso" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18, 0)
+mesh = SubResource("mesh_3")
+
+[node name="ChestPlate" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24, -0.27)
+mesh = SubResource("mesh_4")
+
+[node name="Belt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.84, 0)
+mesh = SubResource("mesh_5")
+
+[node name="PauldronL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, 1.52, 0)
+mesh = SubResource("mesh_6")
+
+[node name="PauldronR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 1.52, 0)
+mesh = SubResource("mesh_7")
+
+[node name="Helmet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.84, 0)
+mesh = SubResource("mesh_8")
+
+[node name="Visor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86, -0.24)
+mesh = SubResource("mesh_9")
+
+[node name="Crest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0.02)
+mesh = SubResource("mesh_10")
+
+[node name="Shield" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.66, 1.1, -0.12)
+mesh = SubResource("mesh_11")
+
+[node name="ShieldRim" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62, 1.1, -0.12)
+mesh = SubResource("mesh_12")
+
+[node name="ShieldGem" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.74, 1.15, -0.12)
+mesh = SubResource("mesh_13")
+
+[node name="MaceHandle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66, 1, -0.2)
+mesh = SubResource("mesh_14")
+
+[node name="MaceHead" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66, 1.55, -0.2)
+mesh = SubResource("mesh_15")

@@ -1,0 +1,23 @@
+﻿# Godot 4 cache and export
+.godot/
+*.translation
+
+# Large binaries (Godot editor executable is 180MB; GitHub limit is 100MB)
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Python & build cache
+__pycache__/
+*.pyc
+
+# Temporary files, logs, and test artifacts
+*.log
+*.tmp
+screenshots/
+test_out.txt
+
+# OS metadata
+.DS_Store
+Thumbs.db

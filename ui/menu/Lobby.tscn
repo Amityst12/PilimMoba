@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/menu/Lobby.gd" id="1_lobby"]
+[ext_resource type="PackedScene" path="res://game/Arena.tscn" id="2_arena"]
+
+[node name="Lobby" type="Node3D"]
+script = ExtResource("1_lobby")
+
+[node name="Arena" parent="." instance=ExtResource("2_arena")]
+
+[node name="LobbyCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 25, 25)
+current = true
+fov = 45.0
+
+[node name="UI" type="CanvasLayer" parent="."]

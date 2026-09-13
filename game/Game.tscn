@@ -1,0 +1,59 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://game/Game.gd" id="1_game"]
+[ext_resource type="PackedScene" path="res://game/Arena.tscn" id="2_arena"]
+[ext_resource type="Script" path="res://game/CameraRig.gd" id="3_camerarig"]
+[ext_resource type="Script" path="res://game/PlayerController.gd" id="4_playercontroller"]
+[ext_resource type="PackedScene" path="res://ui/hud/HUD.tscn" id="5_hud"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_game")
+
+[node name="Arena" parent="." instance=ExtResource("2_arena")]
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("3_camerarig")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 0.544639, 0.838671, 0, -0.838671, 0.544639, 0, 22, 14)
+current = true
+fov = 48.0
+
+[node name="PlayerController" type="Node" parent="."]
+script = ExtResource("4_playercontroller")
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Champions" type="Node3D" parent="World"]
+
+[node name="Minions" type="Node3D" parent="World"]
+
+[node name="Structures" type="Node3D" parent="World"]
+
+[node name="Projectiles" type="Node3D" parent="World"]
+
+[node name="Effects" type="Node3D" parent="World"]
+
+[node name="Monsters" type="Node3D" parent="World"]
+
+[node name="ChampionSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World/Champions")
+
+[node name="MinionSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World/Minions")
+
+[node name="StructureSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World/Structures")
+
+[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World/Projectiles")
+
+[node name="EffectSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World/Effects")
+
+[node name="MonsterSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World/Monsters")
+
+[node name="LocalFx" type="Node3D" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]

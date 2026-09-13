@@ -1,0 +1,163 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="leaf"]
+albedo_color = Color(0.22, 0.45, 0.25, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="leaf_dark"]
+albedo_color = Color(0.12, 0.28, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="leather"]
+albedo_color = Color(0.42, 0.28, 0.17, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="skin"]
+albedo_color = Color(0.88, 0.72, 0.6, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="gold"]
+albedo_color = Color(0.95, 0.8, 0.4, 1)
+metallic = 0.7
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="wood"]
+albedo_color = Color(0.5, 0.33, 0.18, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="glow"]
+albedo_color = Color(1, 0.9, 0.5, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(1, 0.9, 0.5, 1)
+emission_energy_multiplier = 5
+
+[sub_resource type="BoxMesh" id="mesh_0"]
+material = SubResource("leather")
+size = Vector3(0.18, 0.82, 0.22)
+
+[sub_resource type="BoxMesh" id="mesh_1"]
+material = SubResource("leather")
+size = Vector3(0.18, 0.82, 0.22)
+
+[sub_resource type="CapsuleMesh" id="mesh_2"]
+material = SubResource("leaf")
+radius = 0.26
+height = 0.86
+
+[sub_resource type="CylinderMesh" id="mesh_3"]
+material = SubResource("gold")
+top_radius = 0.28
+bottom_radius = 0.28
+height = 0.08
+radial_segments = 14
+
+[sub_resource type="BoxMesh" id="mesh_4"]
+material = SubResource("leaf_dark")
+size = Vector3(0.62, 1.05, 0.06)
+
+[sub_resource type="SphereMesh" id="mesh_5"]
+material = SubResource("skin")
+radius = 0.19
+height = 0.38
+
+[sub_resource type="SphereMesh" id="mesh_6"]
+material = SubResource("leaf_dark")
+radius = 0.23
+height = 0.46
+
+[sub_resource type="CylinderMesh" id="mesh_7"]
+material = SubResource("leaf_dark")
+top_radius = 0
+bottom_radius = 0.12
+height = 0.3
+radial_segments = 10
+
+[sub_resource type="BoxMesh" id="mesh_8"]
+material = SubResource("wood")
+size = Vector3(0.05, 0.75, 0.06)
+
+[sub_resource type="BoxMesh" id="mesh_9"]
+material = SubResource("wood")
+size = Vector3(0.05, 0.75, 0.06)
+
+[sub_resource type="BoxMesh" id="mesh_10"]
+material = SubResource("gold")
+size = Vector3(0.08, 0.16, 0.09)
+
+[sub_resource type="BoxMesh" id="mesh_11"]
+material = SubResource("glow")
+size = Vector3(0.015, 1.3, 0.015)
+
+[sub_resource type="CylinderMesh" id="mesh_12"]
+material = SubResource("leather")
+top_radius = 0.1
+bottom_radius = 0.09
+height = 0.62
+radial_segments = 10
+
+[sub_resource type="SphereMesh" id="mesh_13"]
+material = SubResource("glow")
+radius = 0.07
+height = 0.14
+
+[node name="RangerModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="LegL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, 0.41, 0)
+mesh = SubResource("mesh_0")
+
+[node name="LegR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14, 0.41, 0)
+mesh = SubResource("mesh_1")
+
+[node name="Torso" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16, 0)
+mesh = SubResource("mesh_2")
+
+[node name="Belt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0)
+mesh = SubResource("mesh_3")
+
+[node name="Cloak" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99027, 0.13917, 0, -0.13917, 0.99027, 0, 1.08, 0.27)
+mesh = SubResource("mesh_4")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, -0.02)
+mesh = SubResource("mesh_5")
+
+[node name="Hood" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.05, 0, 1.76, 0.06)
+mesh = SubResource("mesh_6")
+
+[node name="HoodTip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.86603, 0, -0.86603, 0.5, 0, 1.9, 0.26)
+mesh = SubResource("mesh_7")
+
+[node name="BowUpper" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.95106, 0.30902, 0, -0.30902, 0.95106, -0.42, 1.52, -0.3)
+mesh = SubResource("mesh_8")
+
+[node name="BowLower" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.95106, -0.30902, 0, 0.30902, 0.95106, -0.42, 0.86, -0.3)
+mesh = SubResource("mesh_9")
+
+[node name="BowGrip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42, 1.19, -0.36)
+mesh = SubResource("mesh_10")
+
+[node name="BowString" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42, 1.19, -0.16)
+mesh = SubResource("mesh_11")
+
+[node name="Quiver" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.93969, 0.34202, 0, -0.34202, 0.93969, 0, 0, 0, 1, 0.2, 1.36, 0.3)
+mesh = SubResource("mesh_12")
+
+[node name="ArrowTips" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31, 1.7, 0.3)
+mesh = SubResource("mesh_13")

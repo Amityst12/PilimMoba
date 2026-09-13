@@ -1,0 +1,131 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/Champion.gd" id="1_champion"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_body"]
+height = 2.0
+radius = 0.5
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sync"]
+properties/0/path = NodePath(".:net_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:net_velocity")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:net_yaw")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:health")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:mana")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:shield")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:max_health")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath(".:max_mana")
+properties/7/spawn = true
+properties/7/replication_mode = 2
+properties/8/path = NodePath(".:dead")
+properties/8/spawn = true
+properties/8/replication_mode = 2
+properties/9/path = NodePath(".:status_flags")
+properties/9/spawn = true
+properties/9/replication_mode = 2
+properties/10/path = NodePath(".:attack_seq")
+properties/10/spawn = true
+properties/10/replication_mode = 2
+properties/11/path = NodePath(".:level")
+properties/11/spawn = true
+properties/11/replication_mode = 2
+properties/12/path = NodePath(".:xp")
+properties/12/spawn = true
+properties/12/replication_mode = 2
+properties/13/path = NodePath(".:gold")
+properties/13/spawn = true
+properties/13/replication_mode = 2
+properties/14/path = NodePath(".:kills")
+properties/14/spawn = true
+properties/14/replication_mode = 2
+properties/15/path = NodePath(".:deaths")
+properties/15/spawn = true
+properties/15/replication_mode = 2
+properties/16/path = NodePath(".:assists")
+properties/16/spawn = true
+properties/16/replication_mode = 2
+properties/17/path = NodePath(".:creep_score")
+properties/17/spawn = true
+properties/17/replication_mode = 2
+properties/18/path = NodePath(".:skill_points")
+properties/18/spawn = true
+properties/18/replication_mode = 2
+properties/19/path = NodePath(".:ability_ranks")
+properties/19/spawn = true
+properties/19/replication_mode = 2
+properties/20/path = NodePath(".:cooldown_ends")
+properties/20/spawn = true
+properties/20/replication_mode = 2
+properties/21/path = NodePath(".:items")
+properties/21/spawn = true
+properties/21/replication_mode = 2
+properties/22/path = NodePath(".:respawn_at")
+properties/22/spawn = true
+properties/22/replication_mode = 2
+properties/23/path = NodePath(".:passive_stacks")
+properties/23/spawn = true
+properties/23/replication_mode = 2
+properties/24/path = NodePath(".:stat_block")
+properties/24/spawn = true
+properties/24/replication_mode = 2
+properties/25/path = NodePath(".:cast_slot")
+properties/25/spawn = true
+properties/25/replication_mode = 2
+properties/26/path = NodePath(".:cast_end")
+properties/26/spawn = true
+properties/26/replication_mode = 2
+properties/27/path = NodePath(".:recall_end")
+properties/27/spawn = true
+properties/27/replication_mode = 2
+properties/28/path = NodePath(".:owner_peer_id")
+properties/28/spawn = true
+properties/28/replication_mode = 2
+properties/29/path = NodePath(".:is_bot")
+properties/29/spawn = true
+properties/29/replication_mode = 2
+properties/30/path = NodePath(".:is_concealed")
+properties/30/spawn = true
+properties/30/replication_mode = 2
+properties/31/path = NodePath(".:current_brush_idx")
+properties/31/spawn = true
+properties/31/replication_mode = 2
+
+[node name="Champion" type="CharacterBody3D"]
+script = ExtResource("1_champion")
+bar_height = 2.75
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_body")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.6
+target_desired_distance = 0.25
+path_max_distance = 4.0
+avoidance_enabled = true
+radius = 0.6
+max_speed = 14.0
+avoidance_layers = 2
+avoidance_mask = 0
+avoidance_priority = 1.0
+
+[node name="Sync" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.033
+delta_interval = 0.05
+replication_config = SubResource("SceneReplicationConfig_sync")

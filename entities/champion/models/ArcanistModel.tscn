@@ -1,0 +1,164 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/champion/ChampionModel.gd" id="1_model"]
+
+[sub_resource type="StandardMaterial3D" id="robe"]
+albedo_color = Color(0.3, 0.2, 0.55, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="robe_dark"]
+albedo_color = Color(0.18, 0.12, 0.34, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="gold"]
+albedo_color = Color(0.95, 0.75, 0.3, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="skin"]
+albedo_color = Color(0.88, 0.72, 0.6, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="wood"]
+albedo_color = Color(0.36, 0.24, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="arcane"]
+albedo_color = Color(0.45, 0.9, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.45, 0.9, 1, 1)
+emission_energy_multiplier = 5
+
+[sub_resource type="CylinderMesh" id="mesh_0"]
+material = SubResource("robe")
+top_radius = 0.2
+bottom_radius = 0.52
+height = 1.3
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="mesh_1"]
+material = SubResource("gold")
+top_radius = 0.53
+bottom_radius = 0.55
+height = 0.08
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="mesh_2"]
+material = SubResource("gold")
+top_radius = 0.34
+bottom_radius = 0.36
+height = 0.08
+radial_segments = 16
+
+[sub_resource type="SphereMesh" id="mesh_3"]
+material = SubResource("robe_dark")
+radius = 0.34
+height = 0.6
+
+[sub_resource type="SphereMesh" id="mesh_4"]
+material = SubResource("skin")
+radius = 0.21
+height = 0.42
+
+[sub_resource type="CylinderMesh" id="mesh_5"]
+material = SubResource("robe_dark")
+top_radius = 0.46
+bottom_radius = 0.46
+height = 0.05
+radial_segments = 20
+
+[sub_resource type="CylinderMesh" id="mesh_6"]
+material = SubResource("robe")
+top_radius = 0
+bottom_radius = 0.3
+height = 0.8
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="mesh_7"]
+material = SubResource("gold")
+top_radius = 0.29
+bottom_radius = 0.31
+height = 0.07
+radial_segments = 16
+
+[sub_resource type="BoxMesh" id="mesh_8"]
+material = SubResource("wood")
+size = Vector3(0.07, 2, 0.07)
+
+[sub_resource type="TorusMesh" id="mesh_9"]
+material = SubResource("gold")
+inner_radius = 0.12
+outer_radius = 0.17
+
+[sub_resource type="SphereMesh" id="mesh_10"]
+material = SubResource("arcane")
+radius = 0.12
+height = 0.24
+
+[sub_resource type="SphereMesh" id="mesh_11"]
+material = SubResource("arcane")
+radius = 0.08
+height = 0.16
+
+[sub_resource type="SphereMesh" id="mesh_12"]
+material = SubResource("arcane")
+radius = 0.07
+height = 0.14
+
+[node name="ArcanistModel" type="Node3D"]
+script = ExtResource("1_model")
+
+[node name="Orbit" type="Node3D" parent="."]
+
+[node name="Robe" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+mesh = SubResource("mesh_0")
+
+[node name="RobeTrim" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("mesh_1")
+
+[node name="Belt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02, 0)
+mesh = SubResource("mesh_2")
+
+[node name="Shoulders" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.15, 0, 0, 0, 0.8, 0, 0, 0, 0.9, 0, 1.36, 0)
+mesh = SubResource("mesh_3")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 0)
+mesh = SubResource("mesh_4")
+
+[node name="HatBrim" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87, 0)
+mesh = SubResource("mesh_5")
+
+[node name="Hat" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.99027, 0.13917, 0, -0.13613, 0.96863, 0.20791, 0.028936, -0.20589, 0.97815, 0.04, 2.25, 0.05)
+mesh = SubResource("mesh_6")
+
+[node name="HatBand" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.99027, 0.13917, 0, -0.13613, 0.96863, 0.20791, 0.028936, -0.20589, 0.97815, 0.01, 1.93, 0.01)
+mesh = SubResource("mesh_7")
+
+[node name="Staff" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, 1, -0.12)
+mesh = SubResource("mesh_8")
+
+[node name="StaffHead" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 6.1232e-17, -1, 0, 1, 6.1232e-17, 0.48, 2.08, -0.12)
+mesh = SubResource("mesh_9")
+
+[node name="StaffOrb" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, 2.08, -0.12)
+mesh = SubResource("mesh_10")
+
+[node name="OrbA" type="MeshInstance3D" parent="Orbit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 1.3, 0)
+mesh = SubResource("mesh_11")
+
+[node name="OrbB" type="MeshInstance3D" parent="Orbit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 1.5, 0)
+mesh = SubResource("mesh_12")
