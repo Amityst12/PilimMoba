@@ -190,4 +190,5 @@
    `const IDS: Array[StringName] = [&"erez", &"stephen", &"amit", &"nissim", &"rogo", &"yakir", &"edgy"]`
 5. **עדכון יכולות וסטטיסטיקות:**
    מבוצע באופן מרוכז ומאורגן דרך הסקריפט המייצר ב-`tools/gen_data.gd`.
-
+6. **איורי Splash Art ומסכי טעינה:**
+   נשמרים ב-`res://assets/SplashArts/<id>_splash.png` או `_card.png` (מדריך מלא ומידות מוגדרים ב-[`assets/SplashArts/README.md`](file:///c:/Users/Amit/Desktop/Github/PilimMoba/assets/SplashArts/README.md)).

@@ -10,6 +10,8 @@ extends Resource
 @export var color: Color = Color(0.5, 0.7, 1.0)
 @export var model_scene: PackedScene
 @export var portrait: Texture2D
+@export var splash_art: Texture2D
+@export var loading_card: Texture2D
 ## 1 (easy) .. 3 (hard), shown in champion select.
 @export_range(1, 3) var difficulty: int = 1
 
@@ -61,3 +63,24 @@ func stat(base: float, per_level: float, level: int) -> float:
 
 func is_ranged() -> bool:
 	return attack_projectile_style != &""
+
+
+func get_splash_art() -> Texture2D:
+	if splash_art:
+		return splash_art
+	for ext: String in ["png", "webp", "jpg"]:
+		var path: String = "res://assets/SplashArts/%s_splash.%s" % [id, ext]
+		if ResourceLoader.exists(path):
+			return load(path) as Texture2D
+	return portrait
+
+
+func get_loading_card() -> Texture2D:
+	if loading_card:
+		return loading_card
+	for ext: String in ["png", "webp", "jpg"]:
+		var path: String = "res://assets/SplashArts/%s_card.%s" % [id, ext]
+		if ResourceLoader.exists(path):
+			return load(path) as Texture2D
+	return get_splash_art()
+
