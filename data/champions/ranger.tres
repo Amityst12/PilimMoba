@@ -13,6 +13,7 @@
 [sub_resource type="Resource" id="Resource_nd0cs"]
 script = ExtResource("2_kaa27")
 projectile_speed = 28.0
+projectile_width = 0.7
 id = &"piercing_arrow"
 display_name = "Piercing Arrow"
 description = "Charges a powerful arrow that pierces through all enemies in a line."
@@ -20,8 +21,8 @@ color = Color(0.3, 0.8, 0.4, 1)
 cast_range = 11.5
 cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
 mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
-base_damage = PackedFloat32Array(65, 105, 145, 185, 225)
-ad_ratio = 0.75
+base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
+ad_ratio = 0.65
 damage_type = 0
 
 [sub_resource type="Resource" id="Resource_dejx2"]
@@ -48,7 +49,7 @@ self_effects = Array[ExtResource("3_dgjv4")]([SubResource("Resource_dejx2")])
 
 [sub_resource type="Resource" id="Resource_l37i5"]
 script = ExtResource("3_dgjv4")
-value = 0.45
+value = 0.4
 value_per_rank = PackedFloat32Array()
 duration = 2.5
 
@@ -64,7 +65,7 @@ targeting = 2
 cast_range = 7.5
 cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
 mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
-base_damage = PackedFloat32Array(50, 80, 110, 140, 170)
+base_damage = PackedFloat32Array(45, 70, 95, 120, 145)
 ad_ratio = 0.4
 damage_type = 0
 target_effects = Array[ExtResource("3_dgjv4")]([SubResource("Resource_l37i5")])
@@ -83,12 +84,13 @@ max_rank = 3
 is_ultimate = true
 cooldown = PackedFloat32Array(75, 65, 55)
 mana_cost = PackedFloat32Array(100, 100, 100)
-base_damage = PackedFloat32Array(200, 320, 440)
-ad_ratio = 0.85
+base_damage = PackedFloat32Array(180, 280, 380)
+ad_ratio = 0.75
 damage_type = 0
 
 [sub_resource type="Resource" id="Resource_0rcxy"]
 script = ExtResource("7_bjtm4")
+attack_speed_per_stack = 0.08
 id = &"focus"
 display_name = "Focus"
 description = "Consecutive basic attacks grant stacking attack speed."
@@ -104,18 +106,20 @@ lore = "A deadly marksman with unmatched accuracy and agility."
 color = Color(0.9, 0.6, 0.2, 1)
 model_scene = ExtResource("6_ujrr0")
 portrait = ExtResource("8_6f7a2")
-max_health = 530.0
-health_per_level = 75.0
-health_regen = 1.4
+max_health = 700.0
+health_per_level = 88.0
+health_regen = 2.6
 max_mana = 350.0
 mana_per_level = 35.0
 mana_regen = 1.5
-attack_damage = 54.0
+attack_damage = 50.0
+attack_damage_per_level = 3.0
 attack_speed = 0.68
 attack_range = 5.8
-armor = 24.0
-armor_per_level = 3.0
-magic_resist_per_level = 1.0
+armor = 28.0
+armor_per_level = 3.2
+magic_resist = 32.0
+magic_resist_per_level = 1.2
 move_speed = 5.7
 passive = SubResource("Resource_0rcxy")
 abilities = Array[ExtResource("1_idic5")]([SubResource("Resource_nd0cs"), SubResource("Resource_snwhx"), SubResource("Resource_lfu5r"), SubResource("Resource_let8l")])

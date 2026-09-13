@@ -28,8 +28,8 @@ cast_range = 4.5
 cooldown = PackedFloat32Array(8, 7.5, 7, 6.5, 6)
 mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
 blocked_by_root = true
-base_damage = PackedFloat32Array(70, 110, 150, 190, 230)
-ad_ratio = 0.75
+base_damage = PackedFloat32Array(55, 90, 125, 160, 195)
+ad_ratio = 0.65
 damage_type = 0
 
 [sub_resource type="Resource" id="Resource_k8tfc"]
@@ -37,11 +37,12 @@ script = ExtResource("4_3xr5b")
 kind = 1
 value = 0.2
 value_per_rank = PackedFloat32Array()
-duration = 3.0
+duration = 3.5
 
 [sub_resource type="Resource" id="Resource_7wre0"]
 script = ExtResource("6_d8k38")
-shield_amount = PackedFloat32Array(80, 130, 180, 230, 280)
+shield_amount = PackedFloat32Array(100, 150, 200, 250, 300)
+shield_duration = 3.5
 heal_amount = PackedFloat32Array()
 id = &"beast_ward"
 display_name = "Beast Ward"
@@ -56,7 +57,7 @@ self_effects = Array[ExtResource("4_3xr5b")]([SubResource("Resource_k8tfc")])
 
 [sub_resource type="Resource" id="Resource_kn24t"]
 script = ExtResource("4_3xr5b")
-value = 0.4
+value = 0.35
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
@@ -73,17 +74,17 @@ targeting = 2
 cast_range = 4.0
 cooldown = PackedFloat32Array(10, 9.5, 9, 8.5, 8)
 mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
-base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
-ad_ratio = 0.5
+base_damage = PackedFloat32Array(50, 80, 110, 140, 170)
+ad_ratio = 0.45
 damage_type = 0
 target_effects = Array[ExtResource("4_3xr5b")]([SubResource("Resource_kn24t")])
 
 [sub_resource type="Resource" id="Resource_x6ek7"]
 script = ExtResource("4_3xr5b")
 kind = 2
-value = 1.25
+value = 1.2
 value_per_rank = PackedFloat32Array()
-duration = 1.25
+duration = 1.2
 
 [sub_resource type="Resource" id="Resource_hcgqf"]
 script = ExtResource("3_xj774")
@@ -100,8 +101,8 @@ is_ultimate = true
 cooldown = PackedFloat32Array(90, 75, 60)
 mana_cost = PackedFloat32Array(100, 100, 100)
 blocked_by_root = true
-base_damage = PackedFloat32Array(200, 320, 440)
-ad_ratio = 1.0
+base_damage = PackedFloat32Array(175, 275, 375)
+ad_ratio = 0.85
 damage_type = 0
 target_effects = Array[ExtResource("4_3xr5b")]([SubResource("Resource_x6ek7")])
 
@@ -130,18 +131,17 @@ lore = "A seasoned front-line warrior fighting in perfect synchrony with his fai
 color = Color(0.25, 0.45, 0.95, 1)
 model_scene = ExtResource("10_ui24b")
 portrait = ExtResource("13_fmg0q")
-max_health = 610.0
-health_per_level = 88.0
-health_regen = 1.8
+max_health = 800.0
+health_per_level = 105.0
+health_regen = 3.2
 max_mana = 350.0
 mana_regen = 1.8
-attack_damage = 60.0
-attack_damage_per_level = 3.6
+attack_damage_per_level = 3.4
 attack_range = 1.9
-armor = 32.0
-armor_per_level = 3.6
-magic_resist = 32.0
-magic_resist_per_level = 1.4
+armor = 36.0
+armor_per_level = 3.8
+magic_resist = 34.0
+magic_resist_per_level = 1.5
 passive = SubResource("Resource_cnnqw")
 abilities = Array[ExtResource("1_dc2n8")]([SubResource("Resource_5yqxd"), SubResource("Resource_7wre0"), SubResource("Resource_6s6kh"), SubResource("Resource_hcgqf")])
 bot_skill_priority = PackedInt32Array(0, 1, 2)

@@ -34,7 +34,8 @@ cast_range = 5.2
 cooldown = PackedFloat32Array(11, 10, 9, 8, 7)
 mana_cost = PackedFloat32Array(50, 55, 60, 65, 70)
 blocked_by_root = true
-base_damage = PackedFloat32Array(75, 115, 155, 195, 235)
+base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
+ad_ratio = 0.4
 damage_type = 0
 target_effects = Array[ExtResource("4_w60au")]([SubResource("Resource_jx7pn")])
 
@@ -47,7 +48,7 @@ duration = 3.5
 
 [sub_resource type="Resource" id="Resource_jy45v"]
 script = ExtResource("6_u3olx")
-shield_amount = PackedFloat32Array(95, 150, 205, 260, 315)
+shield_amount = PackedFloat32Array(115, 175, 235, 295, 355)
 shield_duration = 3.5
 heal_amount = PackedFloat32Array()
 id = &"mirror_sheen"
@@ -81,7 +82,8 @@ targeting = 2
 cast_range = 4.5
 cooldown = PackedFloat32Array(12, 11, 10, 9, 8)
 mana_cost = PackedFloat32Array(55, 60, 65, 70, 75)
-base_damage = PackedFloat32Array(65, 105, 145, 185, 225)
+base_damage = PackedFloat32Array(50, 80, 110, 140, 170)
+ad_ratio = 0.35
 target_effects = Array[ExtResource("4_w60au")]([SubResource("Resource_uf6su")])
 
 [sub_resource type="Resource" id="Resource_dpe2u"]
@@ -92,7 +94,7 @@ duration = 6.0
 
 [sub_resource type="Resource" id="Resource_yjinw"]
 script = ExtResource("6_u3olx")
-shield_amount = PackedFloat32Array(300, 480, 660)
+shield_amount = PackedFloat32Array(350, 550, 750)
 shield_duration = 6.0
 heal_amount = PackedFloat32Array()
 id = &"dazzling_pavilion"
@@ -110,9 +112,8 @@ self_effects = Array[ExtResource("4_w60au")]([SubResource("Resource_dpe2u")])
 
 [sub_resource type="Resource" id="Resource_223yp"]
 script = ExtResource("12_rhvbb")
-bonus_damage = 25.0
-bonus_damage_per_level = 7.0
-bonus_max_health_ratio = 0.04
+bonus_damage = 22.0
+bonus_max_health_ratio = 0.035
 heal_max_health_ratio = 0.03
 id = &"prismatic_glamour"
 display_name = "Prismatic Glamour"
@@ -130,19 +131,20 @@ lore = "An exceptionally elegant, effeminate warrior whose poise is rivaled only
 color = Color(0.95, 0.45, 0.65, 1)
 model_scene = ExtResource("10_l7ccn")
 portrait = ExtResource("13_lrx5u")
-max_health = 640.0
-health_per_level = 100.0
-health_regen = 2.2
+max_health = 880.0
+health_per_level = 120.0
+health_regen = 3.8
 max_mana = 320.0
 mana_per_level = 36.0
 mana_regen = 1.6
-attack_damage = 56.0
+attack_damage = 50.0
+attack_damage_per_level = 3.0
 attack_speed = 0.64
 attack_range = 1.9
-armor = 38.0
-armor_per_level = 4.2
-magic_resist = 34.0
-magic_resist_per_level = 1.8
+armor = 44.0
+armor_per_level = 4.4
+magic_resist = 38.0
+magic_resist_per_level = 2.0
 move_speed = 5.6
 passive = SubResource("Resource_223yp")
 abilities = Array[ExtResource("1_kanlf")]([SubResource("Resource_eokfk"), SubResource("Resource_jy45v"), SubResource("Resource_88sht"), SubResource("Resource_yjinw")])

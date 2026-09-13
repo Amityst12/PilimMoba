@@ -14,14 +14,15 @@
 [sub_resource type="Resource" id="Resource_spbet"]
 script = ExtResource("2_8v4yl")
 projectile_speed = 16.0
+projectile_width = 0.8
 id = &"mystic_bolt"
 display_name = "Mystic Bolt"
 description = "Fires a swift bolt of pure arcane energy in the target direction."
 cast_range = 7.5
 cooldown = PackedFloat32Array(6, 5.5, 5, 4.5, 4)
 mana_cost = PackedFloat32Array(40, 45, 50, 55, 60)
-base_damage = PackedFloat32Array(70, 110, 150, 190, 230)
-ap_ratio = 0.65
+base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
+ap_ratio = 0.55
 
 [sub_resource type="Resource" id="Resource_i2qtn"]
 script = ExtResource("3_0ma5e")
@@ -47,7 +48,7 @@ self_effects = Array[ExtResource("3_0ma5e")]([SubResource("Resource_i2qtn")])
 
 [sub_resource type="Resource" id="Resource_otajr"]
 script = ExtResource("3_0ma5e")
-value = 0.4
+value = 0.35
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
@@ -61,8 +62,8 @@ targeting = 2
 cast_range = 6.0
 cooldown = PackedFloat32Array(10, 9.5, 9, 8.5, 8)
 mana_cost = PackedFloat32Array(55, 60, 65, 70, 75)
-base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
-ap_ratio = 0.5
+base_damage = PackedFloat32Array(50, 75, 100, 125, 150)
+ap_ratio = 0.45
 target_effects = Array[ExtResource("3_0ma5e")]([SubResource("Resource_otajr")])
 
 [sub_resource type="Resource" id="Resource_okwla"]
@@ -77,8 +78,8 @@ max_rank = 3
 is_ultimate = true
 cooldown = PackedFloat32Array(80, 65, 50)
 mana_cost = PackedFloat32Array(100, 100, 100)
-base_damage = PackedFloat32Array(250, 375, 500)
-ap_ratio = 0.9
+base_damage = PackedFloat32Array(200, 310, 420)
+ap_ratio = 0.75
 
 [sub_resource type="Resource" id="Resource_wmags"]
 script = ExtResource("3_0ma5e")
@@ -105,17 +106,17 @@ lore = "A master of spatial manipulation who bends arcane energy across dimensio
 color = Color(0.4, 0.7, 1, 1)
 model_scene = ExtResource("7_2k24q")
 portrait = ExtResource("9_4c873")
-max_health = 560.0
-health_per_level = 80.0
-max_mana = 400.0
-mana_per_level = 40.0
-mana_regen = 2.0
-attack_damage = 46.0
+max_health = 720.0
+health_regen = 2.8
+max_mana = 450.0
+mana_per_level = 45.0
+mana_regen = 2.4
+attack_damage = 44.0
 attack_damage_per_level = 2.5
 attack_range = 5.5
-armor = 22.0
-armor_per_level = 3.0
-magic_resist_per_level = 1.0
+armor = 28.0
+armor_per_level = 3.2
+magic_resist = 32.0
 move_speed = 5.6
 passive = SubResource("Resource_rhi4y")
 abilities = Array[ExtResource("1_04mct")]([SubResource("Resource_spbet"), SubResource("Resource_oxdb3"), SubResource("Resource_j0kxl"), SubResource("Resource_okwla")])

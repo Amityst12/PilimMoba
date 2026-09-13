@@ -24,6 +24,7 @@ value_per_rank = PackedFloat32Array()
 [sub_resource type="Resource" id="Resource_uq2d5"]
 script = ExtResource("3_68m28")
 projectile_speed = 15.0
+projectile_width = 0.8
 id = &"solar_orb"
 display_name = "Solar Orb"
 description = "Fires a concentrated ball of tropical sunlight that bursts upon impact."
@@ -32,8 +33,8 @@ color = Color(0.95, 0.85, 0.3, 1)
 cast_range = 7.5
 cooldown = PackedFloat32Array(7, 6.5, 6, 5.5, 5)
 mana_cost = PackedFloat32Array(45, 50, 55, 60, 65)
-base_damage = PackedFloat32Array(65, 100, 135, 170, 205)
-ap_ratio = 0.6
+base_damage = PackedFloat32Array(50, 80, 110, 140, 170)
+ap_ratio = 0.5
 target_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_n82jr")])
 
 [sub_resource type="Resource" id="Resource_68m28"]
@@ -60,7 +61,6 @@ self_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_68m28")])
 
 [sub_resource type="Resource" id="Resource_pn1aw"]
 script = ExtResource("4_285t7")
-value = 0.35
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
@@ -76,8 +76,8 @@ targeting = 2
 cast_range = 6.0
 cooldown = PackedFloat32Array(11, 10.5, 10, 9.5, 9)
 mana_cost = PackedFloat32Array(60, 65, 70, 75, 80)
-base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
-ap_ratio = 0.5
+base_damage = PackedFloat32Array(45, 70, 95, 120, 145)
+ap_ratio = 0.45
 target_effects = Array[ExtResource("4_285t7")]([SubResource("Resource_pn1aw")])
 
 [sub_resource type="Resource" id="Resource_rfxdj"]
@@ -93,8 +93,8 @@ max_rank = 3
 is_ultimate = true
 cooldown = PackedFloat32Array(90, 75, 60)
 mana_cost = PackedFloat32Array(100, 100, 100)
-base_damage = PackedFloat32Array(220, 340, 460)
-ap_ratio = 0.8
+base_damage = PackedFloat32Array(180, 280, 380)
+ap_ratio = 0.7
 
 [sub_resource type="Resource" id="Resource_hh72b"]
 script = ExtResource("4_285t7")
@@ -122,18 +122,18 @@ lore = "A warm-hearted, compact Filipino enchanter channeling island sunlight to
 color = Color(0.95, 0.78, 0.2, 1)
 model_scene = ExtResource("11_lfmau")
 portrait = ExtResource("14_lvmxa")
-max_health = 540.0
-health_per_level = 76.0
-max_mana = 440.0
+max_health = 700.0
+health_regen = 2.8
+max_mana = 450.0
 mana_per_level = 45.0
 mana_regen = 2.4
-attack_damage = 46.0
-attack_damage_per_level = 2.6
+attack_damage = 42.0
+attack_damage_per_level = 2.4
 attack_speed = 0.63
 attack_range = 5.2
-armor = 24.0
-armor_per_level = 3.0
-magic_resist_per_level = 1.2
+armor = 28.0
+armor_per_level = 3.2
+magic_resist = 32.0
 move_speed = 5.6
 passive = SubResource("Resource_nm5hy")
 abilities = Array[ExtResource("1_n82jr")]([SubResource("Resource_uq2d5"), SubResource("Resource_285t7"), SubResource("Resource_ttu06"), SubResource("Resource_rfxdj")])

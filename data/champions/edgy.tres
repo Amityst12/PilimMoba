@@ -26,8 +26,8 @@ cast_range = 5.0
 cooldown = PackedFloat32Array(8, 7, 6, 5, 4)
 mana_cost = PackedFloat32Array(40, 40, 40, 40, 40)
 blocked_by_root = true
-base_damage = PackedFloat32Array(80, 120, 160, 200, 240)
-ad_ratio = 0.85
+base_damage = PackedFloat32Array(60, 95, 130, 165, 200)
+ad_ratio = 0.75
 damage_type = 0
 
 [sub_resource type="Resource" id="Resource_3fo20"]
@@ -61,13 +61,14 @@ self_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_3fo20"), Sub
 
 [sub_resource type="Resource" id="Resource_6144s"]
 script = ExtResource("4_bq4ht")
-value = 0.45
+value = 0.4
 value_per_rank = PackedFloat32Array()
 duration = 2.0
 
 [sub_resource type="Resource" id="Resource_3xj6c"]
 script = ExtResource("8_rhe2n")
 projectile_speed = 17.0
+projectile_width = 0.7
 id = &"crippling_slash"
 display_name = "Crippling Slash"
 description = "Throws a curved shadow blade that slows the target."
@@ -76,17 +77,17 @@ color = Color(0.9, 0.1, 0.4, 1)
 cast_range = 6.5
 cooldown = PackedFloat32Array(10, 9, 8, 7, 6)
 mana_cost = PackedFloat32Array(50, 50, 50, 50, 50)
-base_damage = PackedFloat32Array(70, 105, 140, 175, 210)
-ad_ratio = 0.65
+base_damage = PackedFloat32Array(55, 85, 115, 145, 175)
+ad_ratio = 0.55
 damage_type = 0
 target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_6144s")])
 
 [sub_resource type="Resource" id="Resource_5li48"]
 script = ExtResource("4_bq4ht")
 kind = 8
-value = 1.2
+value = 1.0
 value_per_rank = PackedFloat32Array()
-duration = 1.2
+duration = 1.0
 
 [sub_resource type="Resource" id="Resource_rhe2n"]
 script = ExtResource("3_tsplg")
@@ -103,8 +104,8 @@ is_ultimate = true
 cooldown = PackedFloat32Array(80, 65, 50)
 mana_cost = PackedFloat32Array(100, 100, 100)
 blocked_by_root = true
-base_damage = PackedFloat32Array(260, 400, 540)
-ad_ratio = 1.15
+base_damage = PackedFloat32Array(200, 320, 440)
+ad_ratio = 0.95
 damage_type = 0
 target_effects = Array[ExtResource("4_bq4ht")]([SubResource("Resource_5li48")])
 
@@ -135,17 +136,18 @@ color = Color(0.75, 0.15, 0.85, 1)
 model_scene = ExtResource("10_2631r")
 portrait = ExtResource("13_hsois")
 difficulty = 3
-max_health = 540.0
-health_per_level = 76.0
-health_regen = 1.6
+max_health = 720.0
+health_regen = 2.8
 max_mana = 320.0
 mana_per_level = 32.0
 mana_regen = 1.5
-attack_damage = 62.0
-attack_damage_per_level = 4.0
+attack_damage = 56.0
+attack_damage_per_level = 3.6
 attack_speed = 0.68
-armor = 26.0
-armor_per_level = 3.2
+armor = 30.0
+armor_per_level = 3.4
+magic_resist = 32.0
+magic_resist_per_level = 1.4
 move_speed = 6.0
 passive = SubResource("Resource_2631r")
 abilities = Array[ExtResource("1_v0w5s")]([SubResource("Resource_v0w5s"), SubResource("Resource_bq4ht"), SubResource("Resource_3xj6c"), SubResource("Resource_rhe2n")])

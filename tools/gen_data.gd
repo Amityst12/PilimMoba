@@ -15,7 +15,7 @@ const AttackCounterPassive = preload("res://core/abilities/AttackCounterPassive.
 const ChampionData = preload("res://core/champions/ChampionData.gd")
 
 func _init() -> void:
-	print("Generating champion and ability data resources...")
+	print("Generating champion and ability data resources with balanced survivability...")
 	DirAccess.make_dir_recursive_absolute("res://data/champions")
 	DirAccess.make_dir_recursive_absolute("res://data/abilities")
 
@@ -38,7 +38,7 @@ func _init() -> void:
 	print("All champion data resources generated successfully!")
 
 # =========================================================================
-# 1. EREZ - The Beast Vanguard (Fighter with Animal Companions)
+# 1. EREZ - The Beast Vanguard (Fighter / Bruiser)
 # =========================================================================
 func _build_erez() -> void:
 	var champ := ChampionData.new()
@@ -52,20 +52,20 @@ func _build_erez() -> void:
 	champ.model_scene = load("res://entities/champion/models/ErezModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/erez.svg")
 
-	champ.max_health = 610.0
-	champ.health_per_level = 88.0
-	champ.health_regen = 1.8
+	champ.max_health = 800.0
+	champ.health_per_level = 105.0
+	champ.health_regen = 3.2
 	champ.max_mana = 350.0
 	champ.mana_per_level = 38.0
 	champ.mana_regen = 1.8
-	champ.attack_damage = 60.0
-	champ.attack_damage_per_level = 3.6
+	champ.attack_damage = 55.0
+	champ.attack_damage_per_level = 3.4
 	champ.attack_speed = 0.65
 	champ.attack_range = 1.9
-	champ.armor = 32.0
-	champ.armor_per_level = 3.6
-	champ.magic_resist = 32.0
-	champ.magic_resist_per_level = 1.4
+	champ.armor = 36.0
+	champ.armor_per_level = 3.8
+	champ.magic_resist = 34.0
+	champ.magic_resist_per_level = 1.5
 	champ.move_speed = 5.8
 
 	var passive := CastCounterPassive.new()
@@ -91,8 +91,8 @@ func _build_erez() -> void:
 	q.travel_speed = 22.0
 	q.cooldown = PackedFloat32Array([8.0, 7.5, 7.0, 6.5, 6.0])
 	q.mana_cost = PackedFloat32Array([40.0, 45.0, 50.0, 55.0, 60.0])
-	q.base_damage = PackedFloat32Array([70.0, 110.0, 150.0, 190.0, 230.0])
-	q.ad_ratio = 0.75
+	q.base_damage = PackedFloat32Array([55.0, 90.0, 125.0, 160.0, 195.0])
+	q.ad_ratio = 0.65
 	q.damage_type = GameConst.DamageType.PHYSICAL
 
 	var w := SelfBuffAbility.new()
@@ -104,9 +104,9 @@ func _build_erez() -> void:
 	w.targeting = AbilityData.Targeting.NONE
 	w.cooldown = PackedFloat32Array([13.0, 12.0, 11.0, 10.0, 9.0])
 	w.mana_cost = PackedFloat32Array([55.0, 55.0, 55.0, 55.0, 55.0])
-	w.shield_amount = PackedFloat32Array([80.0, 130.0, 180.0, 230.0, 280.0])
-	w.shield_duration = 3.0
-	w.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.2, 3.0)]
+	w.shield_amount = PackedFloat32Array([100.0, 150.0, 200.0, 250.0, 300.0])
+	w.shield_duration = 3.5
+	w.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.2, 3.5)]
 
 	var e := AreaAbility.new()
 	e.id = &"rallying_quake"
@@ -121,10 +121,10 @@ func _build_erez() -> void:
 	e.delay = 0.25
 	e.cooldown = PackedFloat32Array([10.0, 9.5, 9.0, 8.5, 8.0])
 	e.mana_cost = PackedFloat32Array([50.0, 55.0, 60.0, 65.0, 70.0])
-	e.base_damage = PackedFloat32Array([60.0, 95.0, 130.0, 165.0, 200.0])
-	e.ad_ratio = 0.5
+	e.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	e.ad_ratio = 0.45
 	e.damage_type = GameConst.DamageType.PHYSICAL
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.35, 2.0)]
 
 	var r := DashAbility.new()
 	r.id = &"apex_predator_charge"
@@ -141,10 +141,10 @@ func _build_erez() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([90.0, 75.0, 60.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([200.0, 320.0, 440.0])
-	r.ad_ratio = 1.0
+	r.base_damage = PackedFloat32Array([175.0, 275.0, 375.0])
+	r.ad_ratio = 0.85
 	r.damage_type = GameConst.DamageType.PHYSICAL
-	r.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.25, 1.25)]
+	r.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.2, 1.2)]
 
 	champ.abilities = [q, w, e, r]
 	champ.bot_skill_priority = PackedInt32Array([0, 1, 2])
@@ -167,20 +167,20 @@ func _build_stephen() -> void:
 	champ.model_scene = load("res://entities/champion/models/StephenModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/stephen.svg")
 
-	champ.max_health = 540.0
-	champ.health_per_level = 76.0
-	champ.health_regen = 1.5
-	champ.max_mana = 440.0
+	champ.max_health = 700.0
+	champ.health_per_level = 90.0
+	champ.health_regen = 2.8
+	champ.max_mana = 450.0
 	champ.mana_per_level = 45.0
 	champ.mana_regen = 2.4
-	champ.attack_damage = 46.0
-	champ.attack_damage_per_level = 2.6
+	champ.attack_damage = 42.0
+	champ.attack_damage_per_level = 2.4
 	champ.attack_speed = 0.63
 	champ.attack_range = 5.2
-	champ.armor = 24.0
-	champ.armor_per_level = 3.0
-	champ.magic_resist = 30.0
-	champ.magic_resist_per_level = 1.2
+	champ.armor = 28.0
+	champ.armor_per_level = 3.2
+	champ.magic_resist = 32.0
+	champ.magic_resist_per_level = 1.3
 	champ.move_speed = 5.6
 
 	var passive := CastCounterPassive.new()
@@ -202,10 +202,11 @@ func _build_stephen() -> void:
 	q.targeting = AbilityData.Targeting.DIRECTION
 	q.cast_range = 7.5
 	q.projectile_speed = 15.0
+	q.projectile_width = 0.8
 	q.cooldown = PackedFloat32Array([7.0, 6.5, 6.0, 5.5, 5.0])
 	q.mana_cost = PackedFloat32Array([45.0, 50.0, 55.0, 60.0, 65.0])
-	q.base_damage = PackedFloat32Array([65.0, 100.0, 135.0, 170.0, 205.0])
-	q.ap_ratio = 0.6
+	q.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	q.ap_ratio = 0.5
 	q.damage_type = GameConst.DamageType.MAGIC
 	q.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.25, 1.5)]
 
@@ -235,10 +236,10 @@ func _build_stephen() -> void:
 	e.delay = 0.4
 	e.cooldown = PackedFloat32Array([11.0, 10.5, 10.0, 9.5, 9.0])
 	e.mana_cost = PackedFloat32Array([60.0, 65.0, 70.0, 75.0, 80.0])
-	e.base_damage = PackedFloat32Array([55.0, 85.0, 115.0, 145.0, 175.0])
-	e.ap_ratio = 0.5
+	e.base_damage = PackedFloat32Array([45.0, 70.0, 95.0, 120.0, 145.0])
+	e.ap_ratio = 0.45
 	e.damage_type = GameConst.DamageType.MAGIC
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.35, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.3, 2.0)]
 
 	var r := BeamAbility.new()
 	r.id = &"radiant_blessing"
@@ -254,8 +255,8 @@ func _build_stephen() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([90.0, 75.0, 60.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([220.0, 340.0, 460.0])
-	r.ap_ratio = 0.8
+	r.base_damage = PackedFloat32Array([180.0, 280.0, 380.0])
+	r.ap_ratio = 0.7
 	r.damage_type = GameConst.DamageType.MAGIC
 
 	champ.abilities = [q, w, e, r]
@@ -279,20 +280,20 @@ func _build_amit() -> void:
 	champ.model_scene = load("res://entities/champion/models/AmitModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/amit.svg")
 
-	champ.max_health = 590.0
-	champ.health_per_level = 84.0
-	champ.health_regen = 1.6
+	champ.max_health = 770.0
+	champ.health_per_level = 100.0
+	champ.health_regen = 3.0
 	champ.max_mana = 360.0
 	champ.mana_per_level = 38.0
 	champ.mana_regen = 1.6
-	champ.attack_damage = 59.0
-	champ.attack_damage_per_level = 3.5
+	champ.attack_damage = 53.0
+	champ.attack_damage_per_level = 3.2
 	champ.attack_speed = 0.66
 	champ.attack_range = 3.2
-	champ.armor = 28.0
-	champ.armor_per_level = 3.4
-	champ.magic_resist = 30.0
-	champ.magic_resist_per_level = 1.3
+	champ.armor = 32.0
+	champ.armor_per_level = 3.6
+	champ.magic_resist = 32.0
+	champ.magic_resist_per_level = 1.4
 	champ.move_speed = 5.7
 
 	var passive := AttackStackPassive.new()
@@ -316,10 +317,11 @@ func _build_amit() -> void:
 	q.targeting = AbilityData.Targeting.DIRECTION
 	q.cast_range = 6.5
 	q.projectile_speed = 18.0
+	q.projectile_width = 0.8
 	q.cooldown = PackedFloat32Array([6.5, 6.0, 5.5, 5.0, 4.5])
 	q.mana_cost = PackedFloat32Array([40.0, 45.0, 50.0, 55.0, 60.0])
-	q.base_damage = PackedFloat32Array([70.0, 110.0, 150.0, 190.0, 230.0])
-	q.ad_ratio = 0.7
+	q.base_damage = PackedFloat32Array([55.0, 90.0, 125.0, 160.0, 195.0])
+	q.ad_ratio = 0.6
 	q.damage_type = GameConst.DamageType.PHYSICAL
 
 	var w := DashAbility.new()
@@ -350,10 +352,10 @@ func _build_amit() -> void:
 	e.delay = 0.35
 	e.cooldown = PackedFloat32Array([11.0, 10.0, 9.0, 8.0, 7.0])
 	e.mana_cost = PackedFloat32Array([50.0, 55.0, 60.0, 65.0, 70.0])
-	e.base_damage = PackedFloat32Array([60.0, 95.0, 130.0, 165.0, 200.0])
-	e.ad_ratio = 0.5
+	e.base_damage = PackedFloat32Array([48.0, 78.0, 108.0, 138.0, 168.0])
+	e.ad_ratio = 0.45
 	e.damage_type = GameConst.DamageType.PHYSICAL
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.45, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
 
 	var r := AreaAbility.new()
 	r.id = &"grand_concert"
@@ -370,8 +372,8 @@ func _build_amit() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([85.0, 70.0, 55.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([240.0, 360.0, 480.0])
-	r.ad_ratio = 0.9
+	r.base_damage = PackedFloat32Array([190.0, 300.0, 410.0])
+	r.ad_ratio = 0.75
 	r.damage_type = GameConst.DamageType.PHYSICAL
 	r.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.0, 1.0)]
 
@@ -396,20 +398,20 @@ func _build_nissim() -> void:
 	champ.model_scene = load("res://entities/champion/models/NissimModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/nissim.svg")
 
-	champ.max_health = 550.0
-	champ.health_per_level = 78.0
-	champ.health_regen = 1.6
+	champ.max_health = 710.0
+	champ.health_per_level = 92.0
+	champ.health_regen = 2.8
 	champ.max_mana = 460.0
 	champ.mana_per_level = 45.0
 	champ.mana_regen = 2.5
-	champ.attack_damage = 48.0
-	champ.attack_damage_per_level = 2.8
+	champ.attack_damage = 44.0
+	champ.attack_damage_per_level = 2.6
 	champ.attack_speed = 0.63
 	champ.attack_range = 5.2
-	champ.armor = 24.0
-	champ.armor_per_level = 3.0
-	champ.magic_resist = 30.0
-	champ.magic_resist_per_level = 1.2
+	champ.armor = 28.0
+	champ.armor_per_level = 3.2
+	champ.magic_resist = 32.0
+	champ.magic_resist_per_level = 1.3
 	champ.move_speed = 5.6
 
 	var passive := CastCounterPassive.new()
@@ -431,10 +433,11 @@ func _build_nissim() -> void:
 	q.targeting = AbilityData.Targeting.DIRECTION
 	q.cast_range = 8.0
 	q.projectile_speed = 16.0
+	q.projectile_width = 0.9
 	q.cooldown = PackedFloat32Array([6.5, 6.0, 5.5, 5.0, 4.5])
 	q.mana_cost = PackedFloat32Array([45.0, 50.0, 55.0, 60.0, 65.0])
-	q.base_damage = PackedFloat32Array([75.0, 115.0, 155.0, 195.0, 235.0])
-	q.ap_ratio = 0.65
+	q.base_damage = PackedFloat32Array([55.0, 90.0, 125.0, 160.0, 195.0])
+	q.ap_ratio = 0.55
 	q.damage_type = GameConst.DamageType.MAGIC
 
 	var w := SelfBuffAbility.new()
@@ -446,8 +449,8 @@ func _build_nissim() -> void:
 	w.targeting = AbilityData.Targeting.NONE
 	w.cooldown = PackedFloat32Array([12.0, 11.0, 10.0, 9.0, 8.0])
 	w.mana_cost = PackedFloat32Array([55.0, 55.0, 55.0, 55.0, 55.0])
-	w.shield_amount = PackedFloat32Array([90.0, 140.0, 190.0, 240.0, 290.0])
-	w.shield_duration = 3.0
+	w.shield_amount = PackedFloat32Array([100.0, 150.0, 200.0, 250.0, 300.0])
+	w.shield_duration = 3.5
 	w.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.2, 3.0)]
 
 	var e := AreaAbility.new()
@@ -463,10 +466,10 @@ func _build_nissim() -> void:
 	e.delay = 0.35
 	e.cooldown = PackedFloat32Array([10.5, 9.5, 8.5, 7.5, 6.5])
 	e.mana_cost = PackedFloat32Array([60.0, 65.0, 70.0, 75.0, 80.0])
-	e.base_damage = PackedFloat32Array([65.0, 100.0, 135.0, 170.0, 205.0])
-	e.ap_ratio = 0.55
+	e.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	e.ap_ratio = 0.45
 	e.damage_type = GameConst.DamageType.MAGIC
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.35, 2.0)]
 
 	var r := BeamAbility.new()
 	r.id = &"master_plan"
@@ -482,8 +485,8 @@ func _build_nissim() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([90.0, 75.0, 60.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([240.0, 370.0, 500.0])
-	r.ap_ratio = 0.85
+	r.base_damage = PackedFloat32Array([200.0, 310.0, 420.0])
+	r.ap_ratio = 0.75
 	r.damage_type = GameConst.DamageType.MAGIC
 
 	champ.abilities = [q, w, e, r]
@@ -507,20 +510,20 @@ func _build_rogo() -> void:
 	champ.model_scene = load("res://entities/champion/models/RogoModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/rogo.svg")
 
-	champ.max_health = 680.0
-	champ.health_per_level = 105.0
-	champ.health_regen = 2.4
+	champ.max_health = 920.0
+	champ.health_per_level = 125.0
+	champ.health_regen = 4.0
 	champ.max_mana = 300.0
 	champ.mana_per_level = 32.0
 	champ.mana_regen = 1.4
-	champ.attack_damage = 62.0
-	champ.attack_damage_per_level = 3.8
+	champ.attack_damage = 56.0
+	champ.attack_damage_per_level = 3.6
 	champ.attack_speed = 0.62
 	champ.attack_range = 1.8
-	champ.armor = 38.0
-	champ.armor_per_level = 4.2
-	champ.magic_resist = 34.0
-	champ.magic_resist_per_level = 1.8
+	champ.armor = 44.0
+	champ.armor_per_level = 4.4
+	champ.magic_resist = 38.0
+	champ.magic_resist_per_level = 2.0
 	champ.move_speed = 5.5
 
 	var passive := AttackCounterPassive.new()
@@ -530,9 +533,9 @@ func _build_rogo() -> void:
 	passive.color = Color(0.85, 0.15, 0.15)
 	passive.icon = load("res://assets/icons/abilities/rogo_p.svg")
 	passive.attacks_required = 3
-	passive.bonus_damage = 30.0
-	passive.bonus_damage_per_level = 8.0
-	passive.bonus_max_health_ratio = 0.05
+	passive.bonus_damage = 25.0
+	passive.bonus_damage_per_level = 6.0
+	passive.bonus_max_health_ratio = 0.04
 	passive.heal_max_health_ratio = 0.03
 	champ.passive = passive
 
@@ -549,9 +552,10 @@ func _build_rogo() -> void:
 	q.delay = 0.25
 	q.cooldown = PackedFloat32Array([7.5, 7.0, 6.5, 6.0, 5.5])
 	q.mana_cost = PackedFloat32Array([40.0, 45.0, 50.0, 55.0, 60.0])
-	q.base_damage = PackedFloat32Array([75.0, 115.0, 155.0, 195.0, 235.0])
+	q.base_damage = PackedFloat32Array([55.0, 90.0, 125.0, 160.0, 195.0])
+	q.ad_ratio = 0.45
 	q.damage_type = GameConst.DamageType.PHYSICAL
-	q.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.45, 2.0)]
+	q.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
 
 	var w := SelfBuffAbility.new()
 	w.id = &"iron_belly"
@@ -562,7 +566,7 @@ func _build_rogo() -> void:
 	w.targeting = AbilityData.Targeting.NONE
 	w.cooldown = PackedFloat32Array([14.0, 13.0, 12.0, 11.0, 10.0])
 	w.mana_cost = PackedFloat32Array([50.0, 50.0, 50.0, 50.0, 50.0])
-	w.shield_amount = PackedFloat32Array([100.0, 160.0, 220.0, 280.0, 340.0])
+	w.shield_amount = PackedFloat32Array([120.0, 180.0, 240.0, 300.0, 360.0])
 	w.shield_duration = 3.5
 
 	var e := DashAbility.new()
@@ -578,7 +582,8 @@ func _build_rogo() -> void:
 	e.travel_speed = 18.0
 	e.cooldown = PackedFloat32Array([12.0, 11.0, 10.0, 9.0, 8.0])
 	e.mana_cost = PackedFloat32Array([55.0, 60.0, 65.0, 70.0, 75.0])
-	e.base_damage = PackedFloat32Array([65.0, 105.0, 145.0, 185.0, 225.0])
+	e.base_damage = PackedFloat32Array([50.0, 85.0, 120.0, 155.0, 190.0])
+	e.ad_ratio = 0.4
 	e.damage_type = GameConst.DamageType.PHYSICAL
 	e.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 0.75, 0.75)]
 
@@ -597,9 +602,10 @@ func _build_rogo() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([95.0, 80.0, 65.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([250.0, 380.0, 510.0])
+	r.base_damage = PackedFloat32Array([190.0, 290.0, 390.0])
+	r.ad_ratio = 0.6
 	r.damage_type = GameConst.DamageType.PHYSICAL
-	r.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.5, 1.5)]
+	r.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.4, 1.4)]
 
 	champ.abilities = [q, w, e, r]
 	champ.bot_skill_priority = PackedInt32Array([0, 1, 2])
@@ -622,20 +628,20 @@ func _build_yakir() -> void:
 	champ.model_scene = load("res://entities/champion/models/YakirModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/yakir.svg")
 
-	champ.max_health = 570.0
-	champ.health_per_level = 82.0
-	champ.health_regen = 1.8
+	champ.max_health = 740.0
+	champ.health_per_level = 96.0
+	champ.health_regen = 3.0
 	champ.max_mana = 420.0
 	champ.mana_per_level = 42.0
 	champ.mana_regen = 2.2
-	champ.attack_damage = 50.0
-	champ.attack_damage_per_level = 3.0
+	champ.attack_damage = 45.0
+	champ.attack_damage_per_level = 2.8
 	champ.attack_speed = 0.64
 	champ.attack_range = 4.8
-	champ.armor = 28.0
-	champ.armor_per_level = 3.4
-	champ.magic_resist = 32.0
-	champ.magic_resist_per_level = 1.4
+	champ.armor = 32.0
+	champ.armor_per_level = 3.6
+	champ.magic_resist = 34.0
+	champ.magic_resist_per_level = 1.5
 	champ.move_speed = 5.6
 
 	var passive := CastCounterPassive.new()
@@ -657,10 +663,11 @@ func _build_yakir() -> void:
 	q.targeting = AbilityData.Targeting.DIRECTION
 	q.cast_range = 7.5
 	q.projectile_speed = 16.0
+	q.projectile_width = 0.8
 	q.cooldown = PackedFloat32Array([7.0, 6.5, 6.0, 5.5, 5.0])
 	q.mana_cost = PackedFloat32Array([45.0, 50.0, 55.0, 60.0, 65.0])
-	q.base_damage = PackedFloat32Array([65.0, 100.0, 135.0, 170.0, 205.0])
-	q.ap_ratio = 0.6
+	q.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	q.ap_ratio = 0.5
 	q.damage_type = GameConst.DamageType.MAGIC
 	q.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.3, 1.8)]
 
@@ -673,8 +680,8 @@ func _build_yakir() -> void:
 	w.targeting = AbilityData.Targeting.NONE
 	w.cooldown = PackedFloat32Array([12.0, 11.0, 10.0, 9.0, 8.0])
 	w.mana_cost = PackedFloat32Array([55.0, 55.0, 55.0, 55.0, 55.0])
-	w.shield_amount = PackedFloat32Array([85.0, 135.0, 185.0, 235.0, 285.0])
-	w.shield_duration = 3.0
+	w.shield_amount = PackedFloat32Array([100.0, 150.0, 200.0, 250.0, 300.0])
+	w.shield_duration = 3.5
 	w.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.2, 3.0)]
 
 	var e := AreaAbility.new()
@@ -690,10 +697,10 @@ func _build_yakir() -> void:
 	e.delay = 0.3
 	e.cooldown = PackedFloat32Array([10.0, 9.5, 9.0, 8.5, 8.0])
 	e.mana_cost = PackedFloat32Array([50.0, 55.0, 60.0, 65.0, 70.0])
-	e.base_damage = PackedFloat32Array([60.0, 95.0, 130.0, 165.0, 200.0])
-	e.ap_ratio = 0.5
+	e.base_damage = PackedFloat32Array([48.0, 78.0, 108.0, 138.0, 168.0])
+	e.ap_ratio = 0.45
 	e.damage_type = GameConst.DamageType.MAGIC
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.35, 2.0)]
 
 	var r := AreaAbility.new()
 	r.id = &"the_grand_feast"
@@ -710,8 +717,8 @@ func _build_yakir() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([90.0, 75.0, 60.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([200.0, 320.0, 440.0])
-	r.ap_ratio = 0.75
+	r.base_damage = PackedFloat32Array([170.0, 260.0, 350.0])
+	r.ap_ratio = 0.65
 	r.damage_type = GameConst.DamageType.MAGIC
 	r.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.25, 1.25)]
 
@@ -736,20 +743,20 @@ func _build_lior() -> void:
 	champ.model_scene = load("res://entities/champion/models/LiorModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/lior.svg")
 
-	champ.max_health = 640.0
-	champ.health_per_level = 100.0
-	champ.health_regen = 2.2
+	champ.max_health = 880.0
+	champ.health_per_level = 120.0
+	champ.health_regen = 3.8
 	champ.max_mana = 320.0
 	champ.mana_per_level = 36.0
 	champ.mana_regen = 1.6
-	champ.attack_damage = 56.0
-	champ.attack_damage_per_level = 3.2
+	champ.attack_damage = 50.0
+	champ.attack_damage_per_level = 3.0
 	champ.attack_speed = 0.64
 	champ.attack_range = 1.9
-	champ.armor = 38.0
-	champ.armor_per_level = 4.2
-	champ.magic_resist = 34.0
-	champ.magic_resist_per_level = 1.8
+	champ.armor = 44.0
+	champ.armor_per_level = 4.4
+	champ.magic_resist = 38.0
+	champ.magic_resist_per_level = 2.0
 	champ.move_speed = 5.6
 
 	var passive := AttackCounterPassive.new()
@@ -759,9 +766,9 @@ func _build_lior() -> void:
 	passive.color = Color(0.95, 0.5, 0.7)
 	passive.icon = load("res://assets/icons/abilities/lior_p.svg")
 	passive.attacks_required = 3
-	passive.bonus_damage = 25.0
-	passive.bonus_damage_per_level = 7.0
-	passive.bonus_max_health_ratio = 0.04
+	passive.bonus_damage = 22.0
+	passive.bonus_damage_per_level = 6.0
+	passive.bonus_max_health_ratio = 0.035
 	passive.heal_max_health_ratio = 0.03
 	champ.passive = passive
 
@@ -778,7 +785,8 @@ func _build_lior() -> void:
 	q.travel_speed = 20.0
 	q.cooldown = PackedFloat32Array([11.0, 10.0, 9.0, 8.0, 7.0])
 	q.mana_cost = PackedFloat32Array([50.0, 55.0, 60.0, 65.0, 70.0])
-	q.base_damage = PackedFloat32Array([75.0, 115.0, 155.0, 195.0, 235.0])
+	q.base_damage = PackedFloat32Array([55.0, 85.0, 115.0, 145.0, 175.0])
+	q.ad_ratio = 0.4
 	q.damage_type = GameConst.DamageType.PHYSICAL
 	q.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.35, 1.8)]
 
@@ -791,7 +799,7 @@ func _build_lior() -> void:
 	w.targeting = AbilityData.Targeting.NONE
 	w.cooldown = PackedFloat32Array([14.0, 13.0, 12.0, 11.0, 10.0])
 	w.mana_cost = PackedFloat32Array([60.0, 60.0, 60.0, 60.0, 60.0])
-	w.shield_amount = PackedFloat32Array([95.0, 150.0, 205.0, 260.0, 315.0])
+	w.shield_amount = PackedFloat32Array([115.0, 175.0, 235.0, 295.0, 355.0])
 	w.shield_duration = 3.5
 	w.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.2, 3.5)]
 
@@ -808,7 +816,8 @@ func _build_lior() -> void:
 	e.delay = 0.3
 	e.cooldown = PackedFloat32Array([12.0, 11.0, 10.0, 9.0, 8.0])
 	e.mana_cost = PackedFloat32Array([55.0, 60.0, 65.0, 70.0, 75.0])
-	e.base_damage = PackedFloat32Array([65.0, 105.0, 145.0, 185.0, 225.0])
+	e.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	e.ad_ratio = 0.35
 	e.damage_type = GameConst.DamageType.MAGIC
 	e.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 1.0, 1.0)]
 
@@ -823,7 +832,7 @@ func _build_lior() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([90.0, 80.0, 70.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.shield_amount = PackedFloat32Array([300.0, 480.0, 660.0])
+	r.shield_amount = PackedFloat32Array([350.0, 550.0, 750.0])
 	r.shield_duration = 6.0
 	r.self_effects = [StatusEffectData.make(GameConst.Status.HASTE, 0.3, 6.0)]
 
@@ -848,20 +857,20 @@ func _build_edgy() -> void:
 	champ.model_scene = load("res://entities/champion/models/EdgyModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/edgy.svg")
 
-	champ.max_health = 540.0
-	champ.health_per_level = 76.0
-	champ.health_regen = 1.6
+	champ.max_health = 720.0
+	champ.health_per_level = 90.0
+	champ.health_regen = 2.8
 	champ.max_mana = 320.0
 	champ.mana_per_level = 32.0
 	champ.mana_regen = 1.5
-	champ.attack_damage = 62.0
-	champ.attack_damage_per_level = 4.0
+	champ.attack_damage = 56.0
+	champ.attack_damage_per_level = 3.6
 	champ.attack_speed = 0.68
 	champ.attack_range = 1.8
-	champ.armor = 26.0
-	champ.armor_per_level = 3.2
-	champ.magic_resist = 30.0
-	champ.magic_resist_per_level = 1.3
+	champ.armor = 30.0
+	champ.armor_per_level = 3.4
+	champ.magic_resist = 32.0
+	champ.magic_resist_per_level = 1.4
 	champ.move_speed = 6.0
 
 	var passive := CastCounterPassive.new()
@@ -887,8 +896,8 @@ func _build_edgy() -> void:
 	q.travel_speed = 24.0
 	q.cooldown = PackedFloat32Array([8.0, 7.0, 6.0, 5.0, 4.0])
 	q.mana_cost = PackedFloat32Array([40.0, 40.0, 40.0, 40.0, 40.0])
-	q.base_damage = PackedFloat32Array([80.0, 120.0, 160.0, 200.0, 240.0])
-	q.ad_ratio = 0.85
+	q.base_damage = PackedFloat32Array([60.0, 95.0, 130.0, 165.0, 200.0])
+	q.ad_ratio = 0.75
 	q.damage_type = GameConst.DamageType.PHYSICAL
 
 	var w := AreaAbility.new()
@@ -917,12 +926,13 @@ func _build_edgy() -> void:
 	e.targeting = AbilityData.Targeting.DIRECTION
 	e.cast_range = 6.5
 	e.projectile_speed = 17.0
+	e.projectile_width = 0.7
 	e.cooldown = PackedFloat32Array([10.0, 9.0, 8.0, 7.0, 6.0])
 	e.mana_cost = PackedFloat32Array([50.0, 50.0, 50.0, 50.0, 50.0])
-	e.base_damage = PackedFloat32Array([70.0, 105.0, 140.0, 175.0, 210.0])
-	e.ad_ratio = 0.65
+	e.base_damage = PackedFloat32Array([55.0, 85.0, 115.0, 145.0, 175.0])
+	e.ad_ratio = 0.55
 	e.damage_type = GameConst.DamageType.PHYSICAL
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.45, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
 
 	var r := DashAbility.new()
 	r.id = &"death_mark"
@@ -939,10 +949,10 @@ func _build_edgy() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([80.0, 65.0, 50.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([260.0, 400.0, 540.0])
-	r.ad_ratio = 1.15
+	r.base_damage = PackedFloat32Array([200.0, 320.0, 440.0])
+	r.ad_ratio = 0.95
 	r.damage_type = GameConst.DamageType.PHYSICAL
-	r.target_effects = [StatusEffectData.make(GameConst.Status.SILENCE, 1.2, 1.2)]
+	r.target_effects = [StatusEffectData.make(GameConst.Status.SILENCE, 1.0, 1.0)]
 
 	champ.abilities = [q, w, e, r]
 	champ.bot_skill_priority = PackedInt32Array([0, 1, 2])
@@ -963,20 +973,20 @@ func _build_arcanist() -> void:
 	champ.color = Color(0.4, 0.7, 1.0)
 	champ.model_scene = load("res://entities/champion/models/StephenModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/stephen.svg")
-	champ.max_health = 560.0
-	champ.health_per_level = 80.0
-	champ.health_regen = 1.5
-	champ.max_mana = 400.0
-	champ.mana_per_level = 40.0
-	champ.mana_regen = 2.0
-	champ.attack_damage = 46.0
+	champ.max_health = 720.0
+	champ.health_per_level = 90.0
+	champ.health_regen = 2.8
+	champ.max_mana = 450.0
+	champ.mana_per_level = 45.0
+	champ.mana_regen = 2.4
+	champ.attack_damage = 44.0
 	champ.attack_damage_per_level = 2.5
 	champ.attack_speed = 0.65
 	champ.attack_range = 5.5
-	champ.armor = 22.0
-	champ.armor_per_level = 3.0
-	champ.magic_resist = 30.0
-	champ.magic_resist_per_level = 1.0
+	champ.armor = 28.0
+	champ.armor_per_level = 3.2
+	champ.magic_resist = 32.0
+	champ.magic_resist_per_level = 1.3
 	champ.move_speed = 5.6
 
 	var passive := CastCounterPassive.new()
@@ -996,10 +1006,11 @@ func _build_arcanist() -> void:
 	q.targeting = AbilityData.Targeting.DIRECTION
 	q.cast_range = 7.5
 	q.projectile_speed = 16.0
+	q.projectile_width = 0.8
 	q.cooldown = PackedFloat32Array([6.0, 5.5, 5.0, 4.5, 4.0])
 	q.mana_cost = PackedFloat32Array([40.0, 45.0, 50.0, 55.0, 60.0])
-	q.base_damage = PackedFloat32Array([70.0, 110.0, 150.0, 190.0, 230.0])
-	q.ap_ratio = 0.65
+	q.base_damage = PackedFloat32Array([55.0, 85.0, 115.0, 145.0, 175.0])
+	q.ap_ratio = 0.55
 	q.damage_type = GameConst.DamageType.MAGIC
 
 	var w := DashAbility.new()
@@ -1026,10 +1037,10 @@ func _build_arcanist() -> void:
 	e.delay = 0.6
 	e.cooldown = PackedFloat32Array([10.0, 9.5, 9.0, 8.5, 8.0])
 	e.mana_cost = PackedFloat32Array([55.0, 60.0, 65.0, 70.0, 75.0])
-	e.base_damage = PackedFloat32Array([60.0, 95.0, 130.0, 165.0, 200.0])
-	e.ap_ratio = 0.5
+	e.base_damage = PackedFloat32Array([50.0, 75.0, 100.0, 125.0, 150.0])
+	e.ap_ratio = 0.45
 	e.damage_type = GameConst.DamageType.MAGIC
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.35, 2.0)]
 
 	var r := BeamAbility.new()
 	r.id = &"obliteration_beam"
@@ -1044,8 +1055,8 @@ func _build_arcanist() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([80.0, 65.0, 50.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([250.0, 375.0, 500.0])
-	r.ap_ratio = 0.9
+	r.base_damage = PackedFloat32Array([200.0, 310.0, 420.0])
+	r.ap_ratio = 0.75
 	r.damage_type = GameConst.DamageType.MAGIC
 
 	champ.abilities = [q, w, e, r]
@@ -1064,20 +1075,20 @@ func _build_warden() -> void:
 	champ.color = Color(0.2, 0.8, 0.4)
 	champ.model_scene = load("res://entities/champion/models/RogoModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/rogo.svg")
-	champ.max_health = 680.0
-	champ.health_per_level = 100.0
-	champ.health_regen = 2.5
+	champ.max_health = 920.0
+	champ.health_per_level = 120.0
+	champ.health_regen = 4.0
 	champ.max_mana = 300.0
 	champ.mana_per_level = 30.0
 	champ.mana_regen = 1.5
-	champ.attack_damage = 58.0
-	champ.attack_damage_per_level = 3.5
+	champ.attack_damage = 52.0
+	champ.attack_damage_per_level = 3.2
 	champ.attack_speed = 0.62
 	champ.attack_range = 1.8
-	champ.armor = 38.0
-	champ.armor_per_level = 4.0
-	champ.magic_resist = 34.0
-	champ.magic_resist_per_level = 1.8
+	champ.armor = 44.0
+	champ.armor_per_level = 4.4
+	champ.magic_resist = 38.0
+	champ.magic_resist_per_level = 2.0
 	champ.move_speed = 5.5
 
 	var passive := AttackCounterPassive.new()
@@ -1104,7 +1115,8 @@ func _build_warden() -> void:
 	q.travel_speed = 20.0
 	q.cooldown = PackedFloat32Array([10.0, 9.5, 9.0, 8.5, 8.0])
 	q.mana_cost = PackedFloat32Array([45.0, 50.0, 55.0, 60.0, 65.0])
-	q.base_damage = PackedFloat32Array([60.0, 100.0, 140.0, 180.0, 220.0])
+	q.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	q.ad_ratio = 0.4
 	q.damage_type = GameConst.DamageType.PHYSICAL
 	q.target_effects = [StatusEffectData.make(GameConst.Status.STUN, 0.8, 0.8)]
 
@@ -1116,7 +1128,7 @@ func _build_warden() -> void:
 	w.targeting = AbilityData.Targeting.NONE
 	w.cooldown = PackedFloat32Array([12.0, 11.0, 10.0, 9.0, 8.0])
 	w.mana_cost = PackedFloat32Array([50.0, 50.0, 50.0, 50.0, 50.0])
-	w.shield_amount = PackedFloat32Array([80.0, 130.0, 180.0, 230.0, 280.0])
+	w.shield_amount = PackedFloat32Array([120.0, 180.0, 240.0, 300.0, 360.0])
 	w.shield_duration = 3.5
 
 	var e := AreaAbility.new()
@@ -1131,9 +1143,10 @@ func _build_warden() -> void:
 	e.delay = 0.3
 	e.cooldown = PackedFloat32Array([9.0, 8.5, 8.0, 7.5, 7.0])
 	e.mana_cost = PackedFloat32Array([50.0, 55.0, 60.0, 65.0, 70.0])
-	e.base_damage = PackedFloat32Array([65.0, 100.0, 135.0, 170.0, 205.0])
+	e.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	e.ad_ratio = 0.4
 	e.damage_type = GameConst.DamageType.PHYSICAL
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.5, 2.0)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.45, 2.0)]
 
 	var r := SelfBuffAbility.new()
 	r.id = &"colossus_roar"
@@ -1145,7 +1158,7 @@ func _build_warden() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([80.0, 70.0, 60.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.shield_amount = PackedFloat32Array([250.0, 400.0, 550.0])
+	r.shield_amount = PackedFloat32Array([350.0, 520.0, 700.0])
 	r.shield_duration = 5.0
 
 	champ.abilities = [q, w, e, r]
@@ -1164,20 +1177,20 @@ func _build_ranger() -> void:
 	champ.color = Color(0.9, 0.6, 0.2)
 	champ.model_scene = load("res://entities/champion/models/AmitModel.tscn")
 	champ.portrait = load("res://assets/icons/champions/amit.svg")
-	champ.max_health = 530.0
-	champ.health_per_level = 75.0
-	champ.health_regen = 1.4
+	champ.max_health = 700.0
+	champ.health_per_level = 88.0
+	champ.health_regen = 2.6
 	champ.max_mana = 350.0
 	champ.mana_per_level = 35.0
 	champ.mana_regen = 1.5
-	champ.attack_damage = 54.0
-	champ.attack_damage_per_level = 3.2
+	champ.attack_damage = 50.0
+	champ.attack_damage_per_level = 3.0
 	champ.attack_speed = 0.68
 	champ.attack_range = 5.8
-	champ.armor = 24.0
-	champ.armor_per_level = 3.0
-	champ.magic_resist = 30.0
-	champ.magic_resist_per_level = 1.0
+	champ.armor = 28.0
+	champ.armor_per_level = 3.2
+	champ.magic_resist = 32.0
+	champ.magic_resist_per_level = 1.2
 	champ.move_speed = 5.7
 
 	var passive := AttackStackPassive.new()
@@ -1185,7 +1198,7 @@ func _build_ranger() -> void:
 	passive.display_name = "Focus"
 	passive.description = "Consecutive basic attacks grant stacking attack speed."
 	passive.color = Color(0.9, 0.6, 0.2)
-	passive.attack_speed_per_stack = 0.1
+	passive.attack_speed_per_stack = 0.08
 	passive.full_stack_haste = 0.12
 	passive.stack_limit = 5
 	passive.stack_duration = 3.5
@@ -1199,10 +1212,11 @@ func _build_ranger() -> void:
 	q.targeting = AbilityData.Targeting.DIRECTION
 	q.cast_range = 11.5
 	q.projectile_speed = 28.0
+	q.projectile_width = 0.7
 	q.cooldown = PackedFloat32Array([6.0, 5.5, 5.0, 4.5, 4.0])
 	q.mana_cost = PackedFloat32Array([40.0, 45.0, 50.0, 55.0, 60.0])
-	q.base_damage = PackedFloat32Array([65.0, 105.0, 145.0, 185.0, 225.0])
-	q.ad_ratio = 0.75
+	q.base_damage = PackedFloat32Array([55.0, 85.0, 115.0, 145.0, 175.0])
+	q.ad_ratio = 0.65
 	q.damage_type = GameConst.DamageType.PHYSICAL
 
 	var w := DashAbility.new()
@@ -1231,10 +1245,10 @@ func _build_ranger() -> void:
 	e.delay = 0.3
 	e.cooldown = PackedFloat32Array([11.0, 10.0, 9.0, 8.0, 7.0])
 	e.mana_cost = PackedFloat32Array([50.0, 55.0, 60.0, 65.0, 70.0])
-	e.base_damage = PackedFloat32Array([50.0, 80.0, 110.0, 140.0, 170.0])
+	e.base_damage = PackedFloat32Array([45.0, 70.0, 95.0, 120.0, 145.0])
 	e.ad_ratio = 0.4
 	e.damage_type = GameConst.DamageType.PHYSICAL
-	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.45, 2.5)]
+	e.target_effects = [StatusEffectData.make(GameConst.Status.SLOW, 0.4, 2.5)]
 
 	var r := AreaAbility.new()
 	r.id = &"volley_barrage"
@@ -1250,8 +1264,8 @@ func _build_ranger() -> void:
 	r.max_rank = 3
 	r.cooldown = PackedFloat32Array([75.0, 65.0, 55.0])
 	r.mana_cost = PackedFloat32Array([100.0, 100.0, 100.0])
-	r.base_damage = PackedFloat32Array([200.0, 320.0, 440.0])
-	r.ad_ratio = 0.85
+	r.base_damage = PackedFloat32Array([180.0, 280.0, 380.0])
+	r.ad_ratio = 0.75
 	r.damage_type = GameConst.DamageType.PHYSICAL
 
 	champ.abilities = [q, w, e, r]
