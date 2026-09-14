@@ -44,6 +44,7 @@ var screen_shake: bool = true
 
 func _ready() -> void:
 	load_settings()
+	_apply_launch_overrides()
 	if player_name.strip_edges().is_empty():
 		var system_name: String = OS.get_environment("USERNAME")
 		if system_name.is_empty():
@@ -92,31 +93,68 @@ func save_settings() -> void:
 	config.save(SETTINGS_PATH)
 
 
+## Available client area for a window on the current monitor (usable rect minus title bar / borders).
+func available_window_area() -> Vector2i:
+	if DisplayServer.get_name() == "headless":
+		return RESOLUTIONS_16_9[RESOLUTIONS_16_9.size() - 1]
+	var screen_id: int = DisplayServer.window_get_current_screen()
+	var decorations: Vector2i = (DisplayServer.window_get_size_with_decorations() - DisplayServer.window_get_size()).max(Vector2i(0, 32))
+	return DisplayServer.screen_get_usable_rect(screen_id).size - decorations
+
+
+func resolution_fits(idx: int) -> bool:
+	var area: Vector2i = available_window_area()
+	var res: Vector2i = RESOLUTIONS_16_9[clampi(idx, 0, RESOLUTIONS_16_9.size() - 1)]
+	return res.x <= area.x and res.y <= area.y
+
+
+## The chosen resolution, or the largest 16:9 size that fits in `area` if the choice is too big.
+func effective_windowed_size(area: Vector2i) -> Vector2i:
+	var res: Vector2i = RESOLUTIONS_16_9[clampi(resolution_idx, 0, RESOLUTIONS_16_9.size() - 1)]
+	if res.x <= area.x and res.y <= area.y:
+		return res
+	for i: int in range(RESOLUTIONS_16_9.size() - 1, -1, -1):
+		var candidate: Vector2i = RESOLUTIONS_16_9[i]
+		if candidate.x <= area.x and candidate.y <= area.y:
+			return candidate
+	var height: int = mini(area.y, area.x * 9 / 16)
+	return Vector2i(height * 16 / 9, height)
+
+
+func _apply_launch_overrides() -> void:
+	# Dev/testing overrides; not written to disk unless the player changes settings.
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--window-mode="):
+			window_mode_idx = clampi(arg.get_slice("=", 1).to_int(), 0, WINDOW_MODES.size() - 1)
+		elif arg.begins_with("--resolution="):
+			resolution_idx = clampi(arg.get_slice("=", 1).to_int(), 0, RESOLUTIONS_16_9.size() - 1)
+
+
 func apply() -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(master_volume, 0.0001)))
 	if DisplayServer.get_name() == "headless":
 		return
 
-	var res: Vector2i = RESOLUTIONS_16_9[clampi(resolution_idx, 0, RESOLUTIONS_16_9.size() - 1)]
-
+	var screen_id: int = DisplayServer.window_get_current_screen()
 	match window_mode_idx:
-		0: # Windowed 16:9
+		0: # Windowed 16:9 — never larger than the monitor's usable area (taskbar + title bar excluded).
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
-			DisplayServer.window_set_size(res)
-			var screen_id: int = DisplayServer.window_get_current_screen()
-			var screen_size: Vector2i = DisplayServer.screen_get_size(screen_id)
-			var pos: Vector2i = (screen_size - res) / 2
-			if pos.x >= 0 and pos.y >= 0:
-				DisplayServer.window_set_position(pos)
+			var usable: Rect2i = DisplayServer.screen_get_usable_rect(screen_id)
+			var decorations: Vector2i = DisplayServer.window_get_size_with_decorations() - DisplayServer.window_get_size()
+			decorations = decorations.max(Vector2i(0, 32))
+			var size: Vector2i = effective_windowed_size(usable.size - decorations)
+			DisplayServer.window_set_size(size)
+			# Positions are in virtual-desktop coordinates, so offset by the monitor's origin.
+			var pos: Vector2i = usable.position + (usable.size - size - decorations) / 2
+			pos += Vector2i(decorations.x / 2, decorations.y - decorations.x / 2)
+			DisplayServer.window_set_position(pos)
 		1: # Fullscreen
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		2: # Borderless Fullscreen
+		2: # Borderless Fullscreen (on the monitor the window is currently on)
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
-			var screen_id: int = DisplayServer.window_get_current_screen()
-			var screen_size: Vector2i = DisplayServer.screen_get_size(screen_id)
-			DisplayServer.window_set_size(screen_size)
-			DisplayServer.window_set_position(Vector2i.ZERO)
+			DisplayServer.window_set_size(DisplayServer.screen_get_size(screen_id))
+			DisplayServer.window_set_position(DisplayServer.screen_get_position(screen_id))
 
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if vsync else DisplayServer.VSYNC_DISABLED)

@@ -141,7 +141,8 @@ func _build_ui() -> void:
 	var controls_panel := UI.panel(UITheme.panel_style(Color(0.03, 0.04, 0.06, 0.85), UITheme.BORDER_DIM, 8))
 	controls_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
 	controls_panel.offset_left = -330.0
-	controls_panel.offset_top = -205.0
+	controls_panel.offset_top = -20.0
+	controls_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	controls_panel.offset_right = -20.0
 	controls_panel.offset_bottom = -20.0
 	controls_panel.custom_minimum_size = Vector2(310, 0)

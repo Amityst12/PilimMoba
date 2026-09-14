@@ -40,6 +40,11 @@ var _gold_label: Label
 var _shop_button: Button
 var _recall_button: Button
 
+# Recall Channel UI
+var _recall_container: Control
+var _recall_progress: ProgressBar
+var _recall_timer_label: Label
+
 # Minimap
 var _minimap_view: Control
 var _active_pings: Array[Dictionary] = []
@@ -52,7 +57,7 @@ var _shop_item_list: VBoxContainer
 var _shop_selected_item: String = ""
 var _shop_details_label: Label
 var _shop_buy_btn: Button
-var _shop_inv_row: HBoxContainer
+var _shop_inv_row: HFlowContainer
 var _scoreboard_modal: Control
 var _scoreboard_blue: VBoxContainer
 var _scoreboard_red: VBoxContainer
@@ -114,6 +119,7 @@ func _process(delta: float) -> void:
 		_update_bars()
 		_update_abilities()
 		_update_inventory()
+		_update_recall()
 	_update_pings(delta)
 	if _minimap_view:
 		_minimap_view.queue_redraw()
@@ -192,15 +198,57 @@ func _open_settings() -> void:
 	if is_instance_valid(_settings_modal):
 		_settings_modal.queue_free()
 		return
+	var overlay := UI.full_rect(Control.new())
+	var backdrop := UI.full_rect(ColorRect.new())
+	backdrop.color = Color(0.0, 0.0, 0.0, 0.5)
+	overlay.add_child(backdrop)
 	var center := UI.full_rect(CenterContainer.new())
+	overlay.add_child(center)
 	var panel := SettingsPanel.new()
 	center.add_child(panel)
-	panel.closed.connect(center.queue_free)
-	_settings_modal = center
-	add_child(center)
+	panel.closed.connect(overlay.queue_free)
+	_settings_modal = overlay
+	add_child(overlay)
 
 
 func _build_bottom_bar(parent: Control) -> void:
+	# Recall Channel Bar (Positioned directly above bottom HUD)
+	_recall_container = Control.new()
+	_recall_container.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	_recall_container.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_recall_container.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_recall_container.offset_left = -160.0
+	_recall_container.offset_right = 160.0
+	_recall_container.offset_top = -175.0
+	_recall_container.offset_bottom = -142.0
+	_recall_container.custom_minimum_size = Vector2(320, 33)
+	parent.add_child(_recall_container)
+
+	var recall_panel := UI.panel(UITheme.panel_style(Color(0.04, 0.08, 0.14, 0.95), Color(0.2, 0.7, 1.0, 0.9), 6, 2))
+	recall_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_recall_container.add_child(recall_panel)
+
+	_recall_progress = ProgressBar.new()
+	_recall_progress.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_recall_progress.show_percentage = false
+	var recall_bg := StyleBoxFlat.new()
+	recall_bg.bg_color = Color(0.03, 0.05, 0.08, 0.6)
+	recall_bg.set_corner_radius_all(4)
+	_recall_progress.add_theme_stylebox_override("background", recall_bg)
+	var recall_fill := StyleBoxFlat.new()
+	recall_fill.bg_color = Color(0.12, 0.65, 0.95, 0.85)
+	recall_fill.set_corner_radius_all(4)
+	_recall_progress.add_theme_stylebox_override("fill", recall_fill)
+	recall_panel.add_child(_recall_progress)
+
+	_recall_timer_label = UI.label("🌀 RECALLING... 4.0s", 12, Color(1.0, 1.0, 1.0), true)
+	_recall_timer_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_recall_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_recall_timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	recall_panel.add_child(_recall_timer_label)
+
+	_recall_container.visible = false
+
 	var bottom_panel := UI.panel(UITheme.panel_style(Color(0.04, 0.05, 0.08, 0.94), UITheme.BORDER, 8))
 	bottom_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	bottom_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -406,6 +454,7 @@ func _make_stat_badge(icon_path: String, color: Color, tooltip: String) -> Dicti
 func _build_passive_slot() -> Control:
 	var slot_panel := UI.panel(UITheme.panel_style(Color(0.06, 0.08, 0.12), UITheme.BORDER_DIM, 4))
 	slot_panel.custom_minimum_size = Vector2(44, 52)
+	slot_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
 	var vbox := UI.vbox(1)
 	slot_panel.add_child(vbox)
@@ -601,13 +650,14 @@ func _draw_minimap() -> void:
 
 	# 10. Camera Frustum / Viewport Box
 	if _game.camera_rig:
-		var cam_focus: Vector3 = _game.camera_rig.focus
-		var cam_dist: float = _game.camera_rig.distance
-		var cam_half_w: float = cam_dist * 0.55
-		var cam_half_h: float = cam_dist * 0.34
-		var c_tl: Vector2 = w2m.call(Vector3(cam_focus.x - cam_half_w, 0.0, cam_focus.z - cam_half_h))
-		var c_br: Vector2 = w2m.call(Vector3(cam_focus.x + cam_half_w, 0.0, cam_focus.z + cam_half_h))
-		_minimap_view.draw_rect(Rect2(c_tl, c_br - c_tl), Color(1.0, 0.9, 0.45, 0.7), false, 1.2)
+		# Actual ground footprint of the camera view (a trapezoid for a tilted camera).
+		var quad: PackedVector3Array = _game.camera_rig.visible_ground_quad()
+		var outline := PackedVector2Array()
+		for corner: Vector3 in quad:
+			outline.append(w2m.call(corner))
+		if outline.size() == 4:
+			outline.append(outline[0])
+			_minimap_view.draw_polyline(outline, Color(1.0, 0.9, 0.45, 0.75), 1.2)
 
 	# 11. Active Smart Pings
 	for ping: Dictionary in _active_pings:
@@ -627,8 +677,9 @@ func _draw_minimap() -> void:
 func _on_minimap_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var mouse_pos: Vector2 = event.position
-		var nx: float = clampf(mouse_pos.x / MINIMAP_W, 0.0, 1.0)
-		var nz: float = clampf(mouse_pos.y / MINIMAP_H, 0.0, 1.0)
+		var map_size: Vector2 = _minimap_view.size
+		var nx: float = clampf(mouse_pos.x / maxf(map_size.x, 1.0), 0.0, 1.0)
+		var nz: float = clampf(mouse_pos.y / maxf(map_size.y, 1.0), 0.0, 1.0)
 		var world_pos := Vector3(nx * Arena.HALF_X * 2.0 - Arena.HALF_X, 0.0, nz * Arena.HALF_Z * 2.0 - Arena.HALF_Z)
 
 		if event.alt_pressed or Input.is_key_pressed(KEY_ALT):
@@ -650,14 +701,22 @@ func _on_minimap_input(event: InputEvent) -> void:
 
 
 func _build_announcements(parent: Control) -> void:
+	# Centered band between the top bar and the kill feed; wraps instead of running off-screen.
 	_announcement_box = Control.new()
-	_announcement_box.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
-	_announcement_box.offset_top = 80
+	_announcement_box.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	_announcement_box.offset_left = 300
+	_announcement_box.offset_right = -300
+	_announcement_box.offset_top = 64
+	_announcement_box.offset_bottom = 150
+	_announcement_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_announcement_box.modulate.a = 0.0
 	parent.add_child(_announcement_box)
 
 	_announcement_label = UI.outlined(UI.label("", 28, UITheme.ACCENT, true), 6)
+	_announcement_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_announcement_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_announcement_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	_announcement_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_announcement_box.add_child(_announcement_label)
 
 
@@ -667,16 +726,43 @@ func _build_kill_feed(parent: Control) -> void:
 	_kill_feed_box.offset_left = -280
 	_kill_feed_box.offset_top = 50
 	_kill_feed_box.offset_right = -14
+	_kill_feed_box.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_kill_feed_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(_kill_feed_box)
+
+
+## Adds a fixed-width, click-through row to the kill feed (oldest rows are dropped).
+func _add_feed_row(row: PanelContainer, lifetime: float) -> void:
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.clip_contents = true
+	for label: Label in row.find_children("*", "Label", true, false):
+		if label.text.length() <= 3:
+			continue  # separators / assist counters keep their natural width
+		label.clip_text = true
+		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.custom_minimum_size.x = 16
+	_kill_feed_box.add_child(row)
+	while _kill_feed_box.get_child_count() > 6:
+		var oldest: Node = _kill_feed_box.get_child(0)
+		_kill_feed_box.remove_child(oldest)
+		oldest.queue_free()
+	get_tree().create_timer(lifetime).timeout.connect(func() -> void:
+		if is_instance_valid(row):
+			var tw := create_tween()
+			tw.tween_property(row, "modulate:a", 0.0, 0.5)
+			tw.tween_callback(row.queue_free)
+	)
 
 
 func _build_shop_modal(parent: Control) -> void:
 	_shop_modal = UI.panel(UITheme.panel_style(Color(0.05, 0.06, 0.09, 0.98), UITheme.BORDER, 8))
 	_shop_modal.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	# Kept above the bottom action bar (which starts at y = 720 - 130 - bar growth).
 	_shop_modal.offset_left = -280
-	_shop_modal.offset_top = -220
+	_shop_modal.offset_top = -300
 	_shop_modal.offset_right = 280
-	_shop_modal.offset_bottom = 220
+	_shop_modal.offset_bottom = 150
 	_shop_modal.visible = false
 	parent.add_child(_shop_modal)
 
@@ -731,7 +817,11 @@ func _build_shop_modal(parent: Control) -> void:
 	details_box.add_child(HSeparator.new())
 	details_box.add_child(UI.label("YOUR INVENTORY (Click to Sell)", 11, UITheme.TEXT_DIM))
 
-	_shop_inv_row = UI.hbox(4)
+	# Wraps onto multiple lines so a full inventory never widens the shop window.
+	_shop_inv_row = HFlowContainer.new()
+	_shop_inv_row.add_theme_constant_override("h_separation", 4)
+	_shop_inv_row.add_theme_constant_override("v_separation", 4)
+	_shop_inv_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	details_box.add_child(_shop_inv_row)
 
 
@@ -739,9 +829,9 @@ func _build_scoreboard_modal(parent: Control) -> void:
 	_scoreboard_modal = UI.panel(UITheme.panel_style(Color(0.04, 0.05, 0.08, 0.96), UITheme.BORDER, 8))
 	_scoreboard_modal.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	_scoreboard_modal.offset_left = -380
-	_scoreboard_modal.offset_top = -200
+	_scoreboard_modal.offset_top = -290
 	_scoreboard_modal.offset_right = 380
-	_scoreboard_modal.offset_bottom = 200
+	_scoreboard_modal.offset_bottom = 150
 	_scoreboard_modal.visible = false
 	parent.add_child(_scoreboard_modal)
 
@@ -917,9 +1007,14 @@ func _update_abilities() -> void:
 		else:
 			cd_overlay.visible = false
 
-		# Mana check
+		# Unlocked & Mana check (Grey out unlearned abilities)
 		var has_mana: bool = ab == null or _champion.mana >= ab.get_mana_cost(rank)
-		(card["card"] as Control).modulate = Color(1, 1, 1) if has_mana else Color(0.5, 0.6, 0.9)
+		if rank == 0:
+			(card["card"] as Control).modulate = Color(0.36, 0.38, 0.42, 0.8)
+		elif not has_mana:
+			(card["card"] as Control).modulate = Color(0.5, 0.6, 0.9, 0.85)
+		else:
+			(card["card"] as Control).modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 		# Pips
 		var pips: Array = card["pips"]
@@ -938,6 +1033,22 @@ func _update_inventory() -> void:
 		else:
 			slot.texture = null
 			slot.tooltip_text = "Empty Slot"
+
+
+func _update_recall() -> void:
+	if _recall_container == null:
+		return
+	if _champion != null and _champion.recall_end > 0.0 and Game.current != null:
+		var now: float = Game.current.game_time
+		var rem: float = _champion.recall_end - now
+		if rem > 0.0:
+			_recall_container.visible = true
+			var total: float = GameConst.RECALL_DURATION
+			var progress: float = clampf((total - rem) / total, 0.0, 1.0)
+			_recall_progress.value = progress * 100.0
+			_recall_timer_label.text = "🌀 RECALLING... %.1fs" % rem
+			return
+	_recall_container.visible = false
 
 
 # --- Shop Logic ------------------------------------------------------------------------------
@@ -1017,6 +1128,7 @@ func _on_announcement(text: String, color: Color, big: bool) -> void:
 	_announcement_label.text = text
 	_announcement_label.add_theme_color_override("font_color", color)
 	_announcement_label.add_theme_font_size_override("font_size", 34 if big else 22)
+	_announcement_box.pivot_offset = Vector2(_announcement_box.size.x * 0.5, 20.0)
 	_announcement_box.scale = Vector2.ONE * (1.3 if big else 1.1)
 	_announcement_box.modulate.a = 1.0
 
@@ -1041,13 +1153,7 @@ func _on_kill_feed(entry: Dictionary) -> void:
 	if int(entry.get("assists", 0)) > 0:
 		hbox.add_child(UI.label("+%d" % int(entry["assists"]), 10, UITheme.TEXT_DIM))
 
-	_kill_feed_box.add_child(row)
-	get_tree().create_timer(6.0).timeout.connect(func() -> void:
-		if is_instance_valid(row):
-			var tw := create_tween()
-			tw.tween_property(row, "modulate:a", 0.0, 0.5)
-			tw.tween_callback(row.queue_free)
-	)
+	_add_feed_row(row, 6.0)
 
 
 func _on_phase_changed(phase: int) -> void:
@@ -1091,10 +1197,4 @@ func _on_ping_received(sender_name: String, sender_team: int, ping_type: int, wo
 	hbox.add_child(UI.label("signaled:", 11, UITheme.TEXT_DIM))
 	hbox.add_child(UI.label(label_text, 12, col, true))
 
-	_kill_feed_box.add_child(row)
-	get_tree().create_timer(4.5).timeout.connect(func() -> void:
-		if is_instance_valid(row):
-			var tw := create_tween()
-			tw.tween_property(row, "modulate:a", 0.0, 0.4)
-			tw.tween_callback(row.queue_free)
-	)
+	_add_feed_row(row, 4.5)

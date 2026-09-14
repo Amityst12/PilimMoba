@@ -587,7 +587,7 @@ func add_gold(amount: int) -> void:
 func add_xp(amount: float) -> void:
 	if level >= GameConst.MAX_LEVEL or amount <= 0.0:
 		return
-	xp += amount
+	xp += amount * 1.20
 	while level < GameConst.MAX_LEVEL and xp >= GameConst.xp_to_next_level(level):
 		xp -= GameConst.xp_to_next_level(level)
 		_level_up()
@@ -696,6 +696,15 @@ func deliver_attack(target: Entity) -> void:
 	target.take_damage(attack_damage + bonus + empower, GameConst.DamageType.PHYSICAL, self, false)
 	if Game.current:
 		last_combat_time = Game.current.game_time
+
+
+func _play_attack_animation() -> void:
+	super._play_attack_animation()
+	if visual:
+		var model_node := visual.get_node_or_null("Model")
+		if model_node and model_node.has_method("trigger_attack"):
+			var windup_dur: float = 1.0 / maxf(0.5, get_attack_speed()) * attack_windup_ratio
+			model_node.trigger_attack(attack_range > 3.0, windup_dur)
 
 
 func _on_took_damage(_amount: float, source: Entity, _damage_type: int, _is_ability: bool) -> void:

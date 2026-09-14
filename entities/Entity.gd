@@ -297,6 +297,8 @@ func begin_attack(target: Entity, now: float) -> void:
 	_windup_target_id = target.net_id
 	attack_seq += 1
 	face_point(target.global_position)
+	if is_inside_tree() and multiplayer.is_server():
+		_play_attack_animation()
 
 
 func cancel_attack_windup() -> void:

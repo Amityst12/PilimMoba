@@ -490,6 +490,12 @@ func _parse_launch_options() -> void:
 		_screenshot_dir = String(launch_options["screenshot-dir"])
 		for t: String in String(launch_options.get("shots", "5")).split(","):
 			_screenshot_times.append(float(t))
+	if launch_options.has("ui-audit"):
+		var audit_script: GDScript = load("res://tests/UiLayoutAudit.gd") as GDScript
+		if audit_script:
+			var auditor: Node = audit_script.new()
+			auditor.name = "UiLayoutAudit"
+			add_child.call_deferred(auditor)
 	if launch_options.has("autotest"):
 		var script: GDScript = load("res://tests/AutoTest.gd") as GDScript
 		if script:

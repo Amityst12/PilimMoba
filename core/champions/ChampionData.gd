@@ -34,7 +34,7 @@ extends Resource
 @export var armor_per_level: float = 4.0
 @export var magic_resist: float = 30.0
 @export var magic_resist_per_level: float = 1.3
-@export var move_speed: float = 5.8
+@export var move_speed: float = 5.0
 @export var radius: float = 0.55
 
 @export_group("Basic Attack")

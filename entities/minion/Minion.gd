@@ -78,7 +78,7 @@ func _configure_stats() -> void:
 		gold_value = 22
 		xp_value = 60.0
 		bar_height = 1.8
-	base_move_speed = 4.7
+	base_move_speed = 4.0
 	health = max_health
 
 

@@ -78,7 +78,7 @@ func _build_erez() -> void:
 	champ.armor_per_level = 3.8
 	champ.magic_resist = 34.0
 	champ.magic_resist_per_level = 1.5
-	champ.move_speed = 5.8
+	champ.move_speed = 5.0
 
 	var passive := CastCounterPassive.new()
 	passive.id = &"feral_instinct"
@@ -193,7 +193,7 @@ func _build_stephen() -> void:
 	champ.armor_per_level = 3.2
 	champ.magic_resist = 32.0
 	champ.magic_resist_per_level = 1.3
-	champ.move_speed = 5.6
+	champ.move_speed = 4.8
 
 	var passive := CastCounterPassive.new()
 	passive.id = &"island_warmth"
@@ -306,7 +306,7 @@ func _build_amit() -> void:
 	champ.armor_per_level = 3.6
 	champ.magic_resist = 32.0
 	champ.magic_resist_per_level = 1.4
-	champ.move_speed = 5.7
+	champ.move_speed = 4.9
 
 	var passive := AttackStackPassive.new()
 	passive.id = &"rhythmic_flow"
@@ -424,7 +424,7 @@ func _build_nissim() -> void:
 	champ.armor_per_level = 3.2
 	champ.magic_resist = 32.0
 	champ.magic_resist_per_level = 1.3
-	champ.move_speed = 5.6
+	champ.move_speed = 4.8
 
 	var passive := CastCounterPassive.new()
 	passive.id = &"fatherly_wisdom"
@@ -536,7 +536,7 @@ func _build_rogo() -> void:
 	champ.armor_per_level = 4.4
 	champ.magic_resist = 38.0
 	champ.magic_resist_per_level = 2.0
-	champ.move_speed = 5.5
+	champ.move_speed = 4.7
 
 	var passive := AttackCounterPassive.new()
 	passive.id = &"colossal_mass"
@@ -654,7 +654,7 @@ func _build_yakir() -> void:
 	champ.armor_per_level = 3.6
 	champ.magic_resist = 34.0
 	champ.magic_resist_per_level = 1.5
-	champ.move_speed = 5.6
+	champ.move_speed = 4.8
 
 	var passive := CastCounterPassive.new()
 	passive.id = &"energy_rush"
@@ -769,7 +769,7 @@ func _build_lior() -> void:
 	champ.armor_per_level = 4.4
 	champ.magic_resist = 38.0
 	champ.magic_resist_per_level = 2.0
-	champ.move_speed = 5.6
+	champ.move_speed = 4.8
 
 	var passive := AttackCounterPassive.new()
 	passive.id = &"prismatic_glamour"
@@ -883,7 +883,7 @@ func _build_edgy() -> void:
 	champ.armor_per_level = 4.4
 	champ.magic_resist = 38.0
 	champ.magic_resist_per_level = 2.0
-	champ.move_speed = 5.6
+	champ.move_speed = 4.8
 
 	var passive := AttackCounterPassive.new()
 	passive.id = &"prismatic_glamour"
@@ -996,7 +996,7 @@ func _build_arcanist() -> void:
 	champ.armor_per_level = 3.2
 	champ.magic_resist = 32.0
 	champ.magic_resist_per_level = 1.3
-	champ.move_speed = 5.6
+	champ.move_speed = 4.8
 
 	var passive := CastCounterPassive.new()
 	passive.id = &"arcane_surge"
@@ -1098,7 +1098,7 @@ func _build_warden() -> void:
 	champ.armor_per_level = 4.4
 	champ.magic_resist = 38.0
 	champ.magic_resist_per_level = 2.0
-	champ.move_speed = 5.5
+	champ.move_speed = 4.7
 
 	var passive := AttackCounterPassive.new()
 	passive.id = &"iron_resolve"
@@ -1200,7 +1200,7 @@ func _build_ranger() -> void:
 	champ.armor_per_level = 3.2
 	champ.magic_resist = 32.0
 	champ.magic_resist_per_level = 1.2
-	champ.move_speed = 5.7
+	champ.move_speed = 4.9
 
 	var passive := AttackStackPassive.new()
 	passive.id = &"focus"

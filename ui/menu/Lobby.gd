@@ -463,6 +463,7 @@ func _build_champ_card(data: ChampionData) -> Button:
 	var vbox := UI.vbox(2)
 	vbox.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	btn.add_child(vbox)
 
 	# Framed Portrait
@@ -473,14 +474,17 @@ func _build_champ_card(data: ChampionData) -> Button:
 	frame_style.set_border_width_all(2)
 	frame_style.set_corner_radius_all(4)
 	frame.add_theme_stylebox_override("panel", frame_style)
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vbox.add_child(frame)
 
 	if data.portrait:
 		var tex_rect := UI.texture_rect(data.portrait, Vector2(60, 60))
+		tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		frame.add_child(tex_rect)
 
 	var name_lbl := UI.label(data.display_name, 11, UITheme.TEXT, true)
 	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vbox.add_child(name_lbl)
 
 	btn.mouse_entered.connect(func() -> void:

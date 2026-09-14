@@ -20,10 +20,16 @@ func _ready() -> void:
 		Settings.apply()
 		Settings.save_settings()))
 
-	box.add_child(_dropdown_row("Resolution", Settings.RESOLUTION_LABELS_16_9, Settings.resolution_idx, func(idx: int) -> void:
+	var resolution_row := _dropdown_row("Resolution", Settings.RESOLUTION_LABELS_16_9, Settings.resolution_idx, func(idx: int) -> void:
 		Settings.resolution_idx = idx
 		Settings.apply()
-		Settings.save_settings()))
+		Settings.save_settings())
+	var resolution_option: OptionButton = resolution_row.get_child(1) as OptionButton
+	for i: int in range(resolution_option.item_count):
+		if not Settings.resolution_fits(i):
+			resolution_option.set_item_text(i, Settings.RESOLUTION_LABELS_16_9[i] + " (too large)")
+			resolution_option.set_item_disabled(i, Settings.window_mode_idx == 0 and i != Settings.resolution_idx)
+	box.add_child(resolution_row)
 
 	box.add_child(_toggle_row("V-Sync", Settings.vsync, func(v: bool) -> void:
 		Settings.vsync = v

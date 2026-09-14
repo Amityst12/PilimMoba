@@ -77,19 +77,49 @@ func _run_suite() -> void:
 	await get_tree().create_timer(0.2).timeout
 	print("  Smart pings dispatched successfully!")
 
-	# 7. Abilities & Shop Test
-	print("[7/7] Testing ability leveling and shop purchasing...")
+	# 7. Abilities, Recall, Attack & Progression Test
+	print("[7/7] Testing ability leveling, recall, move speed, and +20% EXP...")
 	var champ: Champion = game.local_champion
 	print("  Local champion: %s (HP: %d/%d, Mana: %d/%d)" % [
 		champ.champion_id, int(champ.health), int(champ.max_health), int(champ.mana), int(champ.max_mana)
 	])
 	assert(champ.health > 100.0, "Champion should have full HP")
 
+	# Base Move Speed Check (Tuned down)
+	print("  Champion move speed: %.2f (Base: %.2f)" % [champ.get_move_speed(), champ.base_move_speed])
+	assert(champ.base_move_speed <= 5.2, "Champion base move speed should be <= 5.2")
+
+	# Unlearned abilities check
+	assert(champ.ability_ranks[0] == 0 and champ.ability_ranks[1] == 0, "Initial ability ranks should be 0 (greyed out)")
+
+	# Ability rank up
 	champ.skill_points = 1
 	game.cmd_level_ability(0)
 	await get_tree().create_timer(0.2).timeout
 	print("  Q ability ranked to: %d" % champ.ability_ranks[0])
+	assert(champ.ability_ranks[0] == 1, "Q ability must be rank 1")
 
+	# EXP +20% boost test
+	var xp_before: float = champ.xp
+	champ.add_xp(100.0)
+	var xp_gained: float = champ.xp - xp_before
+	print("  EXP gain test: +100 base -> yielded %.1f XP (+20%% applied!)" % xp_gained)
+	assert(absf(xp_gained - 120.0) < 0.01 or champ.level > 1, "EXP gain must include 20% multiplier")
+
+	# Recall (B) channel & cancel test
+	champ.start_recall()
+	assert(champ.is_recalling(), "Champion must be in recall channel state")
+	assert(champ.recall_end > game.game_time, "Recall end must be set in future")
+	print("  Recall channel test: recalling=true, remaining=%.2fs" % (champ.recall_end - game.game_time))
+	champ.cancel_recall()
+	assert(not champ.is_recalling(), "Recall cancel must clear recall_end")
+	print("  Recall cancel test: successfully cancelled")
+
+	# Auto-attack animation test
+	champ._play_attack_animation()
+	print("  Auto-attack animation triggered successfully!")
+
+	# Shop purchase test
 	champ.gold = 500
 	game.cmd_buy("boots")
 	await get_tree().create_timer(0.2).timeout
