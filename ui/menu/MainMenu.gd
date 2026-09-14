@@ -67,10 +67,10 @@ func _build_ui() -> void:
 	title_texts.add_child(title_row)
 	var title := UI.outlined(UI.label("PILIM", 42, UITheme.ACCENT, true), 6)
 	title_row.add_child(title)
-	var subtitle := UI.outlined(UI.label("MOBA", 22, Color(0.85, 0.9, 1.0), true), 4)
+	var subtitle := UI.outlined(UI.label("MOBA (ARAM)", 22, Color(0.85, 0.9, 1.0), true), 4)
 	subtitle.size_flags_vertical = Control.SIZE_SHRINK_END
 	title_row.add_child(subtitle)
-	title_texts.add_child(UI.outlined(UI.label("Top-down 5v5 arena battles  -  v%s" % GameConst.GAME_VERSION, 12, UITheme.TEXT_DIM)))
+	title_texts.add_child(UI.outlined(UI.label("5v5 Single-Lane All-Mid Arena  -  v%s" % GameConst.GAME_VERSION, 12, UITheme.TEXT_DIM)))
 
 	var panel := UI.panel(UITheme.panel_style(UITheme.BG, UITheme.BORDER, 8))
 	column.add_child(panel)
@@ -84,9 +84,10 @@ func _build_ui() -> void:
 	_name_edit.placeholder_text = "Your name"
 	box.add_child(_name_edit)
 
-	var practice := UI.button("PRACTICE VS BOTS", _on_practice)
+	var practice := UI.button("PLAY ARAM (PRACTICE VS BOTS)", _on_practice)
 	practice.custom_minimum_size.y = 44
-	practice.add_theme_font_size_override("font_size", 17)
+	practice.add_theme_font_size_override("font_size", 16)
+	practice.add_theme_color_override("font_color", UITheme.ACCENT)
 	box.add_child(practice)
 	box.add_child(HSeparator.new())
 
