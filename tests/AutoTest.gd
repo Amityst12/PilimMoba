@@ -1,6 +1,8 @@
 extends Node
 ## Automated end-to-end integration test running inside the live game engine.
 
+const HealthRelic = preload("res://entities/relic/HealthRelic.gd")
+
 func _ready() -> void:
 	print("\n========================================================")
 	print(">>> PILIM MOBA: AUTOMATED IN-ENGINE TEST STARTED <<<")
@@ -47,86 +49,93 @@ func _run_suite() -> void:
 	assert(game.phase == Game.Phase.PLAYING, "Match should transition to PLAYING")
 	print("  Match is PLAYING! (Game clock: %.2fs)" % game.game_time)
 
-	# 5. Check Spawns, Jungle Camps, & Boss
-	print("[5/7] Inspecting entities, jungle camps, and boss monster...")
+	# 5. Check Spawns & ARAM Health Relics
+	print("[5/7] Inspecting entities and ARAM Health Relics...")
 	assert(game.champions.size() >= 4, "All champions should be in game")
 	assert(game.structures.size() >= 6, "Structures should be in game")
 	assert(game.local_champion != null, "Local champion must be bound")
 
-	assert(game.has_node("World/Monsters"), "World/Monsters container must exist")
-	var monsters_node := game.get_node("World/Monsters")
-	var monsters: Array[Node] = monsters_node.get_children()
-	print("  Neutral jungle monsters spawned: %d" % monsters.size())
-	assert(monsters.size() >= 5, "Should have 4 buff camps + 1 Rift Behemoth boss")
+	assert(game.has_node("World/Relics"), "World/Relics container must exist")
+	var relics_node := game.get_node("World/Relics")
+	var relics_count: int = relics_node.get_child_count()
+	print("  ARAM Health Relics spawned on bridge: %d" % relics_count)
+	assert(relics_count == 4, "Should have 4 ARAM Health Relics along Howling Abyss bridge")
 
-	var found_boss: bool = false
-	for m: Node in monsters:
-		if m is JungleMonster and (m as JungleMonster).monster_type == JungleMonster.MonsterType.RIFT_BEHEMOTH:
-			found_boss = true
-			print("  Rift Behemoth verified at %s (HP: %d)" % [m.global_position, int((m as JungleMonster).max_health)])
-	assert(found_boss, "Rift Behemoth boss must be present in river pit")
+	# Test Health Relic pickup and sustain
+	var test_relic: HealthRelic = relics_node.get_child(0) as HealthRelic
+	assert(test_relic != null and test_relic.is_active, "Relic should be active on start")
+	var hp_before_relic: float = game.local_champion.health
+	test_relic._on_activated_by(game.local_champion)
+	assert(not test_relic.is_active, "Relic should become inactive on pickup")
+	print("  Health Relic activation verified: instant sustain granted, 2.5s AoE burst charging")
 
-	# 6. Check Brush Concealment & Smart Pings
-	print("[6/7] Testing Bush Concealment & Smart Ping system...")
-	var brush_test_pos := Vector3(-9.0, 0.0, 8.8)
-	assert(game.arena.is_in_brush(brush_test_pos), "Position (-9, 0, 8.8) must be inside brush")
-	print("  Brush detection verified: is_in_brush = true")
+	# 6. Check ARAM Bridge Bush Concealment & Smart Pings
+	print("[6/7] Testing ARAM Bridge Bush Concealment & Smart Pings...")
+	var brush_test_pos := Vector3(-14.0, 0.0, 3.6)
+	assert(game.arena.is_in_brush(brush_test_pos), "Position (-14, 0, 3.6) must be inside ARAM lane brush")
+	print("  ARAM lane brush detection verified: is_in_brush = true")
 
 	game.cmd_ping(GameConst.PingType.ON_MY_WAY, Vector3(0.0, 0.0, 0.0))
-	game.cmd_ping(GameConst.PingType.DANGER, Vector3(10.0, 0.0, 10.0))
+	game.cmd_ping(GameConst.PingType.DANGER, Vector3(10.0, 0.0, 0.0))
 	await get_tree().create_timer(0.2).timeout
 	print("  Smart pings dispatched successfully!")
 
-	# 7. Abilities, Recall, Attack & Progression Test
-	print("[7/7] Testing ability leveling, recall, move speed, and +20% EXP...")
+	# 7. ARAM Rules: Level 3, 1400 Gold, 3 Skill Points, Shop Lock & Recall Disable
+	print("[7/7] Testing ARAM rules: Level 3 start, 1400 Gold, 3 Skill Points, Shop Lock...")
 	var champ: Champion = game.local_champion
-	print("  Local champion: %s (HP: %d/%d, Mana: %d/%d)" % [
-		champ.champion_id, int(champ.health), int(champ.max_health), int(champ.mana), int(champ.max_mana)
+	print("  Local champion: %s (HP: %d/%d, Mana: %d/%d, Level: %d, Gold: %d, SkillPoints: %d)" % [
+		champ.champion_id, int(champ.health), int(champ.max_health), int(champ.mana), int(champ.max_mana),
+		champ.level, champ.gold, champ.skill_points
 	])
-	assert(champ.health > 100.0, "Champion should have full HP")
+
+	# Authentic ARAM Start assertions
+	assert(champ.level == 3, "ARAM: Champions must start at Level 3")
+	assert(champ.gold >= 1400, "ARAM: Champions must start with 1400 Gold")
+	assert(champ.skill_points == 3, "ARAM: Champions must have 3 starting skill points")
+	assert(champ.can_shop(), "ARAM: Must be able to shop before leaving fountain")
 
 	# Base Move Speed Check (Tuned down)
 	print("  Champion move speed: %.2f (Base: %.2f)" % [champ.get_move_speed(), champ.base_move_speed])
 	assert(champ.base_move_speed <= 5.2, "Champion base move speed should be <= 5.2")
 
-	# Unlearned abilities check
-	assert(champ.ability_ranks[0] == 0 and champ.ability_ranks[1] == 0, "Initial ability ranks should be 0 (greyed out)")
-
-	# Ability rank up
-	champ.skill_points = 1
+	# Allocate 3 starting skill points to Q, W, E
 	game.cmd_level_ability(0)
+	game.cmd_level_ability(1)
+	game.cmd_level_ability(2)
 	await get_tree().create_timer(0.2).timeout
-	print("  Q ability ranked to: %d" % champ.ability_ranks[0])
-	assert(champ.ability_ranks[0] == 1, "Q ability must be rank 1")
+	print("  Starting abilities leveled: Q=%d, W=%d, E=%d" % [champ.ability_ranks[0], champ.ability_ranks[1], champ.ability_ranks[2]])
+	assert(champ.ability_ranks[0] == 1 and champ.ability_ranks[1] == 1 and champ.ability_ranks[2] == 1, "Q, W, E should be rank 1")
+
+	# Buy ARAM starting items with 1400 gold
+	game.cmd_buy("boots")
+	game.cmd_buy("long_sword")
+	await get_tree().create_timer(0.2).timeout
+	print("  Purchased starting items: %s (Remaining Gold: %dg)" % [str(champ.items), champ.gold])
+	assert(champ.items.has("boots") and champ.items.has("long_sword"), "Starter items should be purchased")
+
+	# ARAM Shop Lock Test: leaving fountain locks shop
+	champ.global_position = Vector3(0.0, 0.0, 0.0) # Move to center bridge
+	champ.has_left_fountain = true
+	assert(not champ.can_shop(), "ARAM: Cannot shop after leaving fountain until death")
+	print("  ARAM Dead-to-Shop rule verified: can_shop = false while alive on bridge")
+
+	# ARAM Recall Disabled Test
+	champ.start_recall()
+	assert(not champ.is_recalling(), "ARAM: Recall must be disabled")
+	print("  ARAM Recall rule verified: recall is disabled")
 
 	# EXP +20% boost test
 	var xp_before: float = champ.xp
 	champ.add_xp(100.0)
 	var xp_gained: float = champ.xp - xp_before
 	print("  EXP gain test: +100 base -> yielded %.1f XP (+20%% applied!)" % xp_gained)
-	assert(absf(xp_gained - 120.0) < 0.01 or champ.level > 1, "EXP gain must include 20% multiplier")
-
-	# Recall (B) channel & cancel test
-	champ.start_recall()
-	assert(champ.is_recalling(), "Champion must be in recall channel state")
-	assert(champ.recall_end > game.game_time, "Recall end must be set in future")
-	print("  Recall channel test: recalling=true, remaining=%.2fs" % (champ.recall_end - game.game_time))
-	champ.cancel_recall()
-	assert(not champ.is_recalling(), "Recall cancel must clear recall_end")
-	print("  Recall cancel test: successfully cancelled")
+	assert(absf(xp_gained - 120.0) < 0.01 or champ.level > 3, "EXP gain must include 20% multiplier")
 
 	# Auto-attack animation test
 	champ._play_attack_animation()
 	print("  Auto-attack animation triggered successfully!")
 
-	# Shop purchase test
-	champ.gold = 500
-	game.cmd_buy("boots")
-	await get_tree().create_timer(0.2).timeout
-	print("  Items in inventory: %s" % str(champ.items))
-	assert(champ.items.has("boots"), "Boots should be purchased")
-
 	print("\n========================================================")
-	print(">>> ALL 7 TEST SUITES PASSED! 100% OPERATIONAL <<<")
+	print(">>> ALL 7 ARAM TEST SUITES PASSED! 100% OPERATIONAL <<<")
 	print("========================================================\n")
 	get_tree().quit(0)

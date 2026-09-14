@@ -20,6 +20,8 @@ const MINION_SCENE: PackedScene = preload("res://entities/minion/Minion.tscn")
 const TOWER_SCENE: PackedScene = preload("res://entities/structures/Tower.tscn")
 const NEXUS_SCENE: PackedScene = preload("res://entities/structures/Nexus.tscn")
 const JUNGLE_SCENE: PackedScene = preload("res://entities/jungle/JungleMonster.tscn")
+const HEALTH_RELIC_SCENE: PackedScene = preload("res://entities/relic/HealthRelic.tscn")
+const HealthRelic = preload("res://entities/relic/HealthRelic.gd")
 const LOAD_TIMEOUT: float = 15.0
 const COMMAND_BURST: float = 30.0
 const COMMANDS_PER_SECOND: float = 25.0
@@ -33,6 +35,7 @@ var entities: Dictionary = {}
 var champions: Array[Champion] = []
 var minions: Array[Minion] = []
 var structures: Array[Entity] = []
+var relics: Array[HealthRelic] = []
 var local_champion: Champion
 
 var _next_net_id: int = 1
@@ -43,6 +46,7 @@ var _wave_number: int = 0
 var _spawn_queue: Array[Dictionary] = []
 var _clock_timer: float = 0.0
 var _fountain_timer: float = 0.0
+var _ambient_xp_timer: float = 1.0
 var _first_blood_taken: bool = false
 var _end_elapsed: float = 0.0
 var _command_budget: Dictionary = {}
@@ -54,6 +58,7 @@ var _command_budget: Dictionary = {}
 @onready var projectile_spawner: MultiplayerSpawner = $ProjectileSpawner
 @onready var effect_spawner: MultiplayerSpawner = $EffectSpawner
 @onready var monster_spawner: MultiplayerSpawner = $MonsterSpawner
+@onready var relic_spawner: MultiplayerSpawner = $RelicSpawner
 @onready var local_fx: Node3D = $LocalFx
 @onready var camera_rig: CameraRig = $CameraRig
 
@@ -74,6 +79,7 @@ func _ready() -> void:
 	projectile_spawner.spawn_function = _spawn_projectile
 	effect_spawner.spawn_function = _spawn_effect
 	monster_spawner.spawn_function = _spawn_monster
+	relic_spawner.spawn_function = _spawn_relic
 	NetworkManager.peer_left.connect(_on_peer_left)
 	if multiplayer.is_server():
 		_loaded_peers[multiplayer.get_unique_id()] = true
@@ -210,6 +216,15 @@ func _spawn_monster(data: Dictionary) -> Node:
 	return monster
 
 
+func _spawn_relic(data: Dictionary) -> Node:
+	var relic := HEALTH_RELIC_SCENE.instantiate() as HealthRelic
+	relic.name = "R%d" % int(data["id"])
+	relic.net_id = int(data["id"])
+	relic.position = data["pos"]
+	relics.append(relic)
+	return relic
+
+
 # --- Server spawning API ---------------------------------------------------------------------------
 
 func _alloc_id() -> int:
@@ -309,23 +324,16 @@ func _begin_match() -> void:
 			"pos": Arena.fountain_position(team) + offset,
 		})
 
-	# Spawn Jungle Camps & Rift Behemoth
-	var jungle_camps: Array[Dictionary] = [
-		{"type": JungleMonster.MonsterType.BLUE_GOLEM, "pos": Vector3(-24.0, 0.0, 22.0)},
-		{"type": JungleMonster.MonsterType.BLUE_GOLEM, "pos": Vector3(24.0, 0.0, -22.0)},
-		{"type": JungleMonster.MonsterType.RED_BRAMBLE, "pos": Vector3(-24.0, 0.0, -22.0)},
-		{"type": JungleMonster.MonsterType.RED_BRAMBLE, "pos": Vector3(24.0, 0.0, 22.0)},
-		{"type": JungleMonster.MonsterType.RIFT_BEHEMOTH, "pos": Vector3(0.0, 0.0, 22.0)},
-	]
-	for camp: Dictionary in jungle_camps:
-		monster_spawner.spawn({
-			"id": _alloc_id(), "type": camp["type"], "pos": camp["pos"]
+	# Spawn ARAM Health Relics along the bridge
+	for r_pos: Vector3 in Arena.relic_positions():
+		relic_spawner.spawn({
+			"id": _alloc_id(), "pos": r_pos,
 		})
 
 	phase = Phase.PLAYING
 	game_time = 0.0
 	_rpc_phase.rpc(Phase.PLAYING, 0.0)
-	announce("Welcome to Pilim Arena!", Color(1.0, 0.9, 0.6), true)
+	announce("⚔️ Welcome to Howling Abyss (ARAM)! ⚔️", Color(1.0, 0.9, 0.6), true)
 
 
 func _run_rules(delta: float) -> void:
@@ -346,6 +354,13 @@ func _run_rules(delta: float) -> void:
 	if _fountain_timer <= 0.0:
 		_fountain_timer = 0.25
 		_process_fountains(0.25)
+	# ARAM Ambient XP aura
+	_ambient_xp_timer -= delta
+	if _ambient_xp_timer <= 0.0:
+		_ambient_xp_timer = 1.0
+		for champion: Champion in champions:
+			if not champion.dead:
+				champion.add_xp(GameConst.PASSIVE_XP_PER_SEC)
 	_clock_timer -= delta
 	if _clock_timer <= 0.0:
 		_clock_timer = 0.5
@@ -373,7 +388,7 @@ func _process_fountains(step: float) -> void:
 	for champion: Champion in champions:
 		if champion.dead:
 			continue
-		if is_in_fountain(champion):
+		if is_in_fountain(champion) and GameConst.FOUNTAIN_HEAL_FRACTION > 0.0:
 			champion.heal(champion.max_health * GameConst.FOUNTAIN_HEAL_FRACTION * step)
 			champion.mana = minf(champion.max_mana, champion.mana + champion.max_mana * GameConst.FOUNTAIN_HEAL_FRACTION * step)
 		var enemy_fountain: Vector3 = Arena.fountain_position(GameConst.enemy_team(champion.team))
@@ -388,6 +403,18 @@ func is_in_fountain(champion: Champion) -> bool:
 
 func fountain_position(team: int) -> Vector3:
 	return Arena.fountain_position(team)
+
+
+func get_nearest_active_relic(pos: Vector3) -> HealthRelic:
+	var best: HealthRelic = null
+	var best_d: float = INF
+	for r: HealthRelic in relics:
+		if is_instance_valid(r) and r.is_active:
+			var d: float = Vector2(pos.x - r.global_position.x, pos.z - r.global_position.z).length()
+			if d < best_d:
+				best_d = d
+				best = r
+	return best
 
 
 func is_structure_vulnerable(structure: Entity) -> bool:
@@ -595,7 +622,7 @@ func end_match(winner: int) -> void:
 func cleanup_networked_entities() -> void:
 	if not multiplayer.is_server():
 		return
-	for container: Node in [$World/Projectiles, $World/Effects, $World/Minions, $World/Champions, $World/Structures, $World/Monsters]:
+	for container: Node in [$World/Projectiles, $World/Effects, $World/Minions, $World/Champions, $World/Structures, $World/Monsters, $World/Relics]:
 		for child: Node in container.get_children():
 			child.queue_free()
 

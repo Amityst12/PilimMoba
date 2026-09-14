@@ -19,15 +19,15 @@ var player_name: String = "Champion"
 var owner_peer_id: int = 0
 var is_bot: bool = false
 var max_mana: float = 300.0
-var level: int = 1
+var level: int = GameConst.STARTING_LEVEL
 var xp: float = 0.0
 var gold: int = GameConst.STARTING_GOLD
 var kills: int = 0
 var deaths: int = 0
 var assists: int = 0
 var creep_score: int = 0
-var skill_points: int = 0
-var ability_ranks: PackedInt32Array = PackedInt32Array([1, 1, 1, 0])
+var skill_points: int = GameConst.STARTING_SKILL_POINTS
+var ability_ranks: PackedInt32Array = PackedInt32Array([0, 0, 0, 0])
 var cooldown_ends: PackedFloat32Array = PackedFloat32Array([0.0, 0.0, 0.0, 0.0])
 var items: PackedStringArray = PackedStringArray()
 var respawn_at: float = 0.0
@@ -40,6 +40,7 @@ var recall_end: float = 0.0
 var is_concealed: bool = false
 var current_brush_idx: int = -1
 var reveal_timer: float = 0.0
+var has_left_fountain: bool = false
 
 # --- Replicated (always) ----------------------------------------------------------
 var mana: float = 300.0
@@ -234,6 +235,8 @@ func _server_tick(delta: float, now: float) -> void:
 		if reveal_timer > 0.0:
 			reveal_timer -= delta
 		is_concealed = b_idx != -1 and reveal_timer <= 0.0
+	if not has_left_fountain and Game.current != null and not Game.current.is_in_fountain(self):
+		has_left_fountain = true
 	if brain:
 		brain.think(delta, now)
 	if recall_end > 0.0 and now >= recall_end:
@@ -561,6 +564,8 @@ func blink_to(point: Vector3) -> void:
 # --- Recall (server) --------------------------------------------------------------------------
 
 func start_recall() -> void:
+	if not GameConst.RECALL_ENABLED:
+		return
 	if dead or recall_end > 0.0 or not _dash.is_empty() or not _pending_cast.is_empty() or statuses.stunned:
 		return
 	order_stop()
@@ -606,7 +611,7 @@ func _level_up() -> void:
 
 
 func can_shop() -> bool:
-	return dead or (Game.current != null and Game.current.is_in_fountain(self))
+	return dead or not has_left_fountain
 
 
 func buy_item(item_id: String) -> String:
@@ -737,6 +742,7 @@ func _extra_status_flags() -> int:
 
 func _on_death(_killer: Entity) -> void:
 	deaths += 1
+	has_left_fountain = false
 	kill_streak = 0
 	respawn_at = Game.current.game_time + GameConst.respawn_time(level) if Game.current else 0.0
 	_pending_cast = {}

@@ -78,8 +78,12 @@ static func ping_label(type: int) -> String:
 	return "Ping"
 
 # --- Economy & progression ---------------------------------------------------
-const STARTING_GOLD: int = 500
-const PASSIVE_GOLD_PER_SEC: float = 2.0
+const ARAM_MODE: bool = true
+const STARTING_GOLD: int = 1400
+const STARTING_LEVEL: int = 3
+const STARTING_SKILL_POINTS: int = 3
+const PASSIVE_GOLD_PER_SEC: float = 5.5
+const PASSIVE_XP_PER_SEC: float = 8.0
 const MAX_LEVEL: int = 18
 const XP_SHARE_RADIUS: float = 16.0
 const KILL_GOLD: int = 300
@@ -100,11 +104,15 @@ const WAVE_CASTER_COUNT: int = 3
 const WAVE_SPAWN_SPACING: float = 0.9
 const RESPAWN_BASE: float = 5.0
 const RESPAWN_PER_LEVEL: float = 1.6
+const RECALL_ENABLED: bool = false
 const RECALL_DURATION: float = 4.0
 const FOUNTAIN_RADIUS: float = 8.0
-const FOUNTAIN_HEAL_FRACTION: float = 0.15
+const FOUNTAIN_HEAL_FRACTION: float = 0.0  # In ARAM, fountain does not heal!
 const FOUNTAIN_ENEMY_DPS: float = 700.0
 const END_SCREEN_AUTO_RETURN: float = 25.0
+const HEALTH_RELIC_COOLDOWN: float = 60.0
+const HEALTH_RELIC_BURST_DELAY: float = 2.5
+const HEALTH_RELIC_RADIUS: float = 3.5
 
 # --- Structures --------------------------------------------------------------
 const BACKDOOR_REDUCTION: float = 0.66

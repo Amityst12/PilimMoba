@@ -11,8 +11,8 @@ const HALF_Z: float = 34.0
 const LANE_HALF_WIDTH: float = 7.5
 const FOUNTAIN_X: float = 58.5
 const NEXUS_X: float = 50.0
-const INNER_TOWER: Vector2 = Vector2(-38.0, 2.5)
-const OUTER_TOWER: Vector2 = Vector2(-22.0, -2.5)
+const INNER_TOWER: Vector2 = Vector2(-38.0, 0.0)
+const OUTER_TOWER: Vector2 = Vector2(-22.0, 0.0)
 const RIDGE_Z: float = 12.0
 const RIDGE_THICKNESS: float = 3.2
 const RIVER_HALF_WIDTH: float = 4.2
@@ -47,28 +47,30 @@ func _ready() -> void:
 func _define_layout() -> void:
 	obstacles.clear()
 	brushes.clear()
-	# Ridges separating the lane from the jungle, with entrances near the outer towers and the river.
-	var ridge_segments: Array[Vector2] = [
-		Vector2(-55.0, 23.0),  # base side wall (center x, length)
-		Vector2(-37.5, 13.0),
-		Vector2(-15.0, 18.0),
+	# ARAM Howling Abyss Single-Lane Bridge
+	# Continuous bridge railings/abyss walls along the single lane (North and South)
+	_add_mirrored_box(Vector2(0.0, 8.5), Vector2(104.0, 2.0))
+	# Base containment walls opening around the fountains/nexuses
+	_add_mirrored_box(Vector2(-58.5, 14.0), Vector2(16.0, 3.0))
+	_add_mirrored_box(Vector2(-58.5, -14.0), Vector2(16.0, 3.0))
+	_add_mirrored_box(Vector2(-HALF_X, 0.0), Vector2(3.0, 30.0))
+	# Base transition pillars
+	_add_mirrored_circle(Vector2(-52.0, 8.5), 2.0)
+	_add_mirrored_circle(Vector2(-52.0, -8.5), 2.0)
+
+	# ARAM Lane Bushes (along North side of the bridge, opposite Health Relics)
+	brushes.append({"center": Vector2(-14.0, 3.6), "size": Vector2(10.0, 2.4)})
+	brushes.append({"center": Vector2(0.0, 3.6), "size": Vector2(8.0, 2.4)})
+	brushes.append({"center": Vector2(14.0, 3.6), "size": Vector2(10.0, 2.4)})
+
+
+static func relic_positions() -> Array[Vector3]:
+	return [
+		Vector3(-24.0, 0.0, -4.8),
+		Vector3(-8.0, 0.0, -4.8),
+		Vector3(8.0, 0.0, -4.8),
+		Vector3(24.0, 0.0, -4.8),
 	]
-	for seg: Vector2 in ridge_segments:
-		_add_mirrored_box(Vector2(seg.x, RIDGE_Z), Vector2(seg.y, RIDGE_THICKNESS))
-		_add_mirrored_box(Vector2(-seg.x, RIDGE_Z), Vector2(seg.y, RIDGE_THICKNESS))
-	# Jungle rock formations (top half; mirrored to the bottom half).
-	_add_mirrored_circle(Vector2(-18.0, 22.5), 3.4)
-	_add_mirrored_circle(Vector2(8.5, 20.5), 2.6)
-	_add_mirrored_circle(Vector2(31.0, 25.5), 3.2)
-	_add_mirrored_circle(Vector2(-33.0, 27.5), 2.8)
-	_add_mirrored_box(Vector2(-47.0, 25.0), Vector2(7.0, 6.0))
-	_add_mirrored_box(Vector2(47.0, 25.0), Vector2(7.0, 6.0))
-	_add_mirrored_circle(Vector2(-5.0, 29.0), 2.2)
-	_add_mirrored_circle(Vector2(20.0, 30.5), 2.0)
-	# Tall grass (visual) along the lane edges and inside the jungle.
-	for b: Vector2 in [Vector2(-9.0, 8.8), Vector2(28.0, 8.8), Vector2(-24.0, 19.0), Vector2(14.0, 26.0)]:
-		brushes.append({"center": b, "size": Vector2(5.5, 2.4)})
-		brushes.append({"center": -b, "size": Vector2(5.5, 2.4)})
 
 
 func is_in_brush(pos: Vector3) -> bool:

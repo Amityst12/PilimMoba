@@ -3,6 +3,8 @@ extends CanvasLayer
 ## In-game MOBA HUD: health/mana bars, abilities, items, shop, minimap,
 ## kill feed, announcements, scoreboard and victory/defeat screens.
 
+const HealthRelic = preload("res://entities/relic/HealthRelic.gd")
+
 var _game: Game
 var _champion: Champion
 
@@ -424,12 +426,17 @@ func _build_bottom_bar(parent: Control) -> void:
 	bottom_util_row.add_child(_shop_button)
 
 	_recall_button = UI.button("", func() -> void:
-		if _game:
+		if _game and GameConst.RECALL_ENABLED:
 			_game.cmd_recall.rpc_id(1)
 	, 28)
 	_recall_button.icon = load("res://assets/icons/abilities/recall.svg")
 	_recall_button.expand_icon = true
-	_recall_button.tooltip_text = "Recall to Fountain (B)"
+	if not GameConst.RECALL_ENABLED:
+		_recall_button.tooltip_text = "Recall is disabled in ARAM (Howling Abyss)"
+		_recall_button.modulate = Color(0.4, 0.4, 0.45, 0.5)
+		_recall_button.disabled = true
+	else:
+		_recall_button.tooltip_text = "Recall to Fountain (B)"
 	bottom_util_row.add_child(_recall_button)
 
 
@@ -595,29 +602,23 @@ func _draw_minimap() -> void:
 	# 3. Main Lane path line
 	_minimap_view.draw_line(Vector2(w * 0.08, h * 0.5), Vector2(w * 0.92, h * 0.5), Color(0.24, 0.28, 0.35, 0.65), 3.0)
 
-	# 4. Brush patches (tall grass zones)
-	for b: Vector2 in [
-		Vector2(-9.0, 8.8), Vector2(28.0, 8.8), Vector2(-24.0, 19.0), Vector2(14.0, 26.0),
-		Vector2(9.0, -8.8), Vector2(-28.0, -8.8), Vector2(24.0, -19.0), Vector2(-14.0, -26.0)
-	]:
+	# 4. Brush patches (ARAM Lane Bushes)
+	for b: Vector2 in [Vector2(-14.0, 3.6), Vector2(0.0, 3.6), Vector2(14.0, 3.6)]:
 		var bp: Vector2 = w2m.call(Vector3(b.x, 0.0, b.y))
-		_minimap_view.draw_rect(Rect2(bp - Vector2(4.0, 2.5), Vector2(8.0, 5.0)), Color(0.18, 0.48, 0.24, 0.65), true)
+		_minimap_view.draw_rect(Rect2(bp - Vector2(5.0, 2.0), Vector2(10.0, 4.0)), Color(0.18, 0.48, 0.24, 0.65), true)
 
 	# 5. Fountains
 	_minimap_view.draw_circle(w2m.call(Arena.fountain_position(GameConst.TEAM_BLUE)), 4.5, Color(0.2, 0.5, 1.0, 0.7))
 	_minimap_view.draw_circle(w2m.call(Arena.fountain_position(GameConst.TEAM_RED)), 4.5, Color(1.0, 0.3, 0.3, 0.7))
 
-	# 6. Jungle camps & Boss
-	if _game.has_node("World/Monsters"):
-		for mon: Node in _game.get_node("World/Monsters").get_children():
-			if mon is JungleMonster and not mon.dead:
-				var mp: Vector2 = w2m.call(mon.global_position)
-				if mon.monster_type == JungleMonster.MonsterType.RIFT_BEHEMOTH:
-					_minimap_view.draw_rect(Rect2(mp - Vector2(4, 4), Vector2(8, 8)), Color(0.9, 0.35, 1.0), true)
-				elif mon.monster_type == JungleMonster.MonsterType.BLUE_GOLEM:
-					_minimap_view.draw_circle(mp, 3.0, Color(0.2, 0.75, 1.0))
-				elif mon.monster_type == JungleMonster.MonsterType.RED_BRAMBLE:
-					_minimap_view.draw_circle(mp, 3.0, Color(1.0, 0.4, 0.2))
+	# 6. ARAM Health Relics
+	for r: HealthRelic in _game.relics:
+		if is_instance_valid(r):
+			var rp: Vector2 = w2m.call(r.global_position)
+			var r_col: Color = Color(0.2, 0.95, 0.5, 0.9) if r.is_active else Color(0.35, 0.4, 0.45, 0.4)
+			_minimap_view.draw_circle(rp, 2.8, r_col)
+			if r.is_active:
+				_minimap_view.draw_arc(rp, 4.0, 0, TAU, 10, Color(0.3, 1.0, 0.6, 0.8), 1.0)
 
 	# 7. Structures
 	for s: Entity in _game.structures:
@@ -1066,8 +1067,14 @@ func _select_shop_item(item_id: String) -> void:
 	for s_key: String in item.get("stats", {}):
 		stats_desc += "\n" + ItemDB.format_stat(s_key, item["stats"][s_key])
 
-	_shop_details_label.text = "%s\nCost: %d Gold%s" % [item["name"], item["cost"], stats_desc]
-	_shop_buy_btn.disabled = _champion == null or _champion.gold < item["cost"] or _champion.items.size() >= 6
+	var can_shop_state: bool = _champion != null and _champion.can_shop()
+	var can_afford: bool = _champion != null and _champion.gold >= item["cost"] and _champion.items.size() < 6
+	_shop_buy_btn.disabled = not (can_shop_state and can_afford)
+
+	if not can_shop_state:
+		_shop_details_label.text = "%s\nCost: %d Gold%s\n[color=#ff5555]ARAM: You can only buy items when dead![/color]" % [item["name"], item["cost"], stats_desc]
+	else:
+		_shop_details_label.text = "%s\nCost: %d Gold%s" % [item["name"], item["cost"], stats_desc]
 
 
 func _buy_selected_item() -> void:

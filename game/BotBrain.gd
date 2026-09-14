@@ -8,6 +8,7 @@ extends RefCounted
 
 const THINK_INTERVAL: float = 0.25
 const SIGHT_RANGE: float = 13.0
+const HealthRelic = preload("res://entities/relic/HealthRelic.gd")
 
 var champion: Champion
 var _think_timer: float = randf() * THINK_INTERVAL
@@ -42,26 +43,22 @@ func think(delta: float, now: float) -> void:
 	var hp: float = champion.health_fraction()
 	var tower_on_me: bool = enemy_tower != null and enemy_tower.target_id == champion.net_id
 
-	# --- Survival ------------------------------------------------------------------------
+	# --- Survival & ARAM Health Relic seeking ----------------------------------------
 	if hp < 0.28 or (tower_on_me and hp < 0.8):
 		_retreating = true
 	elif hp > 0.7:
 		_retreating = false
-	if champion.is_recalling():
-		if not enemy_champions.is_empty() and hp > 0.1:
-			_retreat(enemy_champions, now)
-		return
 	if _retreating or tower_on_me:
 		_retreat(enemy_champions, now)
 		return
-	if game.is_in_fountain(champion) and (hp < 0.9 or champion.mana_fraction() < 0.5):
-		if champion.order != Champion.Order.IDLE:
-			champion.order_stop()
-		return
-	if champion.gold >= _next_item_cost() + 350 and enemy_champions.is_empty() and hp < 0.6 \
-			and not game.is_in_fountain(champion):
-		champion.start_recall()
-		return
+
+	# ARAM Health Relic priority when sustain is needed
+	if hp < 0.65:
+		var relic: HealthRelic = game.get_nearest_active_relic(champion.global_position)
+		if relic != null and champion.planar_distance_to_point(relic.global_position) < 24.0:
+			if champion.order != Champion.Order.MOVE or champion.order_point.distance_to(relic.global_position) > 1.0:
+				champion.order_move(relic.global_position)
+			return
 
 	# --- Champion fights --------------------------------------------------------------------
 	var target: Champion = _choose_champion_target(enemy_champions)
@@ -286,7 +283,7 @@ func _retreat(enemies: Array[Champion], now: float) -> void:
 	var game := Game.current
 	var home: Vector3 = Arena.fountain_position(champion.team)
 	var threatened: bool = not enemies.is_empty() or _nearest_enemy_tower(Tower.TOWER_RANGE + 1.0) != null
-	if not threatened and not champion.is_recalling() and not game.is_in_fountain(champion) \
+	if GameConst.RECALL_ENABLED and not threatened and not champion.is_recalling() and not game.is_in_fountain(champion) \
 			and champion.planar_distance_to_point(home) > 25.0:
 		if champion.order != Champion.Order.IDLE:
 			champion.order_stop()

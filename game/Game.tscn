@@ -36,6 +36,8 @@ script = ExtResource("4_playercontroller")
 
 [node name="Monsters" type="Node3D" parent="World"]
 
+[node name="Relics" type="Node3D" parent="World"]
+
 [node name="ChampionSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../World/Champions")
 
@@ -53,6 +55,9 @@ spawn_path = NodePath("../World/Effects")
 
 [node name="MonsterSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../World/Monsters")
+
+[node name="RelicSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../World/Relics")
 
 [node name="LocalFx" type="Node3D" parent="."]
 
