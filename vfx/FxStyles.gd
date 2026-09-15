@@ -24,6 +24,16 @@ static func build_projectile_visual(projectile: Node3D, style: String, tint: Col
 			_orb(projectile, 0.2, Color(0.7, 0.55, 1.0), false, true)
 		"ranger_attack":
 			_arrow(projectile, 0.8, Color(1.0, 0.9, 0.6), false, 0.05)
+		"stephen_attack":
+			_orb(projectile, 0.24, Color(1.0, 0.88, 0.35), true, true)
+		"nissim_attack":
+			_orb(projectile, 0.26, Color(0.35, 0.75, 1.0), true, true)
+		"yakir_attack":
+			_orb(projectile, 0.22, Color(0.25, 0.95, 0.45), true, true)
+		"amit_attack":
+			_spinning_blade(projectile, 0.28, Color(0.95, 0.35, 0.75))
+		"basic_ranged":
+			_orb(projectile, 0.22, team_color.lightened(0.3), true, true)
 		_:
 			_orb(projectile, 0.22, tint, false, true)
 
@@ -90,6 +100,19 @@ static func _disc(parent: Node3D, radius: float, color: Color) -> void:
 	disc.material_override = Fx.emissive_material(color, 3.0)
 	parent.add_child(disc)
 	_trail(parent, color, 0.12)
+
+
+static func _spinning_blade(parent: Node3D, radius: float, color: Color) -> void:
+	var blade := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(radius * 2.2, 0.08, radius * 0.5)
+	blade.mesh = mesh
+	blade.material_override = Fx.emissive_material(color, 4.0)
+	blade.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	parent.add_child(blade)
+	var tween := blade.create_tween().set_loops()
+	tween.tween_property(blade, "rotation:y", TAU, 0.25).as_relative()
+	_trail(parent, color, radius * 0.3)
 
 
 static func _trail(parent: Node3D, color: Color, size: float) -> void:

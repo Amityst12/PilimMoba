@@ -62,7 +62,7 @@ func stat(base: float, per_level: float, level: int) -> float:
 
 
 func is_ranged() -> bool:
-	return attack_projectile_style != &""
+	return attack_range > 2.5 or attack_projectile_style != &""
 
 
 func get_splash_art() -> Texture2D:

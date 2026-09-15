@@ -163,6 +163,31 @@ func _run_suite() -> void:
 		assert(not rig.minimap_peeking, "cancel_minimap_peek should reset peeking")
 		print("  Minimap peek & drag in Camera Lock verified: 100% operational!")
 
+	# Ranged Champion Auto-Attack Projectile Test
+	var stephen_data: ChampionData = ChampionDB.get_champion(&"stephen")
+	var nissim_data: ChampionData = ChampionDB.get_champion(&"nissim")
+	var yakir_data: ChampionData = ChampionDB.get_champion(&"yakir")
+	var amit_data: ChampionData = ChampionDB.get_champion(&"amit")
+	assert(stephen_data.is_ranged() and stephen_data.attack_projectile_style == &"stephen_attack", "Stephen must have ranged attack projectile style")
+	assert(nissim_data.is_ranged() and nissim_data.attack_projectile_style == &"nissim_attack", "Nissim must have ranged attack projectile style")
+	assert(yakir_data.is_ranged() and yakir_data.attack_projectile_style == &"yakir_attack", "Yakir must have ranged attack projectile style")
+	assert(amit_data.is_ranged() and amit_data.attack_projectile_style == &"amit_attack", "Amit must have ranged attack projectile style")
+
+	# Test spawning homing projectile on basic attack
+	var test_proj := game.spawn_projectile({
+		"style": "nissim_attack",
+		"pos": Vector3(0.0, 1.0, 0.0),
+		"dir": Vector3.FORWARD,
+		"speed": 20.0,
+		"range": 20.0,
+		"radius": 0.2,
+		"team": GameConst.TEAM_BLUE,
+		"homing": 1,
+	})
+	assert(test_proj != null and test_proj.style == "nissim_attack", "Ranged basic attack projectile should spawn properly")
+	test_proj.queue_free()
+	print("  Ranged champion basic-attack projectiles verified: 100% operational!")
+
 	print("\n========================================================")
 	print(">>> ALL 7 ARAM TEST SUITES PASSED! 100% OPERATIONAL <<<")
 	print("========================================================\n")

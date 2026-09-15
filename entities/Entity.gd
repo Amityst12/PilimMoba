@@ -333,6 +333,8 @@ func process_attack_windup(now: float) -> void:
 			"homing": target.net_id,
 		})
 		if projectile:
+			if Game.current:
+				Game.current.play_fx("sparkle", origin, {"color": GameConst.team_color(team)})
 			# The lambda must not use `self`: the attacker may be freed while the projectile flies.
 			var attacker: Entity = self
 			var damage_snapshot: float = attack_damage
@@ -341,6 +343,9 @@ func process_attack_windup(now: float) -> void:
 					attacker.deliver_attack(hit)
 				elif is_instance_valid(hit):
 					hit.take_damage(damage_snapshot, GameConst.DamageType.PHYSICAL, null)
+				if Game.current and is_instance_valid(hit):
+					var hit_pos: Vector3 = hit.global_position + Vector3(0.0, hit.bar_height * 0.45, 0.0)
+					Game.current.play_fx("hit", hit_pos, {"color": GameConst.team_color(attacker.team if is_instance_valid(attacker) else team)})
 				return true
 
 

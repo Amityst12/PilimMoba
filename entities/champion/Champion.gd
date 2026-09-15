@@ -81,6 +81,8 @@ func _ready() -> void:
 	attack_projectile_style = data.attack_projectile_style
 	attack_projectile_speed = data.attack_projectile_speed
 	attack_windup_ratio = data.attack_windup
+	if data.attack_range > 2.5 and attack_projectile_style == &"":
+		attack_projectile_style = &"basic_ranged"
 	nav_agent.radius = radius
 	if visual and data.model_scene:
 		var model: Node3D = data.model_scene.instantiate() as Node3D
