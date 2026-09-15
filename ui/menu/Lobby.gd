@@ -42,6 +42,10 @@ var _timer_label: Label
 var _countdown: float = 30.0
 var _orbit: float = 1.2
 var _is_locked_in: bool = false
+var _team_bench: Array[StringName] = []
+var _rerolls_remaining: int = 2
+var _bench_container: HBoxContainer
+var _reroll_btn: Button
 
 
 func _ready() -> void:
@@ -51,6 +55,7 @@ func _ready() -> void:
 	NetworkManager.chat_received.connect(_on_chat)
 	NetworkManager.status_changed.connect(_on_status)
 	_refresh()
+	_update_bench_ui()
 	if NetworkManager.launch_options.has("autostart"):
 		get_tree().create_timer(0.4).timeout.connect(func() -> void:
 			if NetworkManager.is_host():
@@ -334,9 +339,40 @@ func _build_center_column(parent: HBoxContainer) -> void:
 	center_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	parent.add_child(center_box)
 
-	# 1. Search & Role Filter Bar
+	# 1. ARAM Team Bench Bar (LoL Style)
+	var bench_panel := UI.panel(UITheme.panel_style(Color(0.04, 0.07, 0.12, 0.95), COLOR_GOLD_DIM, 6, 1))
+	bench_panel.custom_minimum_size.y = 44
+	center_box.add_child(bench_panel)
+
+	var bench_row := UI.hbox(8)
+	bench_row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bench_row.offset_left = 8
+	bench_row.offset_right = -8
+	bench_panel.add_child(bench_row)
+
+	var bench_title := UI.label("BENCH:", 11, COLOR_GOLD_BRIGHT, true)
+	bench_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	bench_row.add_child(bench_title)
+
+	_bench_container = UI.hbox(6)
+	_bench_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bench_row.add_child(_bench_container)
+
+	_reroll_btn = Button.new()
+	_reroll_btn.text = "🎲 REROLL (%d/2)" % _rerolls_remaining
+	_reroll_btn.custom_minimum_size = Vector2(130, 30)
+	_reroll_btn.add_theme_font_size_override("font_size", 11)
+	_reroll_btn.add_theme_color_override("font_color", COLOR_GOLD_BRIGHT)
+	var dice_tex := load("res://assets/icons/ui/dice_reroll.svg") as Texture2D
+	if dice_tex:
+		_reroll_btn.icon = dice_tex
+		_reroll_btn.expand_icon = true
+	_reroll_btn.pressed.connect(_on_reroll_champion)
+	bench_row.add_child(_reroll_btn)
+
+	# 2. Search & Role Filter Bar
 	var filter_bar := UI.hbox(6)
-	filter_bar.custom_minimum_size.y = 32
+	filter_bar.custom_minimum_size.y = 30
 	center_box.add_child(filter_bar)
 
 	_search_input = LineEdit.new()
@@ -356,16 +392,7 @@ func _build_center_column(parent: HBoxContainer) -> void:
 		r_btn.add_theme_font_size_override("font_size", 11)
 		filter_bar.add_child(r_btn)
 
-	filter_bar.add_child(UI.spacer(true))
-
-	# ARAM Reroll Dice Button 🎲
-	var reroll_btn := UI.button("🎲 REROLL", _on_reroll_champion, 95)
-	reroll_btn.add_theme_color_override("font_color", COLOR_HEX_CYAN)
-	reroll_btn.add_theme_font_size_override("font_size", 12)
-	reroll_btn.tooltip_text = "Reroll a random champion for ARAM (All Mid)!"
-	filter_bar.add_child(reroll_btn)
-
-	# 2. Champion Grid Frame (LoL Style Grid of Champion Cards)
+	# 3. Champion Grid Frame (LoL Style Grid of Champion Cards)
 	var grid_panel := UI.panel(UITheme.panel_style(Color(0.03, 0.05, 0.08, 0.9), COLOR_GOLD_DIM, 6, 1))
 	grid_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	center_box.add_child(grid_panel)
@@ -601,17 +628,6 @@ func _filter_grid() -> void:
 		card.visible = matches_search and matches_role
 
 
-func _on_reroll_champion() -> void:
-	if ChampionDB.IDS.is_empty():
-		return
-	var random_id: StringName = ChampionDB.IDS[randi() % ChampionDB.IDS.size()]
-	NetworkManager.request_champion(String(random_id))
-	_select_preview(random_id)
-	Sfx.play("cast", -4.0)
-	if _status_label:
-		_status_label.text = "Rerolled: %s!" % random_id
-
-
 # =========================================================================
 # Refresh & Player Slots
 # =========================================================================
@@ -769,3 +785,82 @@ func _on_status(text: String, is_error: bool) -> void:
 
 func _on_leave() -> void:
 	NetworkManager.leave()
+
+
+func _update_bench_ui() -> void:
+	if _bench_container == null:
+		return
+	for child in _bench_container.get_children():
+		child.queue_free()
+
+	if _team_bench.is_empty():
+		var empty_lbl := UI.label("(Empty - Rerolled champions appear here)", 10, COLOR_GOLD_DIM)
+		empty_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		_bench_container.add_child(empty_lbl)
+		return
+
+	for cid: StringName in _team_bench:
+		var cdata: ChampionData = ChampionDB.get_champion(cid)
+		if cdata == null:
+			continue
+		var btn := Button.new()
+		btn.custom_minimum_size = Vector2(34, 34)
+		btn.tooltip_text = "Click to swap and play %s!" % cdata.display_name
+		btn.icon = cdata.get_portrait()
+		btn.expand_icon = true
+
+		var swap_icon := TextureRect.new()
+		swap_icon.texture = load("res://assets/icons/ui/bench_swap.svg")
+		swap_icon.custom_minimum_size = Vector2(14, 14)
+		swap_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		swap_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		swap_icon.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+		btn.add_child(swap_icon)
+
+		btn.pressed.connect(func() -> void: _on_swap_from_bench(cid))
+		_bench_container.add_child(btn)
+
+
+func _on_reroll_champion() -> void:
+	if _rerolls_remaining <= 0:
+		return
+
+	if not _selected_preview_id.is_empty() and not _team_bench.has(_selected_preview_id):
+		_team_bench.append(_selected_preview_id)
+
+	var candidates: Array[StringName] = []
+	for cid: StringName in ChampionDB.IDS:
+		if cid != _selected_preview_id and not _team_bench.has(cid):
+			candidates.append(cid)
+
+	if candidates.is_empty():
+		for cid: StringName in ChampionDB.IDS:
+			if cid != _selected_preview_id:
+				candidates.append(cid)
+
+	if candidates.is_empty():
+		return
+
+	var rolled_id: StringName = candidates[randi() % candidates.size()]
+	_rerolls_remaining -= 1
+	if _reroll_btn:
+		_reroll_btn.text = "🎲 REROLL (%d/2)" % _rerolls_remaining
+		if _rerolls_remaining <= 0:
+			_reroll_btn.disabled = true
+
+	NetworkManager.request_champion(String(rolled_id))
+	_select_preview(rolled_id)
+	_update_bench_ui()
+	Sfx.play("powerup", -6.0)
+
+
+func _on_swap_from_bench(bench_cid: StringName) -> void:
+	var old_id := _selected_preview_id
+	_team_bench.erase(bench_cid)
+	if not old_id.is_empty() and not _team_bench.has(old_id):
+		_team_bench.append(old_id)
+
+	NetworkManager.request_champion(String(bench_cid))
+	_select_preview(bench_cid)
+	_update_bench_ui()
+	Sfx.play("click", -4.0)

@@ -22,6 +22,11 @@ const NEXUS_SCENE: PackedScene = preload("res://entities/structures/Nexus.tscn")
 const JUNGLE_SCENE: PackedScene = preload("res://entities/jungle/JungleMonster.tscn")
 const HEALTH_RELIC_SCENE: PackedScene = preload("res://entities/relic/HealthRelic.tscn")
 const HealthRelic = preload("res://entities/relic/HealthRelic.gd")
+const FROSTGATE_SCENE: PackedScene = preload("res://entities/structures/Frostgate.tscn")
+const Frostgate = preload("res://entities/structures/Frostgate.gd")
+const PORO_SCENE: PackedScene = preload("res://entities/critter/PoroCritter.tscn")
+const PoroCritter = preload("res://entities/critter/PoroCritter.gd")
+const SNOW_SCENE: PackedScene = preload("res://entities/environment/SnowParticles.tscn")
 const LOAD_TIMEOUT: float = 15.0
 const COMMAND_BURST: float = 30.0
 const COMMANDS_PER_SECOND: float = 25.0
@@ -170,6 +175,13 @@ func _spawn_minion(data: Dictionary) -> Node:
 
 
 func _spawn_structure(data: Dictionary) -> Node:
+	if String(data.get("kind", "")) == "frostgate":
+		var gate := FROSTGATE_SCENE.instantiate() as Frostgate
+		gate.name = "S%d" % int(data["id"])
+		gate.net_id = int(data["id"])
+		gate.team = int(data["team"])
+		gate.position = data["pos"]
+		return gate
 	var structure: Entity
 	if String(data["kind"]) == "tower":
 		var tower := TOWER_SCENE.instantiate() as Tower
@@ -330,10 +342,28 @@ func _begin_match() -> void:
 			"id": _alloc_id(), "pos": r_pos,
 		})
 
+	_setup_aram_environment()
+
 	phase = Phase.PLAYING
 	game_time = 0.0
 	_rpc_phase.rpc(Phase.PLAYING, 0.0)
 	announce("⚔️ Welcome to Howling Abyss (ARAM)! ⚔️", Color(1.0, 0.9, 0.6), true)
+
+
+func _setup_aram_environment() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	if has_node("World") and not has_node("World/SnowParticles"):
+		var snow := SNOW_SCENE.instantiate()
+		$World.add_child(snow)
+	if has_node("World") and not has_node("World/Critters"):
+		var critters_node := Node3D.new()
+		critters_node.name = "Critters"
+		$World.add_child(critters_node)
+		for px: float in [-22.0, -8.0, 10.0, 26.0]:
+			var poro := PORO_SCENE.instantiate() as PoroCritter
+			poro.position = Vector3(px, 0.0, randf_range(-3.0, 3.0))
+			critters_node.add_child(poro)
 
 
 func _run_rules(delta: float) -> void:
@@ -451,6 +481,14 @@ func on_damage_dealt(source: Entity, target: Entity, amount: float, damage_type:
 		for minion: Minion in minions:
 			if minion.team == target.team and not minion.dead and minion.planar_distance_to_point(target.global_position) < 9.0:
 				minion.call_for_help(source, game_time)
+
+
+func on_healed(target: Entity, amount: float) -> void:
+	if amount >= 1.0 and target is Champion:
+		var peer_id: int = (target as Champion).owner_peer_id
+		if peer_id != 0:
+			var pos: Vector3 = target.global_position + Vector3(0.0, target.bar_height + 0.2, 0.0)
+			_send_float_text(peer_id, pos, "+%d" % roundi(amount), Color(0.25, 1.0, 0.45), 36)
 
 
 func on_ability_cast(champion: Champion, slot: int) -> void:

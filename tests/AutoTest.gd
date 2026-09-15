@@ -2,6 +2,8 @@ extends Node
 ## Automated end-to-end integration test running inside the live game engine.
 
 const HealthRelic = preload("res://entities/relic/HealthRelic.gd")
+const Frostgate = preload("res://entities/structures/Frostgate.gd")
+const PoroCritter = preload("res://entities/critter/PoroCritter.gd")
 
 func _ready() -> void:
 	print("\n========================================================")
@@ -68,6 +70,19 @@ func _run_suite() -> void:
 	test_relic._on_activated_by(game.local_champion)
 	assert(not test_relic.is_active, "Relic should become inactive on pickup")
 	print("  Health Relic activation verified: instant sustain granted, 2.5s AoE burst charging")
+
+	# Test ARAM Frostgates
+	var gate_count: int = 0
+	for struct: Node in game.get_node("World/Structures").get_children():
+		if struct is Frostgate:
+			gate_count += 1
+	print("  ARAM Frostgates verified on bases: %d" % gate_count)
+	assert(gate_count == 2, "Should have 2 Frostgates (one per base)")
+
+	# Test Combat Text triggering
+	game.on_damage_dealt(game.local_champion, game.local_champion, 120.0, GameConst.DamageType.PHYSICAL, false)
+	game.on_healed(game.local_champion, 45.0)
+	print("  Combat text numbers dispatched (physical damage & heal)")
 
 	# 6. Check ARAM Bridge Bush Concealment & Smart Pings
 	print("[6/7] Testing ARAM Bridge Bush Concealment & Smart Pings...")

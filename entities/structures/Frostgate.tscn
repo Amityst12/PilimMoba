@@ -1,0 +1,95 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/structures/Frostgate.gd" id="1_gate"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sync"]
+properties/0/path = NodePath(".:is_active")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:team")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+top_radius = 2.4
+bottom_radius = 2.6
+height = 0.2
+radial_segments = 24
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stone"]
+albedo_color = Color(0.12, 0.18, 0.26, 1)
+metallic = 0.4
+roughness = 0.6
+
+[sub_resource type="TorusMesh" id="TorusMesh_runes"]
+inner_radius = 2.1
+outer_radius = 2.3
+rings = 32
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_runes"]
+albedo_color = Color(0.2, 0.8, 1.0, 1)
+emission_enabled = true
+emission = Color(0.2, 0.85, 1.0, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vortex"]
+top_radius = 1.8
+bottom_radius = 1.5
+height = 0.8
+radial_segments = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vortex"]
+transparency = 1
+albedo_color = Color(0.15, 0.75, 1.0, 0.6)
+emission_enabled = true
+emission = Color(0.2, 0.85, 1.0, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar"]
+size = Vector3(0.5, 3.2, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pillar"]
+albedo_color = Color(0.15, 0.22, 0.3, 1)
+metallic = 0.5
+roughness = 0.5
+
+[node name="Frostgate" type="Node3D"]
+script = ExtResource("1_gate")
+
+[node name="Sync" type="MultiplayerSynchronizer" parent="."]
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_sync")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Pedestal" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_base")
+surface_material_override/0 = SubResource("StandardMaterial3D_stone")
+
+[node name="RuneRing" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+mesh = SubResource("TorusMesh_runes")
+surface_material_override/0 = SubResource("StandardMaterial3D_runes")
+
+[node name="Vortex" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("CylinderMesh_vortex")
+surface_material_override/0 = SubResource("StandardMaterial3D_vortex")
+
+[node name="PillarLeft" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9, 1.6, 0)
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="PillarRight" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9, 1.6, 0)
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+light_color = Color(0.2, 0.85, 1.0, 1)
+light_energy = 2.0
+omni_range = 6.0

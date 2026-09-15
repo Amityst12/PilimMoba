@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_flake"]
+shading_mode = 0
+albedo_color = Color(0.92, 0.96, 1.0, 0.75)
+
+[sub_resource type="QuadMesh" id="QuadMesh_flake"]
+material = SubResource("StandardMaterial3D_flake")
+size = Vector2(0.08, 0.08)
+
+[node name="SnowParticles" type="CPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+amount = 350
+lifetime = 5.0
+preprocess = 3.0
+mesh = SubResource("QuadMesh_flake")
+emission_shape = 3
+emission_box_extents = Vector3(55, 2, 8)
+direction = Vector3(0.2, -1, 0.1)
+spread = 20.0
+gravity = Vector3(0, -1.5, 0)
+initial_velocity_min = 0.8
+initial_velocity_max = 2.0

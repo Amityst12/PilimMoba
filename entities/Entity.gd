@@ -243,6 +243,8 @@ func heal(amount: float) -> void:
 	if not multiplayer.is_server() or dead or amount <= 0.0:
 		return
 	health = minf(max_health, health + amount)
+	if Game.current:
+		Game.current.on_healed(self, amount)
 
 
 func apply_status(kind: int, value: float, duration: float, source: Entity = null, tag: StringName = &"") -> void:

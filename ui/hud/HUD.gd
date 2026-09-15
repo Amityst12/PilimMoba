@@ -4,6 +4,7 @@ extends CanvasLayer
 ## kill feed, announcements, scoreboard and victory/defeat screens.
 
 const HealthRelic = preload("res://entities/relic/HealthRelic.gd")
+const OverheadOverlay = preload("res://ui/hud/OverheadOverlay.gd")
 
 var _game: Game
 var _champion: Champion
@@ -144,7 +145,8 @@ func _build_ui() -> void:
 	add_child(root)
 
 	var overhead := OverheadOverlay.new()
-	root.add_child(overhead)
+	overhead.name = "OverheadOverlay"
+	add_child(overhead)
 
 	_build_top_bar(root)
 	_build_bottom_bar(root)

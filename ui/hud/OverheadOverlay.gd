@@ -1,4 +1,3 @@
-class_name OverheadOverlay
 extends Control
 ## Renders floating screen-space overhead health bars, delayed damage chunks,
 ## shield segments, mana bars, level pips, and status effects above all alive units.
@@ -6,11 +5,23 @@ extends Control
 var _game: Game
 var _delayed_health: Dictionary = {}  # net_id -> float (lagging health value)
 var _delay_timers: Dictionary = {}   # net_id -> float (hold time before draining)
+var _popups: Array[Dictionary] = []  # {world_pos, text, color, elapsed, duration, offset_x}
 
 const MINION_SIZE: Vector2 = Vector2(42.0, 5.0)
 const STRUCTURE_SIZE: Vector2 = Vector2(74.0, 8.0)
 const CHAMPION_SIZE: Vector2 = Vector2(84.0, 9.0)
 const MONSTER_SIZE: Vector2 = Vector2(60.0, 7.0)
+
+
+func spawn_combat_text(world_pos: Vector3, text: String, color: Color) -> void:
+	_popups.append({
+		"world_pos": world_pos,
+		"text": text,
+		"color": color,
+		"elapsed": 0.0,
+		"duration": 0.85,
+		"offset_x": randf_range(-14.0, 14.0),
+	})
 
 
 func _ready() -> void:
@@ -23,6 +34,15 @@ func _process(delta: float) -> void:
 		_game = Game.current
 	if _game == null or not _game.is_playing() or _game.camera_rig == null:
 		return
+
+	# Update popups
+	if not _popups.is_empty():
+		var active_popups: Array[Dictionary] = []
+		for p: Dictionary in _popups:
+			p["elapsed"] += delta
+			if p["elapsed"] < p["duration"]:
+				active_popups.append(p)
+		_popups = active_popups
 
 	# Update lagging damage chunk bars
 	for id: int in _delay_timers.keys():
@@ -80,6 +100,24 @@ func _draw() -> void:
 			continue
 
 		_draw_entity_bar(entity, screen_pos, local_team)
+
+	# Draw floating combat text popups
+	if not _popups.is_empty():
+		var font_bold: Font = UITheme.font(true)
+		for p: Dictionary in _popups:
+			var w_pos: Vector3 = p["world_pos"]
+			if camera.is_position_behind(w_pos):
+				continue
+			var base_screen: Vector2 = camera.unproject_position(w_pos)
+			var progress: float = p["elapsed"] / p["duration"]
+			var rise: float = progress * 42.0
+			var fade: float = 1.0 - ease(progress, 2.0)
+			var draw_pos := Vector2(base_screen.x + p["offset_x"], base_screen.y - rise)
+			var col: Color = p["color"]
+			col.a *= fade
+			var outline_col := Color(0.0, 0.0, 0.0, fade * 0.9)
+			draw_string_outline(font_bold, draw_pos, p["text"], HORIZONTAL_ALIGNMENT_CENTER, -1, 14, 3, outline_col)
+			draw_string(font_bold, draw_pos, p["text"], HORIZONTAL_ALIGNMENT_CENTER, -1, 14, col)
 
 
 func _draw_entity_bar(entity: Entity, center: Vector2, local_team: int) -> void:

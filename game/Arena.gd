@@ -123,6 +123,7 @@ static func structure_layout() -> Array[Dictionary]:
 		layout.append({"kind": "tower", "team": team, "tier": 1, "pos": Vector3(OUTER_TOWER.x * mirror, 0.0, OUTER_TOWER.y * mirror)})
 		layout.append({"kind": "tower", "team": team, "tier": 2, "pos": Vector3(INNER_TOWER.x * mirror, 0.0, INNER_TOWER.y * mirror)})
 		layout.append({"kind": "nexus", "team": team, "tier": 3, "pos": nexus_position(team)})
+		layout.append({"kind": "frostgate", "team": team, "tier": 0, "pos": Vector3(-54.0 * mirror, 0.0, -2.5 * mirror)})
 	return layout
 
 
@@ -308,19 +309,19 @@ func _build_decorations() -> void:
 	trunk_mesh.bottom_radius = 0.28
 	trunk_mesh.height = 1.6
 	trunk_mesh.radial_segments = 6
-	trunk_mesh.material = _simple_material(Color(0.33, 0.23, 0.15), 0.9)
+	trunk_mesh.material = _simple_material(Color(0.24, 0.28, 0.34), 0.9)
 	var crown_mesh := CylinderMesh.new()
 	crown_mesh.top_radius = 0.0
 	crown_mesh.bottom_radius = 1.3
 	crown_mesh.height = 3.2
 	crown_mesh.radial_segments = 7
-	crown_mesh.material = _simple_material(Color(0.16, 0.34, 0.17), 0.85)
+	crown_mesh.material = _simple_material(Color(0.88, 0.94, 0.98), 0.75)
 	var rock_mesh := SphereMesh.new()
 	rock_mesh.radius = 0.6
 	rock_mesh.height = 1.0
 	rock_mesh.radial_segments = 7
 	rock_mesh.rings = 4
-	rock_mesh.material = _simple_material(Color(0.4, 0.4, 0.42), 0.95)
+	rock_mesh.material = _simple_material(Color(0.22, 0.32, 0.42), 0.9)
 	_add_multimesh(trunk_mesh, trunk_transforms, true)
 	_add_multimesh(crown_mesh, crown_transforms, true)
 	_add_multimesh(rock_mesh, rock_transforms, true)
@@ -357,12 +358,12 @@ func _add_multimesh(mesh: Mesh, transforms: Array[Transform3D], shadows: bool) -
 func _build_grass(rng: RandomNumberGenerator) -> void:
 	var blade_mesh := PrismMesh.new()
 	blade_mesh.size = Vector3(0.12, 0.55, 0.05)
-	var grass_material := _simple_material(Color(0.28, 0.5, 0.2), 0.9)
+	var grass_material := _simple_material(Color(0.78, 0.88, 0.95), 0.9)
 	grass_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	blade_mesh.material = grass_material
 	var tall_mesh := PrismMesh.new()
 	tall_mesh.size = Vector3(0.22, 1.3, 0.08)
-	var tall_material := _simple_material(Color(0.2, 0.42, 0.16), 0.9)
+	var tall_material := _simple_material(Color(0.32, 0.52, 0.64), 0.9)
 	tall_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	tall_mesh.material = tall_material
 	var blades: Array[Transform3D] = []
