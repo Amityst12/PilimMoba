@@ -15,6 +15,10 @@ var locked: bool = true
 var follow_target: Node3D
 var edge_pan_enabled: bool = true
 
+var minimap_peeking: bool = false
+var minimap_peek_pos: Vector3 = Vector3.ZERO
+var _minimap_linger_timer: float = 0.0
+
 var _trauma: float = 0.0
 var _noise_time: float = 0.0
 
@@ -27,8 +31,40 @@ func _ready() -> void:
 
 
 func snap_to(point: Vector3) -> void:
-	focus = Vector3(point.x, 0.0, point.z)
+	minimap_peek_pos = Vector3(point.x, 0.0, point.z)
+	focus = minimap_peek_pos
+	_minimap_linger_timer = 2.0
 	_apply(Vector3.ZERO)
+
+
+func start_minimap_peek(point: Vector3) -> void:
+	minimap_peeking = true
+	_minimap_linger_timer = 0.0
+	minimap_peek_pos = Vector3(point.x, 0.0, point.z)
+	focus = minimap_peek_pos
+	_apply(Vector3.ZERO)
+
+
+func update_minimap_peek(point: Vector3) -> void:
+	if minimap_peeking:
+		minimap_peek_pos = Vector3(point.x, 0.0, point.z)
+		focus = minimap_peek_pos
+		_apply(Vector3.ZERO)
+
+
+func end_minimap_peek(hold_duration: float) -> void:
+	minimap_peeking = false
+	if hold_duration < 0.25:
+		# Quick tap: linger so player can view the clicked location
+		_minimap_linger_timer = 2.0
+	else:
+		# Held/dragged to peek: return smoothly on release
+		_minimap_linger_timer = 0.0
+
+
+func cancel_minimap_peek() -> void:
+	minimap_peeking = false
+	_minimap_linger_timer = 0.0
 
 
 func zoom(steps: float) -> void:
@@ -42,33 +78,43 @@ func add_trauma(amount: float) -> void:
 
 func toggle_lock() -> void:
 	locked = not locked
+	cancel_minimap_peek()
 	Settings.camera_locked = locked
 	Settings.save_settings()
 
 
 func _process(delta: float) -> void:
-	var following: bool = follow_target != null and is_instance_valid(follow_target) \
-			and (locked or Input.is_action_pressed("camera_center"))
-	if following:
-		var target := Vector3(follow_target.global_position.x, 0.0, follow_target.global_position.z)
-		focus = focus.lerp(target, 1.0 - exp(-delta * 12.0))
+	if Input.is_action_pressed("camera_center"):
+		cancel_minimap_peek()
+
+	if minimap_peeking:
+		focus = focus.lerp(minimap_peek_pos, 1.0 - exp(-delta * 24.0))
+	elif _minimap_linger_timer > 0.0:
+		_minimap_linger_timer -= delta
+		focus = focus.lerp(minimap_peek_pos, 1.0 - exp(-delta * 14.0))
 	else:
-		var pan := Vector2.ZERO
-		if edge_pan_enabled and DisplayServer.window_is_focused() and get_viewport().gui_get_focus_owner() == null:
-			var mouse: Vector2 = get_viewport().get_mouse_position()
-			var size: Vector2 = get_viewport().get_visible_rect().size
-			if Rect2(Vector2.ZERO, size).has_point(mouse):
-				if mouse.x < edge_margin:
-					pan.x -= 1.0
-				elif mouse.x > size.x - edge_margin:
-					pan.x += 1.0
-				if mouse.y < edge_margin:
-					pan.y -= 1.0
-				elif mouse.y > size.y - edge_margin:
-					pan.y += 1.0
-		pan += Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down")
-		if pan != Vector2.ZERO:
-			focus += Vector3(pan.x, 0.0, pan.y).normalized() * edge_pan_speed * delta * (distance / 27.0)
+		var following: bool = follow_target != null and is_instance_valid(follow_target) \
+				and (locked or Input.is_action_pressed("camera_center"))
+		if following:
+			var target := Vector3(follow_target.global_position.x, 0.0, follow_target.global_position.z)
+			focus = focus.lerp(target, 1.0 - exp(-delta * 12.0))
+		else:
+			var pan := Vector2.ZERO
+			if edge_pan_enabled and DisplayServer.window_is_focused() and get_viewport().gui_get_focus_owner() == null:
+				var mouse: Vector2 = get_viewport().get_mouse_position()
+				var size: Vector2 = get_viewport().get_visible_rect().size
+				if Rect2(Vector2.ZERO, size).has_point(mouse):
+					if mouse.x < edge_margin:
+						pan.x -= 1.0
+					elif mouse.x > size.x - edge_margin:
+						pan.x += 1.0
+					if mouse.y < edge_margin:
+						pan.y -= 1.0
+					elif mouse.y > size.y - edge_margin:
+						pan.y += 1.0
+			pan += Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down")
+			if pan != Vector2.ZERO:
+				focus += Vector3(pan.x, 0.0, pan.y).normalized() * edge_pan_speed * delta * (distance / 27.0)
 	focus.x = clampf(focus.x, -Arena.HALF_X, Arena.HALF_X)
 	focus.z = clampf(focus.z, -Arena.HALF_Z + 4.0, Arena.HALF_Z + 2.0)
 	distance = lerpf(distance, target_distance, 1.0 - exp(-delta * 10.0))

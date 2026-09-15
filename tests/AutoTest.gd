@@ -150,6 +150,19 @@ func _run_suite() -> void:
 	champ._play_attack_animation()
 	print("  Auto-attack animation triggered successfully!")
 
+	# Minimap Peek in Camera Lock Test
+	if game.camera_rig:
+		var rig: CameraRig = game.camera_rig
+		rig.locked = true
+		rig.start_minimap_peek(Vector3(35.0, 0.0, 0.0))
+		assert(rig.minimap_peeking, "CameraRig should be in minimap_peeking mode")
+		assert(absf(rig.focus.x - 35.0) < 0.1, "Camera focus should move to minimap peek position in Camera Lock")
+		rig.update_minimap_peek(Vector3(-25.0, 0.0, 0.0))
+		assert(absf(rig.focus.x - (-25.0)) < 0.1, "Camera focus should update during minimap dragging")
+		rig.cancel_minimap_peek()
+		assert(not rig.minimap_peeking, "cancel_minimap_peek should reset peeking")
+		print("  Minimap peek & drag in Camera Lock verified: 100% operational!")
+
 	print("\n========================================================")
 	print(">>> ALL 7 ARAM TEST SUITES PASSED! 100% OPERATIONAL <<<")
 	print("========================================================\n")

@@ -265,6 +265,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				return
 
 		if mouse_event.button_index == MOUSE_BUTTON_RIGHT and mouse_event.pressed:
+			_rig.cancel_minimap_peek()
 			get_viewport().set_input_as_handled()
 			if mode == Mode.AIMING:
 				cancel_aim()

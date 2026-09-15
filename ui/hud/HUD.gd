@@ -51,6 +51,8 @@ var _recall_timer_label: Label
 # Minimap
 var _minimap_view: Control
 var _active_pings: Array[Dictionary] = []
+var _minimap_dragging: bool = false
+var _minimap_drag_start_time: float = 0.0
 const MINIMAP_W: float = 190.0
 const MINIMAP_H: float = 110.0
 
@@ -126,6 +128,11 @@ func _process(delta: float) -> void:
 	_update_pings(delta)
 	if _minimap_view:
 		_minimap_view.queue_redraw()
+	if _minimap_dragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		_minimap_dragging = false
+		var hold_duration: float = (Time.get_ticks_msec() / 1000.0) - _minimap_drag_start_time
+		if _game and _game.camera_rig:
+			_game.camera_rig.end_minimap_peek(hold_duration)
 
 
 func _update_pings(delta: float) -> void:
@@ -677,30 +684,55 @@ func _draw_minimap() -> void:
 	_minimap_view.draw_rect(Rect2(Vector2.ZERO, rect.size), Color(0.4, 0.45, 0.55, 0.8), false, 1.0)
 
 
+func _minimap_to_world(mouse_pos: Vector2) -> Vector3:
+	var map_size: Vector2 = _minimap_view.size
+	var nx: float = clampf(mouse_pos.x / maxf(map_size.x, 1.0), 0.0, 1.0)
+	var nz: float = clampf(mouse_pos.y / maxf(map_size.y, 1.0), 0.0, 1.0)
+	return Vector3(nx * Arena.HALF_X * 2.0 - Arena.HALF_X, 0.0, nz * Arena.HALF_Z * 2.0 - Arena.HALF_Z)
+
+
 func _on_minimap_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		var mouse_pos: Vector2 = event.position
-		var map_size: Vector2 = _minimap_view.size
-		var nx: float = clampf(mouse_pos.x / maxf(map_size.x, 1.0), 0.0, 1.0)
-		var nz: float = clampf(mouse_pos.y / maxf(map_size.y, 1.0), 0.0, 1.0)
-		var world_pos := Vector3(nx * Arena.HALF_X * 2.0 - Arena.HALF_X, 0.0, nz * Arena.HALF_Z * 2.0 - Arena.HALF_Z)
+	if event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		var world_pos := _minimap_to_world(mb.position)
 
-		if event.alt_pressed or Input.is_key_pressed(KEY_ALT):
-			var p_type: int = GameConst.PingType.DANGER if event.button_index == MOUSE_BUTTON_RIGHT else GameConst.PingType.ALERT
-			if _game:
-				_game.cmd_ping.rpc_id(1, p_type, world_pos)
-			return
-		if (event.ctrl_pressed or Input.is_key_pressed(KEY_CTRL)) and event.button_index == MOUSE_BUTTON_LEFT:
-			if _game:
-				_game.cmd_ping.rpc_id(1, GameConst.PingType.ON_MY_WAY, world_pos)
-			return
+		if mb.button_index == MOUSE_BUTTON_LEFT:
+			if mb.pressed:
+				if mb.alt_pressed or Input.is_key_pressed(KEY_ALT):
+					if _game:
+						_game.cmd_ping.rpc_id(1, GameConst.PingType.ALERT, world_pos)
+					return
+				if mb.ctrl_pressed or Input.is_key_pressed(KEY_CTRL):
+					if _game:
+						_game.cmd_ping.rpc_id(1, GameConst.PingType.ON_MY_WAY, world_pos)
+					return
 
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if _game and _game.camera_rig:
-				_game.camera_rig.snap_to(world_pos)
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
+				_minimap_dragging = true
+				_minimap_drag_start_time = Time.get_ticks_msec() / 1000.0
+				if _game and _game.camera_rig:
+					_game.camera_rig.start_minimap_peek(world_pos)
+			else:
+				if _minimap_dragging:
+					_minimap_dragging = false
+					var hold_duration: float = (Time.get_ticks_msec() / 1000.0) - _minimap_drag_start_time
+					if _game and _game.camera_rig:
+						_game.camera_rig.end_minimap_peek(hold_duration)
+
+		elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
+			if mb.alt_pressed or Input.is_key_pressed(KEY_ALT):
+				if _game:
+					_game.cmd_ping.rpc_id(1, GameConst.PingType.DANGER, world_pos)
+				return
 			if _game:
 				_game.cmd_move.rpc_id(1, world_pos)
+				if _game.camera_rig:
+					_game.camera_rig.cancel_minimap_peek()
+
+	elif event is InputEventMouseMotion and _minimap_dragging:
+		var mm := event as InputEventMouseMotion
+		var world_pos := _minimap_to_world(mm.position)
+		if _game and _game.camera_rig:
+			_game.camera_rig.update_minimap_peek(world_pos)
 
 
 func _build_announcements(parent: Control) -> void:
